@@ -1,21 +1,18 @@
 # SoftwareEngineering
 
 ## 1. 技术基本要求
-    - Java 
-    - Spring Boot
-    - Dubbo
-    - MyBatis
-    - MySQL
+    - Django
+    - Doge RPC
 ## 2. 资源推荐
-    - Spring Boot
-      https://www.bilibili.com/video/av38657363?from=search&seid=8146034302896611831
-    
-    - Dubbo
-      https://www.bilibili.com/video/av30612478?from=search&seid=7833725104321092838
+    - Django
+      自行寻找，不作推荐
+      
+    - Apache Thrift Python
+      https://github.com/Thriftpy/thriftpy2
       
     - MySQL
       https://www.bilibili.com/video/av49181542?from=search&seid=1869025952581249195
     
 ## 3. 注意事项
     - 没有快速入门技巧，除非是跳着看
-    - 重点掌握SQL语句，SpringBoot项目结构，RESTAPI，Dubbo远程调用基本结构
+    - 重点掌握SQL语句，Django项目结构，RESTAPI，RPC远程调用基本结构
