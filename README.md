@@ -10,8 +10,15 @@
     - Apache Thrift Python
       https://github.com/Thriftpy/thriftpy2
       
+      
     - MySQL
       https://www.bilibili.com/video/av49181542?from=search&seid=1869025952581249195
+      
+    - Vue.js & Vue Based UI Framework
+      github 模板自寻
+    
+    - Git
+      https://www.bilibili.com/video/av24441039?from=search&seid=2489109065026319276
     
 ## 3. 注意事项
     - 没有快速入门技巧，除非是跳着看
