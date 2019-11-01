@@ -36,9 +36,7 @@ class Dispatcher(object):
 
 def main():
     server = make_server(calc_thrift.Calculator, Dispatcher(),
-                         '127.0.0.1', 6000,
-                         proto_factory=TCyBinaryProtocolFactory(),
-                         trans_factory=TCyBufferedTransportFactory())
+                         '127.0.0.1', 6000)
     print("serving...")
     server.serve()
 

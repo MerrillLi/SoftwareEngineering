@@ -23,3 +23,10 @@
 ## 3. 注意事项
     - 没有快速入门技巧，除非是跳着看
     - 重点掌握SQL语句，Django项目结构，RESTAPI，RPC远程调用基本结构
+    
+## 4. 首次使用
+    - 确保Python环境为3.x
+    - 在项目根目录运行命令
+```shell
+    pip install -r requirements.txt
+```
