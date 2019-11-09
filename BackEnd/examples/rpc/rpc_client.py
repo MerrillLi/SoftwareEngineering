@@ -25,7 +25,9 @@ def main():
         d = cal.mult(b, 10.0)
         e = cal.add(a, d)
         f = cal.div(e, c)
-        print(f)
+        g = cal.glist(20)
+        user = cal.guser(101)
+        print(user)
 
 
 if __name__ == '__main__':

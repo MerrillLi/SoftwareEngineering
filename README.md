@@ -2,17 +2,16 @@
 
 ## 1. 技术基本要求
     - Django
-    - Doge RPC
+    - Thrift RPC
 ## 2. 资源推荐
     - Django
       自行寻找，不作推荐
       
     - Apache Thrift Python
       https://github.com/Thriftpy/thriftpy2
-      
-      
-    - MySQL
-      https://www.bilibili.com/video/av49181542?from=search&seid=1869025952581249195
+        
+    - MongoDB
+      自寻,极为容易入手
       
     - Vue.js & Vue Based UI Framework
       github 模板自寻
