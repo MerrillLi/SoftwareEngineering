@@ -19,7 +19,7 @@
         </el-row>
         </div>
         <div class="contain">
-            <div class="table_container">
+            <div class="table_container1">
                 <el-table
                         v-loading="loading"
                         :data="tableData"
@@ -28,6 +28,7 @@
                         highlight-current-row
                         header-cell-class-name="table-header-class"
                         style="width:100%">
+                    <el-table-column label="练习记录" header-align="center" align="center">
                     <el-table-column
                             label="序号"
                             width="60"
@@ -53,6 +54,7 @@
                             label="练习结果"
                             align='center'>
                     </el-table-column>
+                    </el-table-column>
                 </el-table>
                 <el-row>
                     <el-col :span="24">
@@ -71,6 +73,118 @@
                     </el-col>
                 </el-row>
             </div>
+
+                <div class="table_container2">
+                    <el-table
+                            v-loading="loading"
+                            :data="tableData"
+                            border
+                            stripe
+                            highlight-current-row
+                            header-cell-class-name="table-header-class"
+                            style="width:100%">
+                        <el-table-column label="考试记录" header-align="center" align="center">
+                        <el-table-column
+                                label="序号"
+                                width="60"
+                                align='center'>
+                            <template slot-scope="scope">
+                                <span>{{scope.$index+(paginations.pageIndex - 1) * paginations.pageSize + 1}} </span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                property="username"
+                                label="提交时间"
+                                width="80"
+                                align='center'>
+                        </el-table-column>
+                        <el-table-column
+                                property="email"
+                                label="练习科目"
+                                width="180"
+                                align='center'>
+                        </el-table-column>
+                        <el-table-column
+                                property="address"
+                                label="考试结果"
+                                align='center'>
+                        </el-table-column>
+                        </el-table-column>
+                    </el-table>
+                    <el-row>
+                        <el-col :span="24">
+                            <div class="pagination">
+                                <el-pagination
+                                        v-if='paginations.total > 0'
+                                        :page-sizes="paginations.pageSizes"
+                                        :page-size="paginations.pageSize"
+                                        :layout="paginations.layout"
+                                        :total="paginations.total"
+                                        :current-page='paginations.pageIndex'
+                                        @current-change='handleCurrentChange'
+                                        @size-change='handleSizeChange'>
+                                </el-pagination>
+                            </div>
+                        </el-col>
+                    </el-row>
+                </div>
+
+                <div class="table_container3">
+                    <el-table
+                            v-loading="loading"
+                            :data="tableData"
+                            border
+                            stripe
+                            highlight-current-row
+                            header-cell-class-name="table-header-class"
+                            style="width:100%">
+                        <el-table-column label="出题记录" header-align="center" align="center">
+                        <el-table-column
+                                label="序号"
+                                width="60"
+                                align='center'>
+                            <template slot-scope="scope">
+                                <span>{{scope.$index+(paginations.pageIndex - 1) * paginations.pageSize + 1}} </span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column
+                                property="username"
+                                label="提交时间"
+                                width="80"
+                                align='center'>
+                        </el-table-column>
+                        <el-table-column
+                                property="email"
+                                label="试题简介"
+                                width="180"
+                                align='center'>
+                        </el-table-column>
+                        <el-table-column
+                                property="address"
+                                label="是否通过审核"
+                                align='center'>
+                        </el-table-column>
+                        </el-table-column>
+                    </el-table>
+                    <el-row>
+                        <el-col :span="24">
+                            <div class="pagination">
+                                <el-pagination
+                                        v-if='paginations.total > 0'
+                                        :page-sizes="paginations.pageSizes"
+                                        :page-size="paginations.pageSize"
+                                        :layout="paginations.layout"
+                                        :total="paginations.total"
+                                        :current-page='paginations.pageIndex'
+                                        @current-change='handleCurrentChange'
+                                        @size-change='handleSizeChange'>
+                                </el-pagination>
+                            </div>
+                        </el-col>
+                    </el-row>
+                </div>
+
+
         </div>
     </div>
 </template>
@@ -95,7 +209,7 @@
                 paginations: {
                     total: 0,        // 总数
                     pageIndex: 1,  // 当前位于哪页
-                    pageSize: 20,   // 1页显示多少条
+                    pageSize: 5,   // 1页显示多少条
                     pageSizes: [5, 10, 15, 20],  //每页显示多少条
                     layout: "total, sizes, prev, pager, next, jumper"   // 翻页属性
                 },
@@ -134,8 +248,9 @@
 
 <style lang="less" scoped>
     .info_container{
-        /*width:100px;*/
-        /*float:left;*/
+        width:30%;
+        float:left;
+        margin-right: 10px;
        padding: 20px;
        background: #fff;
        box-sizing: border-box;
@@ -146,18 +261,10 @@
     }
    .info_row{
         .area{
+            width:200px;
            border:1px solid #dfdfdf;
-           height:500px;
+           height:700px;
            overflow:hidden;
-            .imgarea{
-                text-align:center;
-                padding:10px;
-                img {
-                    width:120px;
-                    height:120px;
-                    border-radius: 50%;
-                }
-            }
             .namearea{
                 padding:10px;
                 margin-bottom: 20px;
@@ -198,26 +305,6 @@
                     }
                 }
                 
-            }
-            .chongzhiarea{
-                    padding:10px;
-                    text-align:center;
-                    img{
-                        width: 80%;
-                        height: 40px;
-                    }
-                    .chongzhi{
-                        margin-top:10px;
-                    }
-            }
-            .tipsarea{
-                clear:both;
-                font-size:14px;
-                padding:10px;
-                padding-top:15px;
-                a{
-                    color:#3bc5ff;
-                }
             }
             .dataarea{
                  padding:10px;
@@ -327,12 +414,21 @@
     .fillcontain{
         padding-bottom: 0;
     }
+    .table_container1{
+        padding-bottom: 40px;
+    }
+    .table_container2{
+        padding-bottom: 40px;
+    }
+    .table_container3{
+        padding-bottom: 40px;
+    }
     .contain{
-        /*width:200px;*/
-        /*float:right;*/
+        width:50%;
+        float:left;
         background: #fff;
         padding: 10px;
-        margin-bottom: 20px;
+        margin-bottom: 50px;
     }
     .pagination{
         padding: 10px 20px;
