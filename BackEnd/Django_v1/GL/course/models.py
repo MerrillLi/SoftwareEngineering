@@ -1,12 +1,8 @@
-# -*- coding:utf-8 -*-
-
-from __future__ import unicode_literals
-
 from django.db import models
 from datetime import datetime
+from user_login.models import User
+
 # Create your models here.
-
-
 class CourseList(models.Model):
     name = models.CharField(max_length=100, verbose_name=u"课程名字", default="")
 
@@ -14,7 +10,6 @@ class Isvertify(models.Model):
     statu = models.CharField(max_length=100, verbose_name=u"审核状态", default="")
 
 class Question(models.Model):
-    ID=models.IntegerField(verbose_name=u"题目ID")
     course = models.ForeignKey(CourseList, verbose_name=u"所属课程",on_delete=models.CASCADE)
     content = models.TextField(verbose_name=u"题目内容")
     answer = models.TextField(verbose_name=u"正确答案")
@@ -26,11 +21,8 @@ class Question(models.Model):
     add_time = models.DateField(default=datetime.now, verbose_name=u"添加时间")
     evaluate_score=models.IntegerField(verbose_name=u"题目得分")
     true_rate=models.IntegerField(verbose_name=u"题目正确率")
-    #submit_user=models.ForeignKey(User, verbose_name=u"提交用户",on_delete=models.CASCADE)
-    statu=models.ForeignKey(Isvertify, verbose_name=u"审核状态",on_delete=models.CASCADE)
-    
+    submit_user=models.ForeignKey(User, verbose_name=u"提交用户",on_delete=models.CASCADE)
+    states =models.ForeignKey(Isvertify, verbose_name=u"审核状态",on_delete=models.CASCADE)
 
-
-
-
-
+    class Meta:
+        ordering = ('-add_time',)
