@@ -55,8 +55,9 @@ def submitproblem(request):
 # 查询出题记录
 # 通过userid查询其所有出过的题目
 # （题目的id 也会返回）
+# 如果pk 值不为-1 则只返回相应的题目
 @csrf_exempt
-def requsetproblem(request):
+def requsetproblem(request,pk):
     ##用户验证机制
     response={}
     if(request.method=="POST"):
@@ -68,18 +69,35 @@ def requsetproblem(request):
         username=dic["username"]
         user=User.objects.get(username=username)
 
-        # userprofile = user_profile_stu.objects.get(user=user) # 用户个人信息
-        questions = list(Question.objects.filter(submit_user=user))
-        try:
-            L = []
-            for question in questions:
-                id_q = question.id
-                question.__dict__.pop("_state")
-                L.append(question.__dict__)
-            response["data"]=L
-        except Exception as e:
-            response["msg"]=e
-            print(e)
+        if (pk == 0):
+            # userprofile = user_profile_stu.objects.get(user=user) # 用户个人信息
+            questions = list(Question.objects.filter(submit_user=user))
+            try:
+                L = []
+                for question in questions:
+                    question.__dict__.pop("_state")
+                    L.append(question.__dict__)
+                response["data"]=L
+            except Exception as e:
+                response["msg"]=e
+                print(e)
+                return JsonResponse(response)
             return JsonResponse(response)
-        return JsonResponse(response)
+        else:
+            try:
+                ## bug 无法序列化
+                ## 了解get 和 filter 的区别 
+                question = Question.objects.get(id=pk)
+                response["data"]= question.__dict__.pop("_state") 
+            except Exception as e:
+                response["msg"]=e
+                print(e)
+                return JsonResponse(response)
+            return JsonResponse(response) 
+
+
+
+
+
+
 

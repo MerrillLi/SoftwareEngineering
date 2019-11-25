@@ -8,5 +8,5 @@ app_name = 'course'
 
 urlpatterns = [
     path('submitproblem/',views.submitproblem),
-    path('requsetproblem/', views.requsetproblem)
+    path('requsetproblem/<int:pk>/', views.requsetproblem)
 ]
