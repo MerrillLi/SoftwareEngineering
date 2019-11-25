@@ -4,8 +4,9 @@ from  .models import Question
 from django.http import HttpResponse
 from django.views.generic.base import View
 # 视图函数
-def course(request):
-    return HttpResponse("Hello World!")
+def problem(request,year):
+
+    return HttpResponse(year)
 
 class SubmitProblemList(View):
     """提交题目列表"""

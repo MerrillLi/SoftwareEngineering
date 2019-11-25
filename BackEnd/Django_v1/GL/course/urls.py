@@ -7,6 +7,6 @@ app_name = 'course'
 
 
 urlpatterns = [
-    path('course/', views.course, name='course'),
-    url(r'^problemList/$', views.SubmitProblemList.as_view(), name="SubmitProblemList"),
+    path('problem/<int:year>/', views.problem, name='problem'),
+
 ]
