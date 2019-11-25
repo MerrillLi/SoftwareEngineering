@@ -187,9 +187,7 @@ def log_in(request):
     if request.method=="POST":
         # str=request.META.get("HTTP_SESSIONID")
         msg = 'true'
-        #print(request.body.decode())
         req = json.loads(request.body.decode())
-        #req=simplejson.loads(request.body)
         username=req['username']
         password=req['password']
         try:

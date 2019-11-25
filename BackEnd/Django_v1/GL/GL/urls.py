@@ -9,8 +9,12 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #跳转到关于用户的urls去
     path('user/',include('user.urls')),
+    #跳转到关于course的urls去
+    path('course/',include('course.urls')),
+
     #跳转到登陆界面
     path('',RedirectView.as_view(url="/index/")),
+
     #登陆界面
     path('index/log_in/',TemplateView.as_view(template_name="index.html")),
     #邮箱激活界面
