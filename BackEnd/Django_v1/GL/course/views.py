@@ -50,3 +50,36 @@ def submitproblem(request):
             print(e)
             return JsonResponse(response)
         return JsonResponse(response)
+
+
+# 查询出题记录
+# 通过userid查询其所有出过的题目
+# （题目的id 也会返回）
+@csrf_exempt
+def requsetproblem(request):
+    ##用户验证机制
+    response={}
+    if(request.method=="POST"):
+        req=simplejson.loads(request.body)
+        sessionid=req["sessionid"]
+        dic = cache.get(sessionid)
+        if dic is None:
+            return JsonResponse({"msg":"expire"})
+        username=dic["username"]
+        user=User.objects.get(username=username)
+
+        # userprofile = user_profile_stu.objects.get(user=user) # 用户个人信息
+        questions = list(Question.objects.filter(submit_user=user))
+        try:
+            L = []
+            for question in questions:
+                id_q = question.id
+                question.__dict__.pop("_state")
+                L.append(question.__dict__)
+            response["data"]=L
+        except Exception as e:
+            response["msg"]=e
+            print(e)
+            return JsonResponse(response)
+        return JsonResponse(response)
+
