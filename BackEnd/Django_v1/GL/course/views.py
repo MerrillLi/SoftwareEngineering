@@ -100,6 +100,48 @@ def requsetproblem(request,pk):
             return JsonResponse(response) 
 
 
+@csrf_exempt
+def requestExerciseRecord(request,pk):
+    ##用户验证机制
+    response={}
+    if(request.method=="POST"):
+        req=simplejson.loads(request.body)
+        sessionid=req["sessionid"]
+        dic = cache.get(sessionid)
+        if dic is None:
+            return JsonResponse({"msg":"expire"})
+        username=dic["username"]
+        user=User.objects.get(username=username)
+
+        if (pk == 0):
+            # userprofile = user_profile_stu.objects.get(user=user) # 用户个人信息
+            exersices = list(Exersice.objects.filter(student=user))
+            try:
+                L = []
+                for exersice in exersices:
+                    exersice.__dict__.pop("_state")
+                    #当请求全部题目时，只返回前20个
+                    L.append(exersice.__dict__)
+                response["data"]=L
+            except Exception as e:
+                response["msg"]=e
+                print(e)
+                return JsonResponse(response)
+            return JsonResponse(response)
+        else:
+            try:
+                ## 有问题，当session确认后，可以直接通过id查看别人的场次？是否安全。
+                ## 了解get 和 filter 的区别 
+                exercise=Item.objects.get(id=pk)        
+                exercise.__dict__.pop("_state")
+                response["data"]= exercise.__dict__
+            except Exception as e:
+                response["msg"]=e
+                print(e)
+                return JsonResponse(response)
+            return JsonResponse(response)
+
+
 
 
 

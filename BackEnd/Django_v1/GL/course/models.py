@@ -41,19 +41,22 @@ class Question(models.Model):
 class Exersice(models.Model):
     student = models.ForeignKey(User, verbose_name = u"所属学生", on_delete=models.CASCADE)
     e_time = models.DateField(default=datetime.now,verbose_name=u"生成时间" )
-    
 
     class Meta:
         ordering = ('-e_time',)
     
     def __str__(self):
-        return self.student.username
+        return str(self.id)
 
 class Item(Question):
     user_choice = models.CharField(max_length = 1, verbose_name=u"用户选择", default="" )
     exersice = models.ForeignKey(Exersice,verbose_name = u'练习场次', default = '',on_delete=models.CASCADE )
     ie_time = models.DateField(default=datetime.now, verbose_name=u"做题时间")
+
     class Meta:
         ordering = ('-ie_time',)
+
+    def __str__(self):
+        return str(self.id)+':'+self.content
     
 
