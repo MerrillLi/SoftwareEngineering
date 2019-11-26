@@ -76,6 +76,9 @@ def requsetproblem(request,pk):
                 L = []
                 for question in questions:
                     question.__dict__.pop("_state")
+                    #当请求全部题目时，只返回前20个
+                    if len(question.__dict__["content"]) >=20:
+                        question.__dict__["content"]=question.__dict__["content"][0:20]
                     L.append(question.__dict__)
                 response["data"]=L
             except Exception as e:
@@ -87,8 +90,9 @@ def requsetproblem(request,pk):
             try:
                 ## bug 无法序列化
                 ## 了解get 和 filter 的区别 
-                question = Question.objects.get(id=pk)
-                response["data"]= question.__dict__.pop("_state") 
+                question=Question.objects.get(id=pk)              
+                question.__dict__.pop("_state")
+                response["data"]= question.__dict__
             except Exception as e:
                 response["msg"]=e
                 print(e)
