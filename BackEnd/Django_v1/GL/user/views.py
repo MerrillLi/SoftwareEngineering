@@ -294,21 +294,22 @@ def update_profile(request):
         # is_login = request.session.get("is_login", False)
         # identity = simplejson.loads(request.body).get("identity", None)
         #获取用户
-        block=req["block"]
+        block=req.get("block",None)
         user = User.objects.get(username=username)
         if is_login:
             #学生
-            if identity == '1':
+            if identity == "1":
                 try:
                     userprofile = user_profile_stu.objects.get(user=user)
-                    if block == "0":
+                    if block == "1":
+                        print(req["name"])
                         userprofile.name = req["name"]
                         userprofile.gender = req["gender"]
                         # 头像
                         image = imageprofile.objects.get(user=user)
                         image.imgurl = req["imgurl"]
                         image.save()
-                    if block=="1":
+                    if block== 1:
                         print(userprofile)
                         userprofile.age = req["age"]
                         userprofile.birth_data = req["birth_data"]
@@ -321,5 +322,6 @@ def update_profile(request):
                     response['msg']=e
                 return JsonResponse(response)
     get_token(request)
+    print(response)
     return JsonResponse(response)
 
