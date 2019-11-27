@@ -11,5 +11,6 @@ urlpatterns = [
     path('requsetproblem/<int:pk>/', views.requsetproblem),
     path('requestExerciseRecord/<int:pk>/',views.requestExerciseRecord),
     path('requestNext/',views.requestNext),
-    path('startExercise/',views.startExercise)
+    path('startExercise/',views.startExercise),
+    path('submitAnswer/',views.submitAnswer)
 ]

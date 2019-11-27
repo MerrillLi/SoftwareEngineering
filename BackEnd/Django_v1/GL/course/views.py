@@ -99,7 +99,7 @@ def requsetproblem(request,pk):
                 return JsonResponse(response)
             return JsonResponse(response) 
 
-#查看用户的联系场次
+#查看用户的练习场次
 #pk值为0的时候，查看具体练习场次
 #pk值为其他值的时候，查看练习记录数据库里ID为pk值的题目
 @csrf_exempt
@@ -144,8 +144,8 @@ def requestExerciseRecord(request,pk):
             return JsonResponse(response)
 
 #练习的时候，请求下一道试题
-#
-#上传试题
+#提交对上一题的得分评价
+#算法根据之前做的题目产生下一道题目
 @csrf_exempt
 def requestNext(request):
     ##用户验证机制
@@ -159,12 +159,14 @@ def requestNext(request):
         username=dic["username"]
         user=User.objects.get(username=username)
         recordlist=req['record']
+        score=req['score']
         '''
         这里填写读取req里的字典
+        要从审核状态为通过的里面找
         然后算法产生推荐题目ID
         '''
         print(recordlist)
-        id=7 #测试的时候推荐7
+        id=1 #测试的时候推荐7
         try:
             ## 了解get 和 filter 的区别 
             question=Question.objects.get(id=id)              
@@ -173,6 +175,9 @@ def requestNext(request):
             question.__dict__.pop("answer")
             question.__dict__.pop("note")
             response["data"]= question.__dict__
+            #count在提交答案的时候就更新了，这里人数-1
+            score=(question.evaluate_score*(question.count-1)+score)/(question.count+1)
+            Question.objects.filter(id=id).update(evaluate_score=score)
         except Exception as e:
             response["msg"]=e
             print(e)
@@ -202,6 +207,53 @@ def startExercise(request):
             response["msg"]="true"
             response["turnID"]=exercise.id
             response["turnTime"]=exercise.e_time
+        except Exception as e:
+            response["msg"]=e
+            print(e)
+            return JsonResponse(response)
+        return JsonResponse(response) 
+
+
+#提交选项答案，返回正确答案
+#1、返还正确答案，notes
+#2、更新question表单中对于该数据的描述，做题人数，正确率等
+#3、保存这次item记录到数据库
+#同时更新数据库中的记录
+@csrf_exempt
+def submitAnswer(request):
+    ##用户验证机制
+    response={}
+    if(request.method=="POST"):
+        req=simplejson.loads(request.body)
+        sessionid=req["sessionid"]
+        dic = cache.get(sessionid)
+        if dic is None:
+            return JsonResponse({"msg":"expire"})
+        username=dic["username"]
+        user=User.objects.get(username=username)
+        
+        user_answer=req['answer']
+        problemId=req['proID']
+        turnID=req['turnID']
+        try:
+            print(user)
+            exercise=Exersice.objects.get(id=turnID)
+            question=Question.objects.get(id=problemId)
+            flag="false"
+            if user_answer==question.answer:
+                true_rate=(question.true_rate*question.count+1)/(question.count+1)
+                flag="true"
+            else:
+                true_rate=(question.true_rate*question.count+1)/(question.count+1)
+            count=question.count+1
+            #更新question里的描述
+            Question.objects.filter(id=problemId).update(count=count,true_rate=true_rate)
+            item = Item(exersice = exercise,user_choice = user_answer,submit_user = question.submit_user,course=question.course,content=question.content,answer=question.answer,choice_a=question.choice_a, choice_b = question.choice_b, choice_c = question.choice_c, choice_d = question.choice_d, note = question.note)
+            item.save()
+            response["msg"]="true"
+            response["ItemID"]=item.id
+            response["SubmitTime"]=item.ie_time
+            response["state"]=flag
         except Exception as e:
             response["msg"]=e
             print(e)

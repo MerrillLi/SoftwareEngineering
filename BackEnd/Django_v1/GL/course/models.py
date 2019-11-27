@@ -24,8 +24,8 @@ class Question(models.Model):
 
 
     note = models.TextField(verbose_name=u"备注信息", default= u"答案选XXX,因为XXX")
-    add_time = models.DateField(default=datetime.now, verbose_name=u"添加时间")
-
+    add_time = models.DateTimeField(default=datetime.now, verbose_name=u"添加时间")
+    
     count = models.IntegerField(verbose_name = u'提交人次', default=0)
     evaluate_score=models.FloatField(verbose_name=u"题目得分", default=0)
     true_rate=models.FloatField(verbose_name=u"题目正确率", default=0)
@@ -40,18 +40,18 @@ class Question(models.Model):
 
 class Exersice(models.Model):
     student = models.ForeignKey(User, verbose_name = u"所属学生", on_delete=models.CASCADE)
-    e_time = models.DateField(default=datetime.now,verbose_name=u"生成时间" )
+    e_time = models.DateTimeField(default=datetime.now,verbose_name=u"生成时间" )
 
     class Meta:
         ordering = ('-e_time',)
     
     def __str__(self):
-        return str(self.id)
+        return str(self.id)+":"+str(self.e_time)
 
 class Item(Question):
     user_choice = models.CharField(max_length = 1, verbose_name=u"用户选择", default="" )
     exersice = models.ForeignKey(Exersice,verbose_name = u'练习场次', default = '',on_delete=models.CASCADE )
-    ie_time = models.DateField(default=datetime.now, verbose_name=u"做题时间")
+    ie_time = models.DateTimeField(default=datetime.now, verbose_name=u"做题时间")
 
     class Meta:
         ordering = ('-ie_time',)
