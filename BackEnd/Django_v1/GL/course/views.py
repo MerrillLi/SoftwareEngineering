@@ -158,11 +158,11 @@ def requestNext(request):
             return JsonResponse({"msg":"expire"})
         username=dic["username"]
         user=User.objects.get(username=username)
+        recordlist=req['record']
         '''
         这里填写读取req里的字典
         然后算法产生推荐题目ID
         '''
-        recordlist=req['record']
         print(recordlist)
         id=7 #测试的时候推荐7
         try:
@@ -173,6 +173,35 @@ def requestNext(request):
             question.__dict__.pop("answer")
             question.__dict__.pop("note")
             response["data"]= question.__dict__
+        except Exception as e:
+            response["msg"]=e
+            print(e)
+            return JsonResponse(response)
+        return JsonResponse(response) 
+
+#开始练习
+#
+#在数据库中创建一个新的练习记录
+@csrf_exempt
+def startExercise(request):
+    ##用户验证机制
+    response={}
+    if(request.method=="POST"):
+        req=simplejson.loads(request.body)
+        sessionid=req["sessionid"]
+        dic = cache.get(sessionid)
+        if dic is None:
+            return JsonResponse({"msg":"expire"})
+        username=dic["username"]
+        user=User.objects.get(username=username)
+
+        try:
+            print(user)
+            exercise = Exersice(student = user)
+            exercise.save()
+            response["msg"]="true"
+            response["turnID"]=exercise.id
+            response["turnTime"]=exercise.e_time
         except Exception as e:
             response["msg"]=e
             print(e)
