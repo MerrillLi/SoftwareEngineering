@@ -33,7 +33,7 @@ class Question(models.Model):
     states =models.CharField(verbose_name=u"审核状态", default = '未通过', max_length = 128)
 
     def __str__(self):
-        return self.content
+        return str(self.id)+":"+self.content
 
     class Meta:
         ordering = ('-add_time',)

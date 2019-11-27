@@ -99,7 +99,9 @@ def requsetproblem(request,pk):
                 return JsonResponse(response)
             return JsonResponse(response) 
 
-
+#查看用户的联系场次
+#pk值为0的时候，查看具体练习场次
+#pk值为其他值的时候，查看练习记录数据库里ID为pk值的题目
 @csrf_exempt
 def requestExerciseRecord(request,pk):
     ##用户验证机制
@@ -140,6 +142,43 @@ def requestExerciseRecord(request,pk):
                 print(e)
                 return JsonResponse(response)
             return JsonResponse(response)
+
+#练习的时候，请求下一道试题
+#
+#上传试题
+@csrf_exempt
+def requestNext(request):
+    ##用户验证机制
+    response={}
+    if(request.method=="POST"):
+        req=simplejson.loads(request.body)
+        sessionid=req["sessionid"]
+        dic = cache.get(sessionid)
+        if dic is None:
+            return JsonResponse({"msg":"expire"})
+        username=dic["username"]
+        user=User.objects.get(username=username)
+        '''
+        这里填写读取req里的字典
+        然后算法产生推荐题目ID
+        '''
+        recordlist=req['record']
+        print(recordlist)
+        id=7 #测试的时候推荐7
+        try:
+            ## 了解get 和 filter 的区别 
+            question=Question.objects.get(id=id)              
+            question.__dict__.pop("_state")
+            #答案和注释不应该给用户看到
+            question.__dict__.pop("answer")
+            question.__dict__.pop("note")
+            response["data"]= question.__dict__
+        except Exception as e:
+            response["msg"]=e
+            print(e)
+            return JsonResponse(response)
+        return JsonResponse(response) 
+        
 
 
 
