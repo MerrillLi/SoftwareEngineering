@@ -1,195 +1,161 @@
 <template>
-    <div>
-        <div class="fillcontain">
-            <!--个人信息栏-->
-            <div class="info_container">
-                <el-row class="info_row" :gutter="10">
+    <div class="fillcontain">
+        <!--个人信息栏-->
+        <div class="info_container">
+            <el-row class="info_row" :gutter="10">
 
-                    <el-col :span="5">
-                        <div class="area">
-                            <div class="namearea">
-                                <p>姓名：{{user.姓名}}</p>
-                                <p>学号：{{user.学号}}</p>
-                                <p>身份：{{user.用户身份}}</p>
-                                <p>院系：{{user.学院}}</p>
-                                <p class="awards"><i class="el-icon-date el-icon--left"></i>编辑个人信息</p>
-                            </div>
+                <el-col :span="5">
+                    <div class="area">
+                        <div class="namearea">
+                            <p>姓名：{{user.姓名}}</p>
+                            <p>学号：{{user.学号}}</p>
+                            <p>身份：{{user.用户身份}}</p>
+                            <p>院系：{{user.学院}}</p>
+                            <p class="awards"><i class="el-icon-date el-icon--left"></i>编辑个人信息</p>
                         </div>
-                    </el-col>
+                    </div>
+                </el-col>
 
-                </el-row>
-            </div>
+            </el-row>
         </div>
-        <div>
-            <div class="contain">
-                <el-carousel>
-                    <el-carousel-item>
-                        <div class="table_container1">
-                            <el-table
-                                    v-loading="loading"
-                                    :data="tableData"
-                                    border
-                                    stripe
-                                    highlight-current-row
-                                    header-cell-class-name="table-header-class"
-                                    style="width:100%">
-                                <el-table-column label="练习记录" header-align="center" align="center">
-                                    <el-table-column
-                                            label="序号"
-                                            width="60"
-                                            align='center'>
-                                        <template slot-scope="scope">
-                                            <span>{{scope.$index+(paginations.pageIndex - 1) * paginations.pageSize + 1}} </span>
-                                        </template>
-                                    </el-table-column>
-                                    <el-table-column
-                                            property="username"
-                                            label="提交时间"
-                                            width="80"
-                                            align='center'>
-                                    </el-table-column>
-                                    <el-table-column
-                                            property="email"
-                                            label="练习科目"
-                                            width="180"
-                                            align='center'>
-                                    </el-table-column>
-                                    <el-table-column
-                                            property="address"
-                                            label="练习结果"
-                                            align='center'>
-                                    </el-table-column>
+        <!-- TODO::表格标题头需要加入 -->
+        <div class="contain">
+            <el-carousel>
+
+                <el-carousel-item>
+                    <div class="table_exercise">
+                        <el-table
+                                v-loading="loading"
+                                :data="tableData"
+                                border
+                                stripe
+                                highlight-current-row
+                                header-cell-class-name="table-header-class"
+                                style="width:100%">
+                            <el-table-column label="练习记录" header-align="center" align="center">
+                                <el-table-column
+                                        label="序号"
+                                        width="60"
+                                        align='center'>
+                                    <template slot-scope="scope">
+                                        <span>{{scope.$index+(paginations.pageIndex - 1) * paginations.pageSize + 1}} </span>
+                                    </template>
                                 </el-table-column>
-                            </el-table>
-                            <el-row>
-                                <el-col :span="24">
-                                    <div class="pagination">
-                                        <el-pagination
-                                                v-if='paginations.total > 0'
-                                                :page-size="paginations.pageSize"
-                                                :layout="paginations.layout"
-                                                :total="paginations.total"
-                                                :current-page='paginations.pageIndex'
-                                                @current-change='handleCurrentChange'
-                                                @size-change='handleSizeChange'>
-                                        </el-pagination>
-                                    </div>
-                                </el-col>
-                            </el-row>
-                        </div>
-                    </el-carousel-item>
-                    <el-carousel-item>
-                        <div class="table_container2">
-                            <el-table
-                                    v-loading="loading"
-                                    :data="tableData"
-                                    border
-                                    stripe
-                                    highlight-current-row
-                                    header-cell-class-name="table-header-class"
-                                    style="width:100%">
-                                <el-table-column label="考试记录" header-align="center" align="center">
-                                    <el-table-column
-                                            label="序号"
-                                            width="60"
-                                            align='center'>
-                                        <template slot-scope="scope">
-                                            <span>{{scope.$index+(paginations.pageIndex - 1) * paginations.pageSize + 1}} </span>
-                                        </template>
-                                    </el-table-column>
-                                    <el-table-column
-                                            property="username"
-                                            label="提交时间"
-                                            width="80"
-                                            align='center'>
-                                    </el-table-column>
-                                    <el-table-column
-                                            property="email"
-                                            label="练习科目"
-                                            width="180"
-                                            align='center'>
-                                    </el-table-column>
-                                    <el-table-column
-                                            property="address"
-                                            label="考试结果"
-                                            align='center'>
-                                    </el-table-column>
+                                <el-table-column
+                                        property="username"
+                                        label="提交时间"
+                                        width="80"
+                                        align='center' v-for="">
                                 </el-table-column>
-                            </el-table>
-                            <el-row>
-                                <el-col :span="24">
-                                    <div class="pagination">
-                                        <el-pagination
-                                                v-if='paginations.total > 0'
-                                                :page-size="paginations.pageSize"
-                                                :layout="paginations.layout"
-                                                :total="paginations.total"
-                                                :current-page='paginations.pageIndex'
-                                                @current-change='handleCurrentChange'
-                                                @size-change='handleSizeChange'>
-                                        </el-pagination>
-                                    </div>
-                                </el-col>
-                            </el-row>
-                        </div>
-                    </el-carousel-item>
-                    <el-carousel-item>
-                        <div class="table_container3">
-                            <el-table
-                                    v-loading="loading"
-                                    :data="tableData"
-                                    border
-                                    stripe
-                                    highlight-current-row
-                                    header-cell-class-name="table-header-class"
-                                    style="width:100%">
-                                <el-table-column label="出题记录" header-align="center" align="center">
-                                    <el-table-column
-                                            label="序号"
-                                            width="60"
-                                            align='center'>
-                                        <template slot-scope="scope">
-                                            <span>{{scope.$index+(paginations.pageIndex - 1) * paginations.pageSize + 1}} </span>
-                                        </template>
-                                    </el-table-column>
-                                    <el-table-column
-                                            property="username"
-                                            label="提交时间"
-                                            width="80"
-                                            align='center'>
-                                    </el-table-column>
-                                    <el-table-column
-                                            property="email"
-                                            label="试题简介"
-                                            width="180"
-                                            align='center'>
-                                    </el-table-column>
-                                    <el-table-column
-                                            property="address"
-                                            label="是否通过审核"
-                                            align='center'>
-                                    </el-table-column>
+                            </el-table-column>
+                        </el-table>
+                        <el-row>
+                            <el-col :span="24">
+                                <div class="pagination">
+                                    <el-pagination
+                                            v-if='paginations.total > 0'
+                                            :page-size="paginations.pageSize"
+                                            :layout="paginations.layout"
+                                            :total="paginations.total"
+                                            :current-page='paginations.pageIndex'
+                                            @current-change='handleCurrentChange'
+                                            @size-change='handleSizeChange'>
+                                    </el-pagination>
+                                </div>
+                            </el-col>
+                        </el-row>
+                    </div>
+                </el-carousel-item>
+
+                <el-carousel-item>
+                    <div class="table_submit">
+                        <el-table
+                                v-loading="loading"
+                                :data="tableData"
+                                border
+                                stripe
+                                highlight-current-row
+                                header-cell-class-name="table-header-class"
+                                style="width:100%">
+                            <el-table-column label="出题记录" header-align="center" align="center">
+                                <el-table-column
+                                        label="序号"
+                                        width="60"
+                                        align='center'>
+                                    <template slot-scope="scope">
+                                        <span>{{scope.$index+(paginations.pageIndex - 1) * paginations.pageSize + 1}} </span>
+                                    </template>
                                 </el-table-column>
-                            </el-table>
-                            <el-row>
-                                <el-col :span="24">
-                                    <div class="pagination">
-                                        <el-pagination
-                                                v-if='paginations.total > 0'
-                                                :page-size="paginations.pageSize"
-                                                :layout="paginations.layout"
-                                                :total="paginations.total"
-                                                :current-page='paginations.pageIndex'
-                                                @current-change='handleCurrentChange'
-                                                @size-change='handleSizeChange'>
-                                        </el-pagination>
-                                    </div>
-                                </el-col>
-                            </el-row>
-                        </div>
-                    </el-carousel-item>
-                </el-carousel>
-            </div>
+                                <el-table-column
+                                        property="username"
+                                        label="提交时间"
+                                        width="80"
+                                        align='center'>
+                                </el-table-column>
+                            </el-table-column>
+                        </el-table>
+                        <el-row>
+                            <el-col :span="24">
+                                <div class="pagination">
+                                    <el-pagination
+                                            v-if='paginations.total > 0'
+                                            :page-size="paginations.pageSize"
+                                            :layout="paginations.layout"
+                                            :total="paginations.total"
+                                            :current-page='paginations.pageIndex'
+                                            @current-change='handleCurrentChange'
+                                            @size-change='handleSizeChange'>
+                                    </el-pagination>
+                                </div>
+                            </el-col>
+                        </el-row>
+                    </div>
+                </el-carousel-item>
+
+                <el-carousel-item>
+                    <div class="table_exam">
+                        <el-table
+                                v-loading="loading"
+                                :data="tableData"
+                                border
+                                stripe
+                                highlight-current-row
+                                header-cell-class-name="table-header-class"
+                                style="width:100%">
+                            <el-table-column label="考试记录" header-align="center" align="center">
+                                <el-table-column
+                                        label="序号"
+                                        width="60"
+                                        align='center'>
+                                    <template slot-scope="scope">
+                                        <span>{{scope.$index+(paginations.pageIndex - 1) * paginations.pageSize + 1}} </span>
+                                    </template>
+                                </el-table-column>
+
+                                <el-table-column align="center" v-for="" label="">
+
+                                </el-table-column>
+                            </el-table-column>
+                        </el-table>
+                        <el-row>
+                            <el-col :span="24">
+                                <div class="pagination">
+                                    <el-pagination
+                                            v-if='paginations.total > 0'
+                                            :page-size="paginations.pageSize"
+                                            :layout="paginations.layout"
+                                            :total="paginations.total"
+                                            :current-page='paginations.pageIndex'
+                                            @current-change='handleCurrentChange'
+                                            @size-change='handleSizeChange'>
+                                    </el-pagination>
+                                </div>
+                            </el-col>
+                        </el-row>
+                    </div>
+                </el-carousel-item>
+
+            </el-carousel>
         </div>
     </div>
 </template>
@@ -233,7 +199,7 @@
                 let para = {
                     limit: this.paginations.pageSize,
                     page: this.paginations.pageIndex
-                }
+                };
                 getUserList(para).then(res => {
                     this.loading = false;
                     this.paginations.total = res.data.total;
@@ -257,8 +223,8 @@
                         sessionid: this.$store.token
                     }
                 }).then(res => {
-                    this.data.user = res.data
-                    this.$store.userInfo = res.data
+                    this.data.user = res.data;
+                    this.$store.userInfo = res.data;
                     console.log(res.data)
                 }).catch(error => {
                     console.log(error)
@@ -495,15 +461,15 @@
         padding-bottom: 0;
     }
 
-    .table_container1 {
+    .table_exercise {
         padding-bottom: 40px;
     }
 
-    .table_container2 {
+    .table_submit {
         padding-bottom: 40px;
     }
 
-    .table_container3 {
+    .table_exam {
         padding-bottom: 40px;
     }
 
