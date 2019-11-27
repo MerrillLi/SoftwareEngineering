@@ -48,7 +48,7 @@ def register(request):
         if not user:
             user=User.objects.create_user(username=username,password=password)
             user.email=email
-            user.is_active=False
+            user.is_active=True
             user.save()
             # 保存到数据库
             # 设置用户的身份
@@ -88,6 +88,7 @@ def register(request):
             return JsonResponse(response)
         '''
         return JsonResponse(response)
+
 
 #激活用户
 @csrf_exempt
@@ -191,9 +192,9 @@ def log_in(request):
         username=req['username']
         password=req['password']
         try:
-            user_a = User.objects.get(username=username)  # 这个设置是为了更详细的检查出错误来,因为这个地方get函数不会返回none，一旦找不到，便会给一个exception
+            #user = User.objects.get(username=username)  # 这个设置是为了更详细的检查出错误来,因为这个地方get函数不会返回none，一旦找不到，便会给一个exception
             user = authenticate(username=username, password=password)  # 而authenticate就能返回一个none
-            print(user)
+
             if user:
                 login(request,user)
                 # request.session['is_login']=True
@@ -217,14 +218,15 @@ def log_in(request):
     print(response)
     return response
 
+@csrf_exempt
 #登出
 def log_out(request):
-    response={"msg":"true"}
+    
     # del request.session["sessionid"]
     #删除cache中的配置
-    cache.delete(simplejson.loads(request).get("sessionid"))
-
-    return response
+    cache.delete(request.session.session_key)
+    response={"msg":"true"}
+    return JsonResponse(response)
 
 @csrf_exempt
 #获取个人信息
@@ -232,22 +234,22 @@ def get_profile(request):
     req = simplejson.loads(request.body)
     print(req)
     identity=req.get("identity",None)
-    sessionid=req.get("sessionid",None)
+    sessionid=request.session.session_key
     dic=cache.get(sessionid)
     #cache过期
     if dic is None:
         return JsonResponse({"msg":"expire"})
     username=cache.get(sessionid).get("username",None)
     is_login = cache.get(sessionid).get("is_login", False)  # 如果is_login没有设置值的话，默认为False
-    # username = request.session.get("username", None)
-    # is_login = request.session.get("is_login", False)  # 如果is_login没有设置值的话，默认为False
     response = {}
     msg = 'true'
     #登陆成功
+    print(is_login)
+    print(username)
     if is_login:
         user=User.objects.get(username=username)
         #学生
-        if identity=='1':
+        if identity== 1:
             try:
                 userprofile = user_profile_stu.objects.get(user=user)
                 response["phonenumber"]=userprofile.phonenumber
@@ -265,6 +267,7 @@ def get_profile(request):
                 # 头像获取
                 img=imageprofile.objects.filter(user=user)[0]
                 response["imgurl"] = img.imgurl
+                print(response)
                 return JsonResponse(response)
             except Exception as e:
                 return JsonResponse(response)
@@ -278,7 +281,7 @@ def update_profile(request):
     response = {}
     if(request.method=="POST"):
         response["msg"] = "true"
-        sessionid=simplejson.loads(request.body).get("sessionid",None)
+        sessionid=request.session.session_key
         dic=cache.get(sessionid)
         req=simplejson.loads(request.body)
         #cache过期
@@ -291,21 +294,22 @@ def update_profile(request):
         # is_login = request.session.get("is_login", False)
         # identity = simplejson.loads(request.body).get("identity", None)
         #获取用户
-        block=req["block"]
+        block=req.get("block",None)
         user = User.objects.get(username=username)
         if is_login:
             #学生
-            if identity == '1':
+            if identity == "1":
                 try:
                     userprofile = user_profile_stu.objects.get(user=user)
-                    if block == "0":
+                    if block == "1":
+                        print(req["name"])
                         userprofile.name = req["name"]
                         userprofile.gender = req["gender"]
                         # 头像
                         image = imageprofile.objects.get(user=user)
                         image.imgurl = req["imgurl"]
                         image.save()
-                    if block=="1":
+                    if block== 1:
                         print(userprofile)
                         userprofile.age = req["age"]
                         userprofile.birth_data = req["birth_data"]
@@ -318,5 +322,6 @@ def update_profile(request):
                     response['msg']=e
                 return JsonResponse(response)
     get_token(request)
+    print(response)
     return JsonResponse(response)
 

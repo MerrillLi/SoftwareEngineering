@@ -21,7 +21,7 @@ class user_profile_stu(models.Model):
     major = models.CharField("专业", max_length=128,null=True,blank=True)
     email = models.EmailField("邮件",max_length=128,null=True,blank=True)
     birth_data=models.DateField("出生日期",null=True,blank=True)
-    institution=models.CharField("学院",max_length=128,null=True,blank=True)
+    institution=models.CharField("学院",max_length=128,null=True,blank=True,default = "工学院")
 
     class Meta:
         verbose_name = '用户个人信息'
@@ -37,7 +37,7 @@ class user_profile_stu(models.Model):
 #头像类
 class imageprofile(models.Model):
     user = models.ForeignKey(User, verbose_name="用户头像", on_delete=models.CASCADE, related_name="user_imageprofile",null=True, blank=True)
-    imgurl=models.CharField("头像路径",max_length=1000,null=True,blank=True)
+    imgurl=models.CharField("头像路径",max_length=1000,null=True,blank=True, default = "gl")
     class Meta:
         verbose_name = '头像'
         verbose_name_plural = verbose_name

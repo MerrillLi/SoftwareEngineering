@@ -1,1 +1,4 @@
 .idea
+#
+*./BackEnd/Django_v1/GL/course/__pycache__
+*.pyc

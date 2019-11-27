@@ -33,7 +33,7 @@ class Question(models.Model):
     states =models.CharField(verbose_name=u"审核状态", default = '未通过', max_length = 128)
 
     def __str__(self):
-        return self.content
+        return str(self.id)+":"+self.content
 
     class Meta:
         ordering = ('-add_time',)
@@ -46,13 +46,17 @@ class Exersice(models.Model):
         ordering = ('-e_time',)
     
     def __str__(self):
-        return self.student.name
+        return str(self.id)
 
 class Item(Question):
     user_choice = models.CharField(max_length = 1, verbose_name=u"用户选择", default="" )
     exersice = models.ForeignKey(Exersice,verbose_name = u'练习场次', default = '',on_delete=models.CASCADE )
     ie_time = models.DateField(default=datetime.now, verbose_name=u"做题时间")
+
     class Meta:
         ordering = ('-ie_time',)
+
+    def __str__(self):
+        return str(self.id)+':'+self.content
     
 
