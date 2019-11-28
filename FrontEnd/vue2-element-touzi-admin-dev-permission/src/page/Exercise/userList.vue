@@ -35,36 +35,6 @@
                    label="练习结果"
                    align='center'>
                 </el-table-column>
-                 <!--<el-table-column-->
-                   <!--property="region"-->
-                   <!--label="地区"-->
-                   <!--width="80"-->
-                   <!--align='center'>-->
-                <!--</el-table-column> -->
-                  <!--<el-table-column-->
-                   <!--property="isp"-->
-                   <!--label="网络"-->
-                   <!--width="80"-->
-                   <!--align='center'>-->
-                <!--</el-table-column> -->
-                 <!--<el-table-column-->
-                   <!--property="ip"-->
-                   <!--label="IP地址"-->
-                   <!--width="180"-->
-                   <!--align='center'>-->
-                <!--</el-table-column>-->
-                <!--<el-table-column-->
-                   <!--property="createTime"-->
-                   <!--label="注册时间"-->
-                   <!--width="180"-->
-                   <!--align='center'>-->
-                <!--</el-table-column>-->
-                <!--<el-table-column-->
-                   <!--property="updateTime"-->
-                   <!--label="登录时间"-->
-                   <!--width="180"-->
-                   <!--align='center'>-->
-                <!--</el-table-column>-->
             </el-table>
            <el-row>
                 <el-col :span="24">
