@@ -2,28 +2,49 @@
   <div class="fillcontain">
     <!--个人信息栏-->
     <div class="info_container">
-      <el-row class="info_row" :gutter="10">
 
-        <el-col :span="5">
-          <div class="area">
-            <div class="namearea">
-              <p>姓名：{{user.name}}</p>
-              <p>学号：{{user.user_id}}</p>
-              <p>身份：{{user.identity}}</p>
-              <p>院系：{{user.institution}}</p>
-              <p class="awards"><i class="el-icon-date el-icon--left"></i>编辑个人信息</p>
-            </div>
-          </div>
-        </el-col>
+        <el-row :gutter="20">
+          <el-col :span="6">身份：
+          </el-col>
+          <el-col :span="6">
+            <el-input
+              placeholder="请输入内容"
+              prefix-icon="el-icon-search"
+              v-model="user.identity">
+            </el-input>
+          </el-col>
+        </el-row>
 
-      </el-row>
+        <el-row :gutter="20">
+          <el-col :span="6">学号：
+          </el-col>
+          <el-col :span="6">
+            <el-input
+              placeholder="请输入内容"
+              prefix-icon="el-icon-search"
+              v-model="user.user_id">
+            </el-input>
+          </el-col>
+        </el-row>
+
+        <el-row :gutter="20">
+          <el-col :span="6">院系：
+          </el-col>
+          <el-col :span="6">
+            <el-input
+              placeholder="请输入内容"
+              prefix-icon="el-icon-search"
+              v-model="user.institution">
+            </el-input>
+          </el-col>
+        </el-row>
     </div>
   </div>
 </template>
 
 <script>
   import {mapGetters} from 'vuex'
-  import axios from 'axios';
+  import axios from 'axios'
 
   export default {
     name: 'Profile',
@@ -67,6 +88,7 @@
     &-container {
       margin: 30px;
     }
+
     &-text {
       font-size: 30px;
       line-height: 46px;
