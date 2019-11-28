@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.http import JsonResponse,HttpResponse
-from .models import user_profile_stu, imageprofile
+from .models import user_profile_stu, imageprofile, ConfirmString
 from django.views.decorators.csrf import csrf_exempt
 from django.middleware.csrf import get_token ,rotate_token
 from django.core.mail import send_mail,send_mass_mail,EmailMultiAlternatives
@@ -15,13 +15,24 @@ from django.core.cache import cache
 from django.views.decorators.cache import cache_page
 from django.contrib.auth.hashers import check_password,make_password
 import random
+import datetime
+from django.core.mail import EmailMultiAlternatives
+import hashlib
+from django.utils import timezone
 
-#生成随机字符串
-def get_random_str():
-    word_range='AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890'
-    four_letter_1=random.sample(word_range,4)
-    four_letter_2=''.join(four_letter_1)
-    return four_letter_2
+def hash_code(s, salt='mysite'):
+    h = hashlib.sha256()
+    s += salt
+    h.update(s.encode())
+    return h.hexdigest()
+
+def make_confirm_string(user):
+    now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    if(type(user) == "QuerySet"):
+        code = hash_code(user.username, now)
+    else:
+        code = hash_code(user.username, now)
+    return code
 
 #注册用户
 @csrf_exempt
@@ -64,57 +75,56 @@ def register(request):
             '''
             img=imageprofile(user=user,imgurl=None)
             img.save()
-        '''
+
         #如果用户已存在但是不是有效的,那么直接对这个用户发送邮件
         #发送邮件
-        #生成随机字符串
-        random_str=get_random_str()
-
-        url = "http://172.16.32.1:8000/delonixregia/verify/"+random_str+"/"
-
+        code = make_confirm_string(user)
+        url = "http://172.16.143.9:8000/user/verify/"+ "?code={}".format(code) + "/"
         subject="激活邮件"
         content="点击下方进行激活"
         recipient_emial=[email]
-        html_content="<p>欢迎使用凤凰花开,请点击</p><a href='"+url+"'>此处</a><p>进行验证<p>"
+        html_content="<p>欢迎使用,请点击</p><a href='"+url+"'>此处</a><p>进行验证<p>"
         from_email=settings.DEFAULT_FROM_EMAIL
         mail=EmailMultiAlternatives(subject,content,from_email,recipient_emial)
         mail.attach_alternative(html_content,"text/html")
         try:
             mail.send()
-            #发送成功，把随机字符串保存在cache中
-            cache.set(random_str,username,15*60)
+            #发送成功，把验证码保存在数据库中
+            ConfirmString.objects.create(code=code, user=user,)
         except Exception as e:
             response["msg"]="f_send" #发送失败
             return JsonResponse(response)
-        '''
+        response["msg"] = 'S_toemail'
         return JsonResponse(response)
 
 
-#激活用户
-@csrf_exempt
-@require_http_methods(["POST"])#限制请求方法
-def active(request):
-    response={}
-    if(request.method=="POST"):
-        response["msg"] = "true"
-        req=simplejson.loads(request.body)
-        username=cache.get(req["rstr"])
-        print(req["rstr"])
-        if username:
-            try:
-                user=User.objects.get(username=username)
-                user.is_active=True
-                user.save()
-            except Exception as e:
-                print(e)
-                response["msg"]="false"
-            return JsonResponse(response)
-        else:
-            response["msg"]="false"
-            return JsonResponse(response)
+def user_confirm(request):
+    response = {}
+    code = request.GET.get('code', None)
+    code = code.strip('/')
+    try:
+        
+        confirm = ConfirmString.objects.get(code=code)
+    except:
+        response["msg"] = 'code_fault'
+        return JsonResponse(response)
 
+    c_time = confirm.c_time
+    #now = datetime.datetime.now()
+    now = timezone.now()
+    
+    if now > (c_time + datetime.timedelta(settings.CONFIRM_DAYS)).replace():
+        confirm.user.delete()
+        response["msg"] = 'code_expire'
+        return JsonResponse(response)
+    else:
+        confirm.user.is_active = True
+        confirm.user.save()
+        confirm.delete()
+        response["msg"] = 'success'
+        return JsonResponse(response)
 
-#更改密码
+#找回密码
 @csrf_exempt
 @require_http_methods(["POST"])
 def findpas(request):
@@ -123,18 +133,23 @@ def findpas(request):
         response["msg"]="true"
         req=simplejson.loads(request.body)
         email=req["email"]
-        if User.objects.filter(email=email):
+        user = User.objects.filter(email=email)
+        if(type(user) == "QuerySet"):
+            user = user[0]
+        if user:
             # 生成随机字符串
-            random_str = get_random_str()
+            code = make_confirm_string(user)
+            url = "http://172.16.143.9:8000/user/verifyandsetpas/"+ "?code={}".format(code) + "/"
             subject = "找回密码"
-            content = "这是您的验证码："+random_str+"\n如果您不是当前用户，请忽略"
+            content = "这是您的验证码："+code+"\n如果您不是当前用户，请忽略"
+            html_content="<p>欢迎使用,请点击</p><a href='"+url+"'>此处</a><p>进行验证<p>"
             recipient_emial = [email]
             from_email = settings.DEFAULT_FROM_EMAIL
             mail = EmailMultiAlternatives(subject, content, from_email, recipient_emial)
             try:
                 mail.send()
-                # 发送成功，把随机字符串保存在cache中
-                cache.set(random_str, email, 15 * 60)
+                #发送成功，把验证码保存在数据库中
+                ConfirmString.objects.create(code=code, user=user,)
             except Exception as e:
                 response["msg"] = "f_send"  # 发送失败
         else:
@@ -146,16 +161,29 @@ def findpas(request):
 @require_http_methods(["POST"])
 def verifyandsetpas(request):
     response={}
-    if (request.method == "POST"):
-        response["msg"] = "true"
-        req = simplejson.loads(request.body)
-        email=cache.get(req["random_str"])
-        if email:
-            user=User.objects.get(email=email)
-            user.password=req["newpassword"]
-            user.save()
-        else:
-            response["msg"]="false"
+    req=simplejson.loads(request.body)
+    password=req["password"]
+    code = request.GET.get('code', None)
+    code = code.strip('/')
+    try:
+        confirm = ConfirmString.objects.get(code=code)
+    except:
+        response["msg"] = 'code_fault'
+        return JsonResponse(response)
+
+    c_time = confirm.c_time
+    now = datetime.datetime.now()
+
+    if now > c_time + datetime.timedelta(settings.CONFIRM_DAYS):
+        confirm.user.delete()
+        response["msg"] = 'code_expire'
+        return JsonResponse(response)
+    else:
+        response["msg"] = 'fail'
+        confirm.user.password=req["newpassword"]
+        confirm.user.save()
+        confirm.delete()
+        response["msg"] = 'success'
     return JsonResponse(response)
 
 #修改密码
