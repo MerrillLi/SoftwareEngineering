@@ -22,7 +22,12 @@
     "qrcodejs2": "0.0.2",
     "vue": "^2.6.10",
     "vue-i18n": "^8.14.0",
+<<<<<<< Updated upstream
     "vue-router": "^3.0.7",
+=======
+    "vue-quill-editor": "^3.0.6",
+    "vue-router": "^3.1.2",
+>>>>>>> Stashed changes
     "vuex": "^3.1.1"
   },
   "devDependencies": {

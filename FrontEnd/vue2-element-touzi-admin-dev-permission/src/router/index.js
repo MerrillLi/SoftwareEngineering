@@ -87,15 +87,17 @@ export const asyncRouterMap = [
         meta: {
             title: '信息管理',
             icon: 'iconinfo',
+            routerType: 'leftmenu'
         },
         component: Layout,
         children: [
             {
-                path: 'infoShow',
-                name: 'infoShow',
-                meta: {
+                path:'infoShow',
+                name:'infoShow',
+                meta:{
                     title: '个人信息',
                     icon: 'iconinfo',
+<<<<<<< Updated upstream
                     routerType: 'leftmenu',
 
                 },
@@ -110,6 +112,11 @@ export const asyncRouterMap = [
                     routerType: 'leftmenu'
                 },
                 component:() => import('@/page/submit/infoModify'),
+=======
+                    routerType: 'leftmenu'
+                },
+                component: () => import('@/page/infoManage/infoShow'),
+>>>>>>> Stashed changes
             }
         ]
     },
