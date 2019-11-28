@@ -7,10 +7,10 @@
         <el-col :span="5">
           <div class="area">
             <div class="namearea">
-              <p>姓名：{{user.姓名}}</p>
-              <p>学号：{{user.学号}}</p>
-              <p>身份：{{user.用户身份}}</p>
-              <p>院系：{{user.学院}}</p>
+              <p>姓名：{{user.name}}</p>
+              <p>学号：{{user.user_id}}</p>
+              <p>身份：{{user.identity}}</p>
+              <p>院系：{{user.institution}}</p>
               <p class="awards"><i class="el-icon-date el-icon--left"></i>编辑个人信息</p>
             </div>
           </div>
@@ -22,26 +22,55 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+  import {mapGetters} from 'vuex'
+  import axios from 'axios'
 
-export default {
-  name: 'Dashboard',
-  computed: {
-    ...mapGetters([
-      'name'
-    ])
+  export default {
+    name: 'Profile',
+    computed: {
+      ...mapGetters([
+        'name'
+      ])
+    },
+    data() {
+      return {
+        user: null
+
+      }
+    },
+    mounted() {
+      this.getUserInfo();
+    },
+    methods: {
+      // 获取用户信息
+      getUserInfo() {
+        axios.post('/api/user/get_profile/', {
+          data: {
+            identity: 1
+          }
+        }).then(res => {
+          this.user = res.data;
+          this.$store.userInfo = res.data;
+          console.log(res.data)
+        }).catch(error => {
+          console.log(error)
+        })
+      },
+
+
+    }
   }
-}
 </script>
 
 <style lang="scss" scoped>
-.dashboard {
-  &-container {
-    margin: 30px;
+  .dashboard {
+    &-container {
+      margin: 30px;
+    }
+
+    &-text {
+      font-size: 30px;
+      line-height: 46px;
+    }
   }
-  &-text {
-    font-size: 30px;
-    line-height: 46px;
-  }
-}
 </style>
