@@ -6,8 +6,6 @@ urlpatterns=[
 
     #注册
     path('register/',views.register),
-    #验证邮箱
-    path('active/',views.active),
     #登陆
     path('login/',views.log_in),
     #登出
@@ -22,8 +20,8 @@ urlpatterns=[
     path('get_profile/', views.get_profile, name='get_profile'),
     #更新个人信息
     path('update_profile/', views.update_profile, name='update_profile'),
-    #函数验证的函数
-    path('verify/',views.active,name='verify')
+    #邮箱验证
+    path('verify/',views.user_confirm,name='verify')
 
 
 ]
