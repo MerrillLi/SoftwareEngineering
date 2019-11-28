@@ -58,13 +58,24 @@ export const constantRoutes = [
   {
     path: '/test',
     component: Layout,
-    children: [
+    name: '测评练习',
+    meta: {
+      title: '测评练习',
+      icon: 'form'
+    },
+    children:[
       {
-        path: 'index',
-        name: '测评练习',
-        component: () => import('@/views/test/index'),
-        meta: { title: '测评练习', icon: 'form' }
-      }
+        path: 'exercise',
+        component: () => import('@/views/test/exercise/index'), // Parent router-view
+        name: '练习',
+        meta: { title: '练习' }
+        },
+      {
+        path: 'exam',
+        component: () => import('@/views/test/exam/index'),
+        name:'考试',
+        meta: { title: '考试' }
+        },
     ]
   },
 

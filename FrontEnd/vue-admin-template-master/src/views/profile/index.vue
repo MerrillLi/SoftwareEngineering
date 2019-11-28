@@ -22,7 +22,8 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+  import {mapGetters} from 'vuex'
+  import axios from 'axios';
 
   export default {
     name: 'Profile',
@@ -62,13 +63,13 @@ import { mapGetters } from 'vuex'
 </script>
 
 <style lang="scss" scoped>
-.dashboard {
-  &-container {
-    margin: 30px;
+  .dashboard {
+    &-container {
+      margin: 30px;
+    }
+    &-text {
+      font-size: 30px;
+      line-height: 46px;
+    }
   }
-  &-text {
-    font-size: 30px;
-    line-height: 46px;
-  }
-}
 </style>
