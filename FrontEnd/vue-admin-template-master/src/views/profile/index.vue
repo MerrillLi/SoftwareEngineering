@@ -30,7 +30,40 @@ export default {
     ...mapGetters([
       'name'
     ])
-  }
+  },
+  data() {
+    return {
+      tableData: [],
+      loading: true,
+      user: undefined,
+      exercise: {},
+      submit: {},
+      exam: {}
+    }
+  },
+  created() {
+  },
+  // mounted() {
+  //   this.getUserInfo();
+  // },
+  // methods:{
+  //   // 获取用户信息
+  //   getUserInfo() {
+  //     axios.post('/api/user/get_profile/', {
+  //       data: {
+  //         //sessionid: "bb02k87gr4989xxwpm0jzykifmeq5dxr",
+  //         sessionid: this.$store.token,
+  //         identity: 1
+  //       }
+  //     }).then(res => {
+  //       this.user = res.data;
+  //       this.$store.userInfo = res.data;
+  //       console.log(res.data)
+  //     }).catch(error => {
+  //       console.log(error)
+  //     })
+  //   }
+  // }
 }
 </script>
 
