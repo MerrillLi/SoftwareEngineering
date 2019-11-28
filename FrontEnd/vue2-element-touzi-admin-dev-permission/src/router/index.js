@@ -77,7 +77,7 @@ export const asyncRouterMap = [
                     icon: 'iconuser',
                     routerType: 'leftmenu'
                 },
-                component: () => import('@/page/userList/exercise'),
+                component: () => import('@/page/Exercise/exercise'),
             }
         ]
     },

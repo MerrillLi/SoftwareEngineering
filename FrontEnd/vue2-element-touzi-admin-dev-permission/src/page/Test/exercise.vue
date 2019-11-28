@@ -1,6 +1,6 @@
 <template>
     <div class="contain">
-        <div class="infor" v-if="flag">
+        <div class="selector" v-if="flag">
             <div class="select">
                 <el-select v-model="value" placeholder="请选择">
                     <el-option
@@ -12,7 +12,7 @@
                 </el-select>
             </div>
             <div class="button">
-                <el-button @click = "func" type="primary" icon="el-icon-edit" circle>开始练习</el-button>
+                <el-button @click="func" type="primary" icon="el-icon-edit" circle>开始练习</el-button>
             </div>
         </div>
     </div>
@@ -39,11 +39,11 @@
                     label: '计算方法'
                 }],
                 value: '',
-                flag:true
+                flag: true
             }
         },
-        methods:{
-            func(){
+        methods: {
+            func() {
                 this.flag = false
             }
         }
@@ -51,34 +51,39 @@
 </script>
 
 <style lang="less" scoped>
-    .infor{
+    .selector {
         width: 500px;
         height: 500px;
         margin: 100px;
     }
-    .button{
+
+    .button {
         /*height:100px;*/
-        position:relative;
-        top:130px;
-        left:300px;
+        position: relative;
+        top: 130px;
+        left: 300px;
 
     }
-    .select{
+
+    .select {
         /*height:100px;*/
-        position:relative;
-        top:100px;
-        left:280px;
+        position: relative;
+        top: 100px;
+        left: 280px;
     }
-    .el-button--mini, .el-button--mini.is-round{
-        width:150px;
-        height:150px;
+
+    .el-button--mini, .el-button--mini.is-round {
+        width: 150px;
+        height: 150px;
     }
-    .el-input--mini .el-input__inner{
+
+    .el-input--mini .el-input__inner {
         height: 40px;
         width: 150px;
         line-height: 28px;
     }
-    .pagination{
+
+    .pagination {
         padding: 10px 20px;
         text-align: right;
     }
