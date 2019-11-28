@@ -1,17 +1,17 @@
 <template>
-    <el-dialog 
+    <el-dialog
         :visible.sync="isVisible"
-        :title="addFundDialog.title" 
+        :title="addFundDialog.title"
         :close-on-click-modal='false'
         :close-on-press-escape='false'
         :modal-append-to-body="false"
         @close="closeDialog">
         <div class="form">
-            <el-form 
-                ref="form" 
+            <el-form
+                ref="form"
                 :model="form"
                 :rules="form_rules"
-                :label-width="dialog.formLabelWidth" 
+                :label-width="dialog.formLabelWidth"
                 style="margin:10px;width:auto;">
                 <el-form-item prop='incomePayType' label="收支类型:" >
                     <el-select v-model="form.incomePayType" placeholder="收支类型">
@@ -27,7 +27,7 @@
                 <el-form-item prop='username' label="用户名:">
                     <el-input type="text" v-model="form.username"></el-input>
                 </el-form-item>
-                
+
                  <el-form-item prop="address" label="籍贯:">
                     <el-cascader
                         v-model="form.address"
@@ -67,7 +67,6 @@
 
 <script>
    import { mapState, mapGetters } from 'vuex'
-   import { addMoney,updateMoney } from "@/api/money";
    import AreaJson from "@/assets/datas/area.json"
 
   export default {
@@ -171,9 +170,9 @@
           getCascaderObj(val, opt){
             return val.map(function (value, index, array) {
                 for (var item of opt) {
-                    if (item.value == value) { 
-                        opt = item.children; 
-                        return item.label; 
+                    if (item.value == value) {
+                        opt = item.children;
+                        return item.label;
                     }
                 }
                 return null;

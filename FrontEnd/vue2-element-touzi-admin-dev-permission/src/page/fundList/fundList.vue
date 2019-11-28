@@ -40,7 +40,7 @@
                 label="籍贯"
                 align='center'
                 >
-                 <template slot-scope="scope">  
+                 <template slot-scope="scope">
                     <span style="color:#00d053">+ {{ scope.row.tableAddress || scope.row.address }}</span>
                 </template>
             </el-table-column>
@@ -69,8 +69,8 @@
                 label="收入"
                 align='center'
                 width="130"
-                sortable> 
-                <template slot-scope="scope">  
+                sortable>
+                <template slot-scope="scope">
                     <span style="color:#00d053">+ {{ scope.row.income }}</span>
                 </template>
             </el-table-column>
@@ -80,7 +80,7 @@
                 align='center'
                 width="130"
                 sortable>
-                <template slot-scope="scope">  
+                <template slot-scope="scope">
                     <span style="color:#f56767">{{ scope.row.pay }}</span>
                 </template>
             </el-table-column>
@@ -90,7 +90,7 @@
                 align='center'
                 width="130"
                 sortable>
-                <template slot-scope="scope">  
+                <template slot-scope="scope">
                     <span style="color:#4db3ff">{{ scope.row.accoutCash }}</span>
                 </template>
             </el-table-column>
@@ -100,15 +100,15 @@
                 label="操作"
                 width="180">
                 <template slot-scope='scope'>
-                    <el-button 
-                        type="warning" 
-                        icon='edit' 
+                    <el-button
+                        type="warning"
+                        icon='edit'
                         size="mini"
                         @click='onEditMoney(scope.row)'
                     >编辑</el-button>
-                    <el-button 
-                        type="danger" 
-                        icon='delete' 
+                    <el-button
+                        type="danger"
+                        icon='delete'
                         size="mini"
                         @click='onDeleteMoney(scope.row,scope.$index)'
                     >删除</el-button>
@@ -127,7 +127,6 @@
     import SearchItem from "./components/searchItem";
     import AddFundDialog from "./components/addFundDialog";
     import Pagination from "@/components/pagination";
-    import { getMoneyIncomePay , removeMoney, batchremoveMoney } from "@/api/money";
 
     export default {
         data(){
@@ -151,7 +150,7 @@
                     7: '充值礼券',
                     8: '转账'
                 },
-                addFundDialog:{  
+                addFundDialog:{
                     show:false,
                     dialogRow:{}
                 },
@@ -197,7 +196,7 @@
                         }
                     },
                 },
-               
+
             }
         },
         components:{
@@ -341,7 +340,7 @@
         text-align: left;
         margin-top: 10px;
     }
-     
+
 </style>
 
 

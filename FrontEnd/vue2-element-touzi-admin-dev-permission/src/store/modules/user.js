@@ -10,7 +10,7 @@ const user  = {
     avatar:'',
     token: getToken('Token'),
     roles: [],
-    browserHeaderTitle: mUtils.getStore('browserHeaderTitle') || '小爱Admin'
+    browserHeaderTitle: mUtils.getStore('browserHeaderTitle') || 'CAT'
   },
   getters : {
     token: state => state.token,
@@ -58,7 +58,7 @@ const user  = {
           })
         })
       },
-      
+
   }
 }
 
@@ -66,6 +66,6 @@ export default user;
 
 /**
  * 1、用户退出,需要调取后台接口吗？后台具体的业务逻辑是什么？
- * 
- * 
+ *
+ *
  */

@@ -7,10 +7,10 @@
                 <el-col :span="5">
                     <div class="area">
                         <div class="namearea">
-                            <p>姓名：{{user.姓名}}</p>
-                            <p>学号：{{user.学号}}</p>
-                            <p>身份：{{user.用户身份}}</p>
-                            <p>院系：{{user.学院}}</p>
+                            <p>姓名：{{user.name}}</p>
+                            <p>学号：{{user.user_id}}</p>
+                            <p>身份：{{user.identity}}</p>
+                            <p>院系：{{user.institution}}</p>
                             <p class="awards"><i class="el-icon-date el-icon--left"></i>编辑个人信息</p>
                         </div>
                     </div>
@@ -18,15 +18,12 @@
 
             </el-row>
         </div>
-        <!-- TODO::表格标题头需要加入 -->
         <div class="contain">
             <el-carousel>
-
                 <el-carousel-item>
                     <div class="table_exercise">
                         <el-table
-                                v-loading="loading"
-                                :data="tableData"
+                                :data="exercise"
                                 border
                                 stripe
                                 highlight-current-row
@@ -70,8 +67,7 @@
                 <el-carousel-item>
                     <div class="table_submit">
                         <el-table
-                                v-loading="loading"
-                                :data="tableData"
+                                :data="submit"
                                 border
                                 stripe
                                 highlight-current-row
@@ -87,8 +83,20 @@
                                     </template>
                                 </el-table-column>
                                 <el-table-column
-                                        property="username"
-                                        label="提交时间"
+                                        property="id"
+                                        label="题号"
+                                        width="80"
+                                        align='center'>
+                                </el-table-column>
+                                <el-table-column
+                                        property="content"
+                                        label="内容摘要"
+                                        width="80"
+                                        align='center'>
+                                </el-table-column>
+                                <el-table-column
+                                        property="states"
+                                        label="审核状态"
                                         width="80"
                                         align='center'>
                                 </el-table-column>
@@ -115,8 +123,7 @@
                 <el-carousel-item>
                     <div class="table_exam">
                         <el-table
-                                v-loading="loading"
-                                :data="tableData"
+                                :data="exam"
                                 border
                                 stripe
                                 highlight-current-row
@@ -161,9 +168,9 @@
 </template>
 
 <script>
-    import {getUserList} from "@/api/user";
     import axios from 'axios'
     import auth from '@/utils/auth'
+    import Vue from 'vue'
 
     export default {
         data() {
@@ -177,12 +184,7 @@
                     pageSize: 5,   // 1页显示多少条
                     layout: "total, sizes, prev, pager, next, jumper"   // 翻页属性
                 },
-                user: {
-                    "姓名": "Meryl",
-                    "学号": 2017124033,
-                    "用户身份": "学生",
-                    "学院": "工学院"
-                },
+                user: undefined,
                 exercise: {},
                 submit: {},
                 exam: {}
@@ -192,41 +194,30 @@
         created() {
         },
         mounted() {
-            this.getUserList();
             this.getUserInfo();
-            this.requestExerciseRecord();
             this.requestSubmitProblemRecord();
+            this.requestExerciseRecord();
         },
         methods: {
-            getUserList() {
-                let para = {
-                    limit: this.paginations.pageSize,
-                    page: this.paginations.pageIndex
-                };
-                getUserList(para).then(res => {
-                    this.loading = false;
-                    this.paginations.total = res.data.total;
-                    this.tableData = res.data.userList;
-                })
-            },
+
             // 每页多少条切换
             handleSizeChange(pageSize) {
                 this.paginations.pageSize = pageSize;
-                this.getUserList();
             },
             // 上下分页
             handleCurrentChange(page) {
                 this.paginations.pageIndex = page;
-                this.getUserList();
             },
             // 获取用户信息
             getUserInfo() {
-                axios.get('http://172.16.143.9:8000/userinfo', {
+                axios.post('/api/user/get_profile/', {
                     data: {
-                        sessionid: this.$store.token
+                        //sessionid: "bb02k87gr4989xxwpm0jzykifmeq5dxr",
+                        sessionid: this.$store.token,
+                        identity: 1
                     }
                 }).then(res => {
-                    this.data.user = res.data;
+                    this.user = res.data;
                     this.$store.userInfo = res.data;
                     console.log(res.data)
                 }).catch(error => {
@@ -234,15 +225,17 @@
                 })
             },
             // 获取出题信息
-            requestSubmitProblemRecord() {
-                axios.get('http://172.16.143.9:8000/sumbitrecord', {
-                    params: {
-                        userid: this.user.学号,
+            requestSubmitProblemRecord(id = 0) {
+                axios.post('/api/course/requestProblem/' + id + '/', {
+                    data: {
+                        //sessionid: 'xrckoiso2pils6orp0gpthw4w0sm3f00'
                         sessionid: this.$store.token
                     }
 
                 }).then(res => {
-                    this.submit = res.data
+                    this.submit = res.data.data
+                    console.log(res)
+
                 }).catch(error => {
                     console.log(error)
                 })
@@ -250,13 +243,14 @@
 
             // 获取练习记录
             requestExerciseRecord() {
-                axios.get('https://localhost:8000/api/v1/exerciserecord', {
+                axios.post('/api/course/requestExerciseRecord/' + id + '/', {
                     params: {
-                        userid: this.user.学号,
-                        sessionid: this.$store.token
+                        userid: this.user.user_id,
+                        identity: 1
                     }
                 }).then(res => {
                     this.exercise = res.data
+                    console.log(res)
                 }).catch(error => {
                     console.log(error)
                 })

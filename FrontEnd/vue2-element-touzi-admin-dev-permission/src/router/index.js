@@ -20,7 +20,7 @@ const whiteList = [
 //默认不需要权限的页面
 export const constantRouterMap = [
     {
-        path: '',
+        path: '/',
         component: Layout,
         redirect: '/index/index',
         hidden: true
