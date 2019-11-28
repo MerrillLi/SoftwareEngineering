@@ -45,9 +45,9 @@
                     </ul>
                 </div>
                 <div class="userinfo">
-                    <el-menu 
-                       class="el-menu-demo" 
-                       mode="horizontal" 
+                    <el-menu
+                       class="el-menu-demo"
+                       mode="horizontal"
                        >
                         <el-submenu index="1" popper-class="langItem">
                             <template slot="title">
@@ -126,10 +126,10 @@
              headNavWidth(){
                 return document.body.clientWidth - this.sidebar.width
             }
-              
+
           },
           created(){
-            
+
           },
           mounted(){
           },
@@ -152,16 +152,16 @@
                   })
               },
              /**
-             * 弹出框-修改密码或者系统设置   
+             * 弹出框-修改密码或者系统设置
              * @param {string} cmditem 弹框类型
              */
             setDialogInfo(cmditem) {
                 switch (cmditem) {
                     case 'info':
-                        this.$router.push('/infoManage/infoShow/infoShow1');
+                        this.$router.push('/submit/infoShow/infoShow1');
                         break;
                     case 'pass':
-                        this.$router.push('/infoManage/infoModify/infoModify1');
+                        this.$router.push('/submit/infoModify/infoModify1');
                         break;
                     case 'logout':
                         this.logout();
@@ -265,7 +265,7 @@
            justify-content: space-around;
         }
     }
-   
+
     ul.top-menu > li {
         position: relative;
     }

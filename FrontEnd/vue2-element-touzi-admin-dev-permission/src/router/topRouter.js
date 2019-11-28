@@ -11,7 +11,7 @@ export const topRouterMap = [
                     icon: 'fa-asterisk',
                     routerType: 'topmenu'
                 },
-                component: () => import('@/page/infoManage/infoShow')
+                component: () => import('@/page/submit/infoShow')
             },
             {
                 path: 'infoShow2',
@@ -66,7 +66,7 @@ export const topRouterMap = [
                     icon:'fa-asterisk',
                     routerType:'topmenu'
                 },
-                component: () => import('@/page/infoManage/infoModify')
+                component: () => import('@/page/submit/infoModify')
             },
             {
                 path:'infoModify2',

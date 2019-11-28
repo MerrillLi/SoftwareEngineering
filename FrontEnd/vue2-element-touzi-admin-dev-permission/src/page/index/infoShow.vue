@@ -193,6 +193,9 @@
         },
         mounted() {
             this.getUserList();
+            this.getUserInfo();
+            this.requestExerciseRecord();
+            this.requestSubmitProblemRecord();
         },
         methods: {
             getUserList() {
@@ -218,7 +221,7 @@
             },
             // 获取用户信息
             getUserInfo() {
-                axios.get('http://localhost:8000/userinfo', {
+                axios.get('http://172.16.143.9:8000/userinfo', {
                     data: {
                         sessionid: this.$store.token
                     }
@@ -232,7 +235,7 @@
             },
             // 获取出题信息
             requestSubmitProblemRecord() {
-                axios.get('https://localhost:8000/api/v1/sumbitrecord', {
+                axios.get('http://172.16.143.9:8000/sumbitrecord', {
                     params: {
                         userid: this.user.学号,
                         sessionid: this.$store.token
