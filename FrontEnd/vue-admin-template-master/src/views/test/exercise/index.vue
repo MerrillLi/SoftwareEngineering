@@ -13,7 +13,7 @@
           </el-select>
         </div>
         <div class="button">
-          <el-button @click="func" icon="el-icon-edit" type="primary">开始练习</el-button>
+          <el-button @click="start" icon="el-icon-edit" type="primary">开始练习</el-button>
         </div>
       </div>
     </el-row>
@@ -21,7 +21,7 @@
     <div class="qa" v-if="!flag">
       <el-card>
         <el-card shadow="hover">
-          {{current.描述}}
+          {{current.content}}
         </el-card>
         <el-card shadow="hover">
           <el-row>
@@ -30,23 +30,22 @@
                 <el-radio-group v-model="choice">
                   <el-row>
                     <el-card shadow="hover">
-                      <span><el-radio label="A">{{current.选项A}}</el-radio></span>
+                      <span><el-radio label="A">{{current.choice_a}}</el-radio></span>
                     </el-card>
                   </el-row>
                   <el-row>
                     <el-card shadow="hover">
-                      <span><el-radio label="B">{{current.选项B}}</el-radio></span>
+                      <span><el-radio label="B">{{current.choice_b}}</el-radio></span>
                     </el-card>
                   </el-row>
                   <el-row>
                     <el-card shadow="hover">
-                      <span><el-radio label="C">{{current.选项C}}</el-radio></span>
+                      <span><el-radio label="C">{{current.choice_c}}</el-radio></span>
                     </el-card>
                   </el-row>
                   <el-row>
                     <el-card shadow="hover">
-
-                      <span><el-radio label="D">{{current.选项D}}</el-radio></span>
+                      <span><el-radio label="D">{{current.choice_d}}</el-radio></span>
                     </el-card>
                   </el-row>
                 </el-radio-group>
@@ -56,17 +55,17 @@
         </el-card>
         <el-card shadow="hover">
           <el-row>
-            <el-col :span="5" offset="3">
+            <el-col :span="5" :offset="3">
               <el-button :disabled="!finished">
                 查看解析
               </el-button>
             </el-col>
-            <el-col :span="5" offset="3">
+            <el-col :span="5" :offset="3">
               <el-button @click="submit" :disabled="choice==null">
                 提交
               </el-button>
             </el-col>
-            <el-col :span="5" offset="3">
+            <el-col :span="5" :offset="3">
               <el-button @click="next">
                 下一题
               </el-button>
@@ -104,30 +103,65 @@
         flag: true,
         choice: null,
         finished: false,
-        current: {
-          '选项A': '这是选项A',
-          '选项B': '这是选项B',
-          '选项C': '这是选项C',
-          '选项D': '这是选项D',
-          '描述': '这是题目的描述信息'
-        }
+        turnID: undefined,
+        score: 3,
+        record: [{}],
+        current: {}
 
       }
     },
     methods: {
-      func() {
+      // 开始联系
+      start() {
         this.flag = false
-      },
-      submit() {
-        axios.post('', {}).then(res => {
-          console.log(res)
+        axios.post('/api/course/startExercise/').then(res => {
+          console.log(res);
+          this.turnID = res.data.turnID;
+          this.next();
         }).catch(err => {
           console.log(err)
         })
       },
+
+      // 提交题目
+      submit() {
+        axios.post('/api/course/submitAnswer/', {
+          data: {
+            answer: this.choice,
+            proID: this.current.id,
+            turnID: this.turnID
+          }
+        }).then(res => {
+          console.log(res);
+          if (res.data.state == 'true') {
+            this.$notify.success('回答正确!')
+          } else {
+            this.$notify.error('正确答案是' + res.data.answer)
+          }
+
+          //this.current = res.data.data;
+
+        }).catch(err => {
+          console.log(err)
+
+        })
+      },
+
+      //获取下一道题
       next() {
-        axios.get('', {}).then(res => {
-          console.log(res)
+        //参数
+        // history : 答题历史
+        // score   : 用户评分
+        axios.post('/api/course/requestNext/', {
+          data: {
+            record: this.record,
+            score: this.score
+          }
+        }).then(res => {
+          console.log(res);
+          this.current = res.data.data;
+          this.finished = false
+          this.choice = null
 
         }).catch(err => {
           console.log(err)
@@ -140,15 +174,16 @@
 </script>
 
 <style scoped>
-  .select{
-    text-align:center;
-    position:relative;
-    top:150%;
+  .select {
+    text-align: center;
+    position: relative;
+    top: 150%;
   }
-  .button{
-    text-align:center;
-    position:relative;
-    top:180%;
+
+  .button {
+    text-align: center;
+    position: relative;
+    top: 180%;
   }
 
   .pagination {

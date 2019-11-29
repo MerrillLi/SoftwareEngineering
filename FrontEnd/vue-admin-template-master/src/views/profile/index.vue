@@ -2,42 +2,53 @@
   <div class="fillcontain">
     <!--个人信息栏-->
     <div class="info_container">
+      <el-row :gutter="20">
+        <el-col :span="6">姓名：
+        </el-col>
+        <el-col :span="6">
+          <el-input
+            placeholder="请输入内容"
+            prefix-icon="el-icon-search"
+            v-model="user.name">
+          </el-input>
+        </el-col>
+      </el-row>
 
-        <el-row :gutter="20">
-          <el-col :span="6">身份：
-          </el-col>
-          <el-col :span="6">
-            <el-input
-              placeholder="请输入内容"
-              prefix-icon="el-icon-search"
-              v-model="user.identity">
-            </el-input>
-          </el-col>
-        </el-row>
+      <el-row :gutter="20">
+        <el-col :span="6">身份：
+        </el-col>
+        <el-col :span="6">
+          <el-input
+            placeholder="请输入内容"
+            prefix-icon="el-icon-search"
+            v-model="user.identity">
+          </el-input>
+        </el-col>
+      </el-row>
 
-        <el-row :gutter="20">
-          <el-col :span="6">学号：
-          </el-col>
-          <el-col :span="6">
-            <el-input
-              placeholder="请输入内容"
-              prefix-icon="el-icon-search"
-              v-model="user.user_id">
-            </el-input>
-          </el-col>
-        </el-row>
+      <el-row :gutter="20">
+        <el-col :span="6">学号：
+        </el-col>
+        <el-col :span="6">
+          <el-input
+            placeholder="请输入内容"
+            prefix-icon="el-icon-search"
+            v-model="user.user_id">
+          </el-input>
+        </el-col>
+      </el-row>
 
-        <el-row :gutter="20">
-          <el-col :span="6">院系：
-          </el-col>
-          <el-col :span="6">
-            <el-input
-              placeholder="请输入内容"
-              prefix-icon="el-icon-search"
-              v-model="user.institution">
-            </el-input>
-          </el-col>
-        </el-row>
+      <el-row :gutter="20">
+        <el-col :span="6">院系：
+        </el-col>
+        <el-col :span="6">
+          <el-input
+            placeholder="请输入内容"
+            prefix-icon="el-icon-search"
+            v-model="user.institution">
+          </el-input>
+        </el-col>
+      </el-row>
     </div>
   </div>
 </template>

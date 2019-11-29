@@ -109,7 +109,9 @@
         axios.post('/api/course/submitproblem/', {
           data: this.form
         }).then(res => {
-          console.log(res)
+          console.log(res);
+          this.$notify.success('提交成功');
+          this.form = this.emptyForm
         }).catch(err => {
           console.log(err)
         })
