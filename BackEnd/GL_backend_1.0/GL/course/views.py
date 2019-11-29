@@ -13,7 +13,7 @@ from django.views.decorators.cache import cache_page
 from django.contrib.auth.hashers import check_password,make_password
 from django.http import JsonResponse,HttpResponse
 from django.contrib.auth.models import User
-
+import random
 
 #上传试题
 @csrf_exempt
@@ -22,12 +22,15 @@ def submitproblem(request):
     response={}
     if(request.method=="POST"):
         req=simplejson.loads(request.body)
-        sessionid=req["sessionid"]
+        req = req["data"]
+        #sessionid=req["sessionid"]
+        sessionid=request.session.session_key
         dic = cache.get(sessionid)
         if dic is None:
             return JsonResponse({"msg":"expire"})
         username=dic["username"]
         user=User.objects.get(username=username)
+        req["course_id"] = 1
         to_which_course = CourseList.objects.get(id=req["course_id"])
         # 先数据库查询course_id, 没有则新建
         content=req["content"]
@@ -57,12 +60,16 @@ def submitproblem(request):
 # （题目的id 也会返回）
 # 如果pk 值不为-1 则只返回相应的题目
 @csrf_exempt
-def requsetproblem(request,pk):
+def RequestProblem(request):
     ##用户验证机制
     response={}
     if(request.method=="POST"):
         req=simplejson.loads(request.body)
-        sessionid=req["sessionid"]
+        req = req["data"]
+        pk = req["pk"]
+        #sessionid=req["sessionid"]
+        sessionid=request.session.session_key
+
         dic = cache.get(sessionid)
         if dic is None:
             return JsonResponse({"msg":"expire"})
@@ -103,12 +110,15 @@ def requsetproblem(request,pk):
 #pk值为0的时候，查看具体练习场次
 #pk值为其他值的时候，查看练习记录数据库里ID为pk值的题目
 @csrf_exempt
-def requestExerciseRecord(request,pk):
+def requestExerciseRecord(request):
     ##用户验证机制
     response={}
     if(request.method=="POST"):
         req=simplejson.loads(request.body)
-        sessionid=req["sessionid"]
+        req = req["data"]
+        pk = req["pk"]
+        #sessionid=req["sessionid"]
+        sessionid=request.session.session_key
         dic = cache.get(sessionid)
         if dic is None:
             return JsonResponse({"msg":"expire"})
@@ -152,7 +162,9 @@ def requestNext(request):
     response={}
     if(request.method=="POST"):
         req=simplejson.loads(request.body)
-        sessionid=req["sessionid"]
+        req = req["data"]
+        #sessionid=req["sessionid"]
+        sessionid=request.session.session_key
         dic = cache.get(sessionid)
         if dic is None:
             return JsonResponse({"msg":"expire"})
@@ -166,7 +178,7 @@ def requestNext(request):
         然后算法产生推荐题目ID
         '''
         print(recordlist)
-        id=1 #测试的时候推荐7
+        id=random.randint(1,6) #生成随机ID 
         try:
             ## 了解get 和 filter 的区别 
             question=Question.objects.get(id=id)              
@@ -182,6 +194,7 @@ def requestNext(request):
             response["msg"]=e
             print(e)
             return JsonResponse(response)
+        print(response)
         return JsonResponse(response) 
 
 #开始练习
@@ -192,8 +205,10 @@ def startExercise(request):
     ##用户验证机制
     response={}
     if(request.method=="POST"):
-        req=simplejson.loads(request.body)
-        sessionid=req["sessionid"]
+        #req=simplejson.loads(request.body)
+        #req = req["data"]
+        #sessionid=req["sessionid"]
+        sessionid=request.session.session_key
         dic = cache.get(sessionid)
         if dic is None:
             return JsonResponse({"msg":"expire"})
@@ -225,7 +240,9 @@ def submitAnswer(request):
     response={}
     if(request.method=="POST"):
         req=simplejson.loads(request.body)
-        sessionid=req["sessionid"]
+        req = req["data"]
+        #sessionid=req["sessionid"]
+        sessionid=request.session.session_key
         dic = cache.get(sessionid)
         if dic is None:
             return JsonResponse({"msg":"expire"})
@@ -253,6 +270,7 @@ def submitAnswer(request):
             response["msg"]="true"
             response["ItemID"]=item.id
             response["SubmitTime"]=item.ie_time
+            response["answer"]=item.answer
             response["state"]=flag
         except Exception as e:
             response["msg"]=e

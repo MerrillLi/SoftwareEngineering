@@ -6,11 +6,11 @@ from django.views.generic.base import TemplateView
 
 urlpatterns = [
     #管理
-    path('admin/', admin.site.urls),
+    path('api/admin/', admin.site.urls),
     #跳转到关于用户的urls去
-    path('user/',include('user.urls')),
+    path('api/user/',include('user.urls')),
     #跳转到关于course的urls去
-    path('course/',include('course.urls')),
+    path('api/course/',include('course.urls')),
 
     #跳转到登陆界面
     path('',RedirectView.as_view(url="/index/")),

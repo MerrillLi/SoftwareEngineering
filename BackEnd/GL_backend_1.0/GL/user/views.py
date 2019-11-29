@@ -42,6 +42,7 @@ def register(request):
     if(request.method=="POST"):
         response["msg"] = 'true'
         req=simplejson.loads(request.body)
+        req = req["data"]
         username=req["username"]
         password=req["password"]
         email=req["email"]
@@ -132,6 +133,7 @@ def findpas(request):
     if(request.method=="POST"):
         response["msg"]="true"
         req=simplejson.loads(request.body)
+        req = req["data"]
         email=req["email"]
         user = User.objects.filter(email=email)
         if(type(user) == "QuerySet"):
@@ -162,6 +164,7 @@ def findpas(request):
 def verifyandsetpas(request):
     response={}
     req=simplejson.loads(request.body)
+    req = req["data"]
     password=req["password"]
     code = request.GET.get('code', None)
     code = code.strip('/')
@@ -194,6 +197,7 @@ def changepas(request):
     if request.method == 'POST':
         response["msg"] = "ture"
         req = simplejson.loads(request.body)
+        req = req["data"]
         username = req['username']
         oldpassword=req["oldpassword"]
         newpassword=req["newpassword"]
@@ -217,6 +221,7 @@ def log_in(request):
         # str=request.META.get("HTTP_SESSIONID")
         msg = 'true'
         req = json.loads(request.body.decode())
+        req = req['data']
         username=req['username']
         password=req['password']
         try:
@@ -241,10 +246,8 @@ def log_in(request):
             msg = "用户不存在"
             response["msg"]=msg
             return JsonResponse(response)
-    response=HttpResponse()
-    get_token(request)  # 产生一个token 用于csrf验证
-    print(response)
-    return response
+    print(get_token(request))  # 产生一个token 用于csrf验证
+    return JsonResponse(response)
 
 @csrf_exempt
 #登出
@@ -260,9 +263,13 @@ def log_out(request):
 #获取个人信息
 def get_profile(request):
     req = simplejson.loads(request.body)
+    req = req["data"]
     print(req)
     identity=req.get("identity",None)
+    #sessionid = req.get("sessionid",None)
+    print(type(identity))
     sessionid=request.session.session_key
+    print(sessionid)
     dic=cache.get(sessionid)
     #cache过期
     if dic is None:
@@ -298,6 +305,7 @@ def get_profile(request):
                 print(response)
                 return JsonResponse(response)
             except Exception as e:
+                print(e)
                 return JsonResponse(response)
     else:
         response["msg"]="false"
@@ -312,6 +320,7 @@ def update_profile(request):
         sessionid=request.session.session_key
         dic=cache.get(sessionid)
         req=simplejson.loads(request.body)
+        req = req["data"]
         #cache过期
         if dic is None:
             return JsonResponse({"msg":"expire"})
