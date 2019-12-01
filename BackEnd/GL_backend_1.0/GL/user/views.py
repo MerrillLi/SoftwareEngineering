@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.http import JsonResponse,HttpResponse
-from .models import user_profile_stu, imageprofile, ConfirmString
+from .models import user_profile_stu, imageprofile, ConfirmString, user_profile_teh
 from django.views.decorators.csrf import csrf_exempt
 from django.middleware.csrf import get_token ,rotate_token
 from django.core.mail import send_mail,send_mass_mail,EmailMultiAlternatives
@@ -68,12 +68,12 @@ def register(request):
                 profile=user_profile_stu(user=user)
                 profile.identity=identity
                 profile.save()
-            '''
+            
             if identity=="2":
-                profile = user_profile_tch(user=user)
+                profile = user_profile_teh(user=user)
                 profile.identity = identity
                 profile.save()
-            '''
+            
             img=imageprofile(user=user,imgurl=None)
             img.save()
 
@@ -224,6 +224,7 @@ def log_in(request):
         req = req['data']
         username=req['username']
         password=req['password']
+        identity = req['identity']
         try:
             #user = User.objects.get(username=username)  # 这个设置是为了更详细的检查出错误来,因为这个地方get函数不会返回none，一旦找不到，便会给一个exception
             user = authenticate(username=username, password=password)  # 而authenticate就能返回一个none
@@ -235,7 +236,10 @@ def log_in(request):
                 cache.set(request.session.session_key,{"username":username,"is_login":True},None)
             else:
                 msg = "密码错误"
-            userstuprofile=list(user_profile_stu.objects.filter(user=user))
+            if(identity == '1'):
+                userstuprofile=list(user_profile_stu.objects.filter(user=user))
+            else:
+                userstuprofile=list(user_profile_teh.objects.filter(user=user))
             if len(userstuprofile)>0:
                 response["identity"]=userstuprofile[0].identity
             response["msg"]=msg

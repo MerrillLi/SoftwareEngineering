@@ -281,7 +281,3 @@ def submitAnswer(request):
 
 
 
-
-
-
-
