@@ -29,6 +29,14 @@
           <span>{{ scope.row.add_time }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="通过/不通过">
+        <template slot-scope="scope">
+          <el-row>
+            <el-button type="success" icon="el-icon-check" circle @click="add('scope.row.id')"></el-button>
+            <el-button type="danger" icon="el-icon-delete" circle @click="delete('scope.row.id')"></el-button>
+          </el-row>
+        </template>
+      </el-table-column>
 
     </el-table>
   </div>
@@ -59,6 +67,12 @@
       this.requestSubmitProblemRecord()
     },
     methods: {
+      add(qid){
+
+      },
+      delete(qid){
+
+      },
       // 获取出题信息
       requestSubmitProblemRecord(id = 0) {
         axios.post('/api/course/RequestProblem/', {
