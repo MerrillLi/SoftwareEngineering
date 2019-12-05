@@ -22,6 +22,7 @@ class user_profile_stu(models.Model):
     email = models.EmailField("邮件",max_length=128,null=True,blank=True)
     birth_data=models.DateField("出生日期",null=True,blank=True)
     institution=models.CharField("学院",max_length=128,null=True,blank=True,default = "工学院")
+    capability=models.FloatField(verbose_name=u"能力值",default=0.6)
 
     class Meta:
         verbose_name = '学生个人信息'
