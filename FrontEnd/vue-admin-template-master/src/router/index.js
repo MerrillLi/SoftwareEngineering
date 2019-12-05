@@ -93,6 +93,19 @@ export const constantRoutes = [
   },
 
   {
+    path: '/paper',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: '出试卷',
+        component: () => import('@/views/paper/index'),
+        meta: { title: '出试卷', icon: 'form' }
+      }
+    ]
+  },
+
+  {
     path: '/history',
     component: Layout,
     redirect: '/history/submit',
