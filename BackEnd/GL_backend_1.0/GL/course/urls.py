@@ -16,8 +16,8 @@ urlpatterns = [
     path('requestFirstPro/',views.requestFirstPro),# 请求第一道题目
     path('startExercise/',views.startExercise),
     path('submitAnswer/',views.submitAnswer),
-    path('creatPaper/',views.slectQuestions),# 创建试卷
     path('getTeachCourse/',views.getTeachCourse),# 查询所教课程 
     path('getOneCoursePro/',views.getOneCoursePro), # 查询某门课程的所有题目
+    path('creatPaper/',views.creatPaper),# 创建试卷
     path('getPaper/',views.getPaper)# 获得试卷
 ]

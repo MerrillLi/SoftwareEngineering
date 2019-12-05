@@ -9,7 +9,7 @@ class CourseList(models.Model):
     user = models.ManyToManyField(user_profile_stu, verbose_name=u"选课学生") 
     teacher = models.ForeignKey(user_profile_teh, verbose_name=u"上课老师", on_delete=models.CASCADE)
     def __str__(self):
-        return self.name
+        return '课程号:'+str(self.id)+' '+self.name
 
 
 class Question(models.Model):
@@ -63,11 +63,11 @@ class Item(Question):
 
 
 class Papers(models.Model):
-    student = models.ForeignKey(user_profile_stu, verbose_name = u"所属学生",on_delete=models.CASCADE)  # 一场考试 每个学生都有一张表
+    owner = models.ForeignKey(User, verbose_name = u"所属用户",on_delete=models.CASCADE)  # 一场考试 每个学生都有一张表
     e_time = models.DateTimeField(default=datetime.now,verbose_name=u"生成时间" )
     course = models.ForeignKey(CourseList,verbose_name = u"所属科目", on_delete=models.CASCADE )
-    start = models.DateTimeField(default=datetime.now, verbose_name=u"开始时间")
-    end = models.DateTimeField(default=datetime.now, verbose_name=u"结束时间")
+    start = models.CharField(max_length=128, verbose_name=u"开始时间")
+    end = models.CharField(max_length=128, verbose_name=u"结束时间")
     place = models.CharField(max_length = 128, verbose_name=u"考试地点", default="" )
     note = models.CharField(max_length = 128, verbose_name=u"考试类型", default="" )
 

@@ -6,7 +6,7 @@ from django.views.generic.base import View
 from django.views.decorators.csrf import csrf_exempt
 # 视图函数
 from user.models import user_profile_stu, imageprofile,user_profile_teh
-from .models import CourseList, Question, Exersice, Item
+from .models import CourseList, Question, Exersice, Item,Papers,test_Item
 import simplejson
 from django.core.cache import cache
 from django.views.decorators.cache import cache_page
@@ -83,7 +83,7 @@ def RequestProblem(request):
                 L = []
                 for question in questions:
                     question.__dict__.pop("_state")
-                    #当请求全部题目时，只返回前20个
+                    #当请求全部题目时，只返回题干前20个字母
                     if len(question.__dict__["content"]) >=20:
                         question.__dict__["content"]=question.__dict__["content"][0:20]
                     L.append(question.__dict__)
@@ -132,7 +132,6 @@ def requestExerciseRecord(request):
                 L = []
                 for exersice in exersices:
                     exersice.__dict__.pop("_state")
-                    #当请求全部题目时，只返回前20个
                     L.append(exersice.__dict__)
                 response["data"]=L
             except Exception as e:
@@ -278,53 +277,6 @@ def submitAnswer(request):
             return JsonResponse(response)
         return JsonResponse(response) 
 
-#老师出卷
-#1、查询该老师属于的课程
-#2、返回所有该课程的题目，给用户选择
-#同时更新数据库中的记录
-@csrf_exempt
-def slectQuestions(request):
-    ##用户验证机制
-    response={}
-    if(request.method=="POST"):
-        req=simplejson.loads(request.body)
-        req = req["data"]
-        #sessionid=req["sessionid"]
-        sessionid=request.session.session_key
-        dic = cache.get(sessionid)
-        if dic is None:
-            return JsonResponse({"msg":"expire"})
-        username=dic["username"]
-        user=User.objects.get(username=username)
-        
-        user_answer=req['answer']
-        problemId=req['proID']
-        turnID=req['turnID']
-        try:
-            print(user)
-            exercise=Exersice.objects.get(id=turnID)
-            question=Question.objects.get(id=problemId)
-            flag="false"
-            if user_answer==question.answer:
-                true_rate=(question.true_rate*question.count+1)/(question.count+1)
-                flag="true"
-            else:
-                true_rate=(question.true_rate*question.count+1)/(question.count+1)
-            count=question.count+1
-            #更新question里的描述
-            Question.objects.filter(id=problemId).update(count=count,true_rate=true_rate)
-            item = Item(exersice = exercise,user_choice = user_answer,submit_user = question.submit_user,course=question.course,content=question.content,answer=question.answer,choice_a=question.choice_a, choice_b = question.choice_b, choice_c = question.choice_c, choice_d = question.choice_d, note = question.note)
-            item.save()
-            response["msg"]="true"
-            response["ItemID"]=item.id
-            response["SubmitTime"]=item.ie_time
-            response["answer"]=item.answer
-            response["state"]=flag
-        except Exception as e:
-            response["msg"]=e
-            print(e)
-            return JsonResponse(response)
-        return JsonResponse(response) 
 
 @csrf_exempt      
 def requestFirstPro(request):
@@ -361,6 +313,8 @@ def requestFirstPro(request):
         print(response)
         return JsonResponse(response) 
 
+
+
 '''
 获得所教的所有课程ID，以及名字，方便后面选课出题目
 '''
@@ -396,6 +350,12 @@ def getTeachCourse(request):
             return JsonResponse(response)
         return JsonResponse(response)
 
+
+
+'''
+根据课程ID去查询某个课程的所有题目
+后期要考虑只加审核通过状态的题目
+'''
 @csrf_exempt
 def getOneCoursePro(request):
     ##用户验证机制
@@ -409,29 +369,64 @@ def getOneCoursePro(request):
         if dic is None:
             return JsonResponse({"msg":"expire"})
         username=dic["username"]
+        ID=req['courseID']
         user=User.objects.get(username=username)
-        '''
-        推荐第一道题
-        '''
-        print(recordlist)
-        id=random.randint(1,6) #生成随机ID 
+
+        course=CourseList.objects.get(id=ID)
+        questions = list(Question.objects.filter(course=course))
         try:
-            ## 了解get 和 filter 的区别 
-            question=Question.objects.get(id=id)              
-            question.__dict__.pop("_state")
-            #答案和注释不应该给用户看到
-            question.__dict__.pop("answer")
-            question.__dict__.pop("note")
-            response["data"]= question.__dict__
-            #count在提交答案的时候就更新了，这里人数-1
+            L = []
+            for question in questions:
+                question.__dict__.pop("_state")
+                L.append(question.__dict__)
+            response["data"]=L
         except Exception as e:
             response["msg"]=e
             print(e)
             return JsonResponse(response)
-        print(response)
         return JsonResponse(response)
 
 
+#老师出卷
+#1、数据库中创建一个paper项
+#2、将输入字典的proID，全部生成test_Item
+#3、关联test_Item和Paper
+#同时更新数据库中的记录
+@csrf_exempt
+def creatPaper(request):
+    ##用户验证机制
+    response={}
+    if(request.method=="POST"):
+        req=simplejson.loads(request.body)
+        req = req["data"]
+        sessionid=request.session.session_key
+        dic = cache.get(sessionid)
+        if dic is None:
+            return JsonResponse({"msg":"expire"})
+        username=dic["username"]
+        user=User.objects.get(username=username)
+        pro_dictionary=list(req['proID'])
+        start=req['start']
+        end=req['end']
+        place=req['place']
+        note=req['note']
+        CourseID=req['CourseID']
+        course=CourseList.objects.get(id=CourseID)
+        ## 创建paper项
+        paper = Papers(owner = user,course=course,start=start,end=end,place=place, note = note)
+        paper.save()
+        response['paperID']=paper.id
+        
+        ## 生成test_Item 关联paper项
+        for proid in pro_dictionary:
+            question=Question.objects.get(id=proid)
+            test_item=test_Item(papers=paper,submit_user = question.submit_user,course=question.course,content=question.content,answer=question.answer,choice_a=question.choice_a, choice_b = question.choice_b, choice_c = question.choice_c, choice_d = question.choice_d, note = question.note)
+            test_item.save()
+        return JsonResponse(response) 
+
+'''
+获得试卷，传入课程名字
+'''
 
 @csrf_exempt
 def getPaper(request):
@@ -447,25 +442,18 @@ def getPaper(request):
             return JsonResponse({"msg":"expire"})
         username=dic["username"]
         user=User.objects.get(username=username)
-        '''
-        推荐第一道题
-        '''
-        print(recordlist)
-        id=random.randint(1,6) #生成随机ID 
-        try:
-            ## 了解get 和 filter 的区别 
-            question=Question.objects.get(id=id)              
-            question.__dict__.pop("_state")
-            #答案和注释不应该给用户看到
-            question.__dict__.pop("answer")
-            question.__dict__.pop("note")
-            response["data"]= question.__dict__
-            #count在提交答案的时候就更新了，这里人数-1
-        except Exception as e:
-            response["msg"]=e
-            print(e)
-            return JsonResponse(response)
-        print(response)
+        courseName=req["courseName"]
+        course=CourseList.objects.get(name=courseName)
+        papers=list(Papers.objects.filter(course=course))
+        L=[]
+        for paper in papers:
+            paper.__dict__.pop("_state")
+            L.append(paper.__dict__)
+            test_items=list(test_Item.objects.filter(papers=paper))
+            for test_item in test_items
+                test_item.__dict__.pop("_state")
+                L.append(paper.__dict__)
+        response["data"]=L
         return JsonResponse(response)
 
 

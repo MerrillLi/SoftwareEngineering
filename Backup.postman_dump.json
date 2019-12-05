@@ -1,0 +1,970 @@
+{
+	"version": 1,
+	"collections": [
+		{
+			"id": "09a39e16-d6b3-425c-8152-ca156c451bfd",
+			"name": "GL",
+			"description": null,
+			"auth": null,
+			"events": null,
+			"variables": [],
+			"order": [
+				"2ae8834c-58e8-4e93-bf70-cf57bec25ae0",
+				"c739f9d6-2f3e-4d95-a2ef-83f26968a991",
+				"088928db-10a4-4ab2-b09f-b8f7099a6a09",
+				"3a74906c-c03c-443c-8f9b-4ece9c66be92",
+				"c7c4f605-2700-489b-a4e9-2805a79a7df4",
+				"bb65f641-0330-4443-8ef7-fb0d18934974",
+				"36321959-4140-4ce5-8b5b-83e4b123688b",
+				"f5d06146-980a-48eb-9f88-7b75464922fe",
+				"5f2b59d2-63c0-4dc1-a37f-fdd5820d17d5",
+				"51cf0408-cee3-4463-90ea-eb77a25b2216",
+				"f3d37588-9936-4991-bfc5-24717943a4c9"
+			],
+			"folders_order": [],
+			"protocolProfileBehavior": {},
+			"folders": [],
+			"requests": [
+				{
+					"id": "088928db-10a4-4ab2-b09f-b8f7099a6a09",
+					"name": "提交题目",
+					"url": "http://localhost:8000/course/submitproblem/",
+					"description": null,
+					"data": [],
+					"dataOptions": null,
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": null,
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "09a39e16-d6b3-425c-8152-ca156c451bfd",
+					"rawModeData": "{\n\t\"course_id\":\"1\",\n    \"content\":\"123455\",\n    \"answer\":\"A\",\n    \"choice_a\" : \"112212\",\n    \"choice_b\" : \"1232323\",\n    \"choice_c\" : \"232323\",\n    \"choice_d\" : \"323232\",\n    \"note\" : \"322323\",\n    \"sessionid\":\"k788gyg5dcbn5c04ggj5ybmecj2grxqa\"\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "2ae8834c-58e8-4e93-bf70-cf57bec25ae0",
+					"name": "登陆",
+					"url": "http://localhost:8000/user/login/",
+					"description": null,
+					"data": [],
+					"dataOptions": null,
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": null,
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "09a39e16-d6b3-425c-8152-ca156c451bfd",
+					"rawModeData": "{\n\t\"username\": \"lc\",\n\t\"password\": \"liangcheng123\"\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "36321959-4140-4ce5-8b5b-83e4b123688b",
+					"name": "更新个人信息",
+					"url": "http://localhost:8000/user/update_profile/",
+					"description": null,
+					"data": [],
+					"dataOptions": null,
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": null,
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "09a39e16-d6b3-425c-8152-ca156c451bfd",
+					"rawModeData": "{\n\t\"identity\":\"1\",\n\t\"block\":\"1\",\n\t\"name\":\"lhkk\",\n\t\"gender\":\"F\",\n\t\"imgurl\":\"gl\",\n\t\"age\":\"19\",\n\t\"birth_data\":\"2019/11/26\",\n\t\"major\":\"工学院\",\n\t\"email\":\"17luhuakang@stu.edu.cn\",\n\t\"phonenumber\":\"1234567\"\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "3a74906c-c03c-443c-8f9b-4ece9c66be92",
+					"name": "注册",
+					"url": "http://localhost:8000/user/register/",
+					"description": null,
+					"data": [],
+					"dataOptions": null,
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": null,
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "09a39e16-d6b3-425c-8152-ca156c451bfd",
+					"rawModeData": "{\n\t\"username\": \"lhk\",\n\t\"password\": \"luhuakang123\",\n\t\"email\": \"17luhuakang@stu.edu.cn\",\n\t\"identity\": \"1\"\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "51cf0408-cee3-4463-90ea-eb77a25b2216",
+					"name": "提交答案",
+					"url": "http://localhost:8000/course/requestNext/submitAnswer/",
+					"description": null,
+					"data": [],
+					"dataOptions": null,
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": null,
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "09a39e16-d6b3-425c-8152-ca156c451bfd",
+					"rawModeData": "{\n \"sessionid\": \"6qx2qtte4eoi4pp5y8splsowm1dtobqb\",\n \"answer\":\"A\",\n \"proID\":1,\n \"turnID\":1\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "5f2b59d2-63c0-4dc1-a37f-fdd5820d17d5",
+					"name": "开始练习",
+					"url": "http://localhost:8000/course/requestNext/startExercise/",
+					"description": null,
+					"data": [],
+					"dataOptions": null,
+					"dataMode": "raw",
+					"headerData": [],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "5e13b4cf-5c18-409a-9a94-b3e384202f63",
+								"exec": [
+									"{",
+									"  \"sessionid\": \"6qx2qtte4eoi4pp5y8splsowm1dtobqb\",",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"folder": null,
+					"preRequestScript": "{\n  \"sessionid\": \"6qx2qtte4eoi4pp5y8splsowm1dtobqb\",\n}",
+					"tests": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "09a39e16-d6b3-425c-8152-ca156c451bfd",
+					"rawModeData": "",
+					"headers": "",
+					"pathVariables": {}
+				},
+				{
+					"id": "bb65f641-0330-4443-8ef7-fb0d18934974",
+					"name": "获取个人信息",
+					"url": "http://localhost:8000/user/get_profile/",
+					"description": null,
+					"data": [],
+					"dataOptions": null,
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": null,
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "09a39e16-d6b3-425c-8152-ca156c451bfd",
+					"rawModeData": "{\n\t\"identity\": 1\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "c739f9d6-2f3e-4d95-a2ef-83f26968a991",
+					"name": "查询题目",
+					"url": "http://localhost:8000/course/requsetproblem/",
+					"description": null,
+					"data": [],
+					"dataOptions": null,
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": null,
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "09a39e16-d6b3-425c-8152-ca156c451bfd",
+					"rawModeData": "{\n    \"sessionid\":\"k788gyg5dcbn5c04ggj5ybmecj2grxqa\"\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "c7c4f605-2700-489b-a4e9-2805a79a7df4",
+					"name": "登出",
+					"url": "http://localhost:8000/user/logout/",
+					"description": null,
+					"data": [],
+					"dataOptions": null,
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": null,
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "09a39e16-d6b3-425c-8152-ca156c451bfd",
+					"rawModeData": "",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "f3d37588-9936-4991-bfc5-24717943a4c9",
+					"name": "查询练习",
+					"url": "http://localhost:8000/course/requestNext/requestExerciseRecord/0/",
+					"description": null,
+					"data": [],
+					"dataOptions": null,
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": null,
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "09a39e16-d6b3-425c-8152-ca156c451bfd",
+					"rawModeData": "{\n\t\"sessionid\": \"6qx2qtte4eoi4pp5y8splsowm1dtobqb\",\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "f5d06146-980a-48eb-9f88-7b75464922fe",
+					"name": "请求下一道题目",
+					"url": "http://localhost:8000/course/requestNext/",
+					"description": null,
+					"data": [],
+					"dataOptions": null,
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": null,
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "09a39e16-d6b3-425c-8152-ca156c451bfd",
+					"rawModeData": "{\n \"sessionid\": \"6qx2qtte4eoi4pp5y8splsowm1dtobqb\",\n \"score\":8,\n \"record\":{\"1\":\"A\",\"3\":\"B\"}\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				}
+			]
+		},
+		{
+			"id": "0e9d3a2b-7f78-46ae-b099-b61d0999bae7",
+			"name": "教师出题",
+			"description": "",
+			"auth": null,
+			"events": null,
+			"variables": [],
+			"order": [
+				"5697062e-7ccd-48a8-9eb9-fac1ed2b6d9f",
+				"f894806f-d57f-468d-9afc-8aa743cd3cfc",
+				"2ce972d2-8790-49fe-a65b-54fc27ab28e9",
+				"94a9fa99-ec32-4273-83db-b6139433047d"
+			],
+			"folders_order": [],
+			"protocolProfileBehavior": {},
+			"folders": [],
+			"requests": [
+				{
+					"id": "2ce972d2-8790-49fe-a65b-54fc27ab28e9",
+					"name": "出试卷",
+					"url": " http://127.0.0.1:8000/api/course/creatPaper/",
+					"description": "创建试卷",
+					"data": [],
+					"dataOptions": {
+						"raw": {
+							"language": "json"
+						}
+					},
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": [],
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "0e9d3a2b-7f78-46ae-b099-b61d0999bae7",
+					"rawModeData": "{\n    \"data\":{\n    \t\"proID\":[\"2\",\"1\"],\n    \t\"start\":\"2020-1-3 9:00\",\n    \t\"end\":\"2020-1-3 11:00\",\n    \t\"place\":\"E201\",\n    \t\"note\":\"必修\",\n    \t\"CourseID\":\"1\"\n    }\n\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "5697062e-7ccd-48a8-9eb9-fac1ed2b6d9f",
+					"name": "查看某名教师所教课程",
+					"url": " http://127.0.0.1:8000/api/course/getTeachCourse/",
+					"description": "",
+					"data": [],
+					"dataOptions": {
+						"raw": {
+							"language": "json"
+						}
+					},
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": [],
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "0e9d3a2b-7f78-46ae-b099-b61d0999bae7",
+					"rawModeData": "{\n    \"data\":{\n    }\n\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "94a9fa99-ec32-4273-83db-b6139433047d",
+					"name": "查看试卷",
+					"url": " http://127.0.0.1:8000/api/course/getPaper/",
+					"description": "",
+					"data": [],
+					"dataOptions": {
+						"raw": {
+							"language": "json"
+						}
+					},
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": [],
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "0e9d3a2b-7f78-46ae-b099-b61d0999bae7",
+					"rawModeData": "{\n    \"data\":{\n\t\"courseName\":\"人工智能\"\n    }\n\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "f894806f-d57f-468d-9afc-8aa743cd3cfc",
+					"name": "查看某个课程所有题目",
+					"url": " http://127.0.0.1:8000/api/course/getOneCoursePro/",
+					"description": "",
+					"data": [],
+					"dataOptions": {
+						"raw": {
+							"language": "json"
+						}
+					},
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": [],
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "0e9d3a2b-7f78-46ae-b099-b61d0999bae7",
+					"rawModeData": "{\n    \"data\":{\n    \t\"id\":\"1\"\n    }\n\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				}
+			]
+		},
+		{
+			"id": "1f98ffa3-de27-4f79-82aa-fb35315ca56e",
+			"name": "用户登陆",
+			"description": "# Introduction\nWhat does your API do?\n\n# Overview\nThings that the developers should know about\n\n# Authentication\nWhat is the preferred way of using the API?\n\n# Error Codes\nWhat errors and status codes can a user expect?\n\n# Rate limit\nIs there a limit to the number of requests an user can send?",
+			"auth": null,
+			"events": null,
+			"variables": [],
+			"order": [
+				"541f2aba-f5f8-4479-95ae-b4863fb2d49b"
+			],
+			"folders_order": [],
+			"protocolProfileBehavior": {},
+			"folders": [],
+			"requests": [
+				{
+					"id": "541f2aba-f5f8-4479-95ae-b4863fb2d49b",
+					"name": "教师登陆",
+					"url": " http://127.0.0.1:8000/api/user/login/",
+					"description": "",
+					"data": [],
+					"dataOptions": {
+						"raw": {
+							"language": "json"
+						}
+					},
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"description": "",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": null,
+					"folder": null,
+					"responses": [
+						{
+							"id": "4ad674df-ebca-40a1-b0e0-c2fb8dcf7b32",
+							"name": "Default",
+							"status": null,
+							"mime": null,
+							"language": null,
+							"text": null,
+							"responseCode": {
+								"code": 0,
+								"name": ""
+							},
+							"requestObject": {
+								"url": " http://127.0.0.1:8000/user/login/",
+								"method": "POST",
+								"dataMode": "raw",
+								"data": []
+							},
+							"headers": null,
+							"cookies": null,
+							"request": "541f2aba-f5f8-4479-95ae-b4863fb2d49b",
+							"collection": "1f98ffa3-de27-4f79-82aa-fb35315ca56e"
+						}
+					],
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "1f98ffa3-de27-4f79-82aa-fb35315ca56e",
+					"rawModeData": "{\n    \"data\":{\n    \"username\":\"lc\",\n\t\"password\":\"liangcheng123\",\n\t\"data\":\" \"\n    }\n\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				}
+			]
+		},
+		{
+			"id": "52cd5098-6ee1-43f2-b974-d9f29f23fb76",
+			"name": "测试新建练习场次",
+			"description": "",
+			"auth": null,
+			"events": null,
+			"variables": [],
+			"order": [
+				"2ee2e0e0-b3ca-4bd6-844c-b4da6779e8a0",
+				"a2e2f90b-3ada-4db0-a185-116d91e26d35",
+				"7df6d727-706a-4376-9647-8137a43ec5b8",
+				"dd1e4bbf-dcd7-4b45-b376-1b6da46f9e93",
+				"dc2c9fcd-74e9-4c24-bcfc-01a0640d002b",
+				"7bc714e3-926c-4787-9370-376373c86d82",
+				"378989d9-754b-4c48-b947-d322e8d9799e",
+				"54986f87-390f-4233-b239-f6af7b993b2a"
+			],
+			"folders_order": [],
+			"protocolProfileBehavior": {},
+			"folders": [],
+			"requests": [
+				{
+					"id": "2ee2e0e0-b3ca-4bd6-844c-b4da6779e8a0",
+					"name": " http://127.0.0.1:8000/course/requestNext/",
+					"url": " http://127.0.0.1:8000/course/requestNext/",
+					"description": null,
+					"data": [],
+					"dataOptions": null,
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": null,
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "52cd5098-6ee1-43f2-b974-d9f29f23fb76",
+					"rawModeData": "{\n\t\"sessionid\": \"hgdnv87qae2pule49tkdf6fxuv0k6ohm\",\n\t\"record\":{\"123\":\"a\",\"4\":\"3\"}\n\t\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "378989d9-754b-4c48-b947-d322e8d9799e",
+					"name": " http://127.0.0.1:8000/course/requestNext/",
+					"url": " http://127.0.0.1:8000/course/requestNext/",
+					"description": null,
+					"data": [],
+					"dataOptions": null,
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": null,
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "52cd5098-6ee1-43f2-b974-d9f29f23fb76",
+					"rawModeData": "{\n\t\"sessionid\": \"hgdnv87qae2pule49tkdf6fxuv0k6ohm\"\n\t\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "54986f87-390f-4233-b239-f6af7b993b2a",
+					"name": " http://127.0.0.1:8000/user/login/",
+					"url": " http://127.0.0.1:8000/user/login/",
+					"description": null,
+					"data": [],
+					"dataOptions": null,
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": null,
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "52cd5098-6ee1-43f2-b974-d9f29f23fb76",
+					"rawModeData": "{\n\t\"username\":\"lc\",\n\t\"password\":\"liangcheng123\"\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "7bc714e3-926c-4787-9370-376373c86d82",
+					"name": " http://127.0.0.1:8000/user/login/",
+					"url": " http://127.0.0.1:8000/user/login/",
+					"description": null,
+					"data": [],
+					"dataOptions": null,
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": null,
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "52cd5098-6ee1-43f2-b974-d9f29f23fb76",
+					"rawModeData": "{\n\t\"username\":\"lc\",\n\t\"password\":\"liangcheng123\"\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "7df6d727-706a-4376-9647-8137a43ec5b8",
+					"name": " http://127.0.0.1:8000/course/requestNext/",
+					"url": " http://127.0.0.1:8000/course/requestNext/",
+					"description": null,
+					"data": [],
+					"dataOptions": null,
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": null,
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "52cd5098-6ee1-43f2-b974-d9f29f23fb76",
+					"rawModeData": "{\n\t\"sessionid\": \"hgdnv87qae2pule49tkdf6fxuv0k6ohm\",\n\t\"record\":{\"123\":\"a\",\"4\":\"3\"}\n\t\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "a2e2f90b-3ada-4db0-a185-116d91e26d35",
+					"name": " http://127.0.0.1:8000/user/login/",
+					"url": " http://127.0.0.1:8000/user/login/",
+					"description": null,
+					"data": [],
+					"dataOptions": null,
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": null,
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "52cd5098-6ee1-43f2-b974-d9f29f23fb76",
+					"rawModeData": "{\n\t\"username\":\"lc\",\n\t\"password\":\"liangcheng123\"\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "dc2c9fcd-74e9-4c24-bcfc-01a0640d002b",
+					"name": " http://127.0.0.1:8000/course/requestNext/",
+					"url": " http://127.0.0.1:8000/course/requestNext/",
+					"description": null,
+					"data": [],
+					"dataOptions": null,
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": null,
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "52cd5098-6ee1-43f2-b974-d9f29f23fb76",
+					"rawModeData": "{\n\t\"sessionid\": \"hgdnv87qae2pule49tkdf6fxuv0k6ohm\"\n\t\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				},
+				{
+					"id": "dd1e4bbf-dcd7-4b45-b376-1b6da46f9e93",
+					"name": " http://127.0.0.1:8000/course/requestNext/",
+					"url": " http://127.0.0.1:8000/course/requestNext/",
+					"description": null,
+					"data": [],
+					"dataOptions": null,
+					"dataMode": "raw",
+					"headerData": [
+						{
+							"key": "Content-Type",
+							"name": "Content-Type",
+							"value": "application/json",
+							"type": "text"
+						}
+					],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": null,
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "52cd5098-6ee1-43f2-b974-d9f29f23fb76",
+					"rawModeData": "{\n\t\"sessionid\": \"hgdnv87qae2pule49tkdf6fxuv0k6ohm\"\n\t\"record\":{\"123\":\"a\",\"4\":\"3\"}\n\t\n}",
+					"headers": "Content-Type: application/json\n",
+					"pathVariables": {}
+				}
+			]
+		},
+		{
+			"id": "5e4993cd-4b32-457b-84e8-9056b718ca14",
+			"name": "测试访问下一个",
+			"description": "# Introduction\nWhat does your API do?\n\n# Overview\nThings that the developers should know about\n\n# Authentication\nWhat is the preferred way of using the API?\n\n# Error Codes\nWhat errors and status codes can a user expect?\n\n# Rate limit\nIs there a limit to the number of requests an user can send?",
+			"auth": null,
+			"events": null,
+			"variables": [],
+			"order": [
+				"fbf9ee5d-bf1f-4a78-9b3c-7d6fdb091b27"
+			],
+			"folders_order": [],
+			"protocolProfileBehavior": {},
+			"folders": [],
+			"requests": [
+				{
+					"id": "fbf9ee5d-bf1f-4a78-9b3c-7d6fdb091b27",
+					"name": " http://127.0.0.1:8000/course/requestNext/",
+					"url": " http://127.0.0.1:8000/course/requestNext/",
+					"description": "",
+					"data": [],
+					"dataOptions": null,
+					"dataMode": "raw",
+					"headerData": null,
+					"method": "POST",
+					"pathVariableData": null,
+					"queryParams": null,
+					"auth": null,
+					"events": null,
+					"folder": null,
+					"responses": [
+						{
+							"id": "250c5e52-9dc3-409c-8321-16a930b6871d",
+							"name": "Default",
+							"status": null,
+							"mime": null,
+							"language": null,
+							"text": null,
+							"responseCode": {
+								"code": 0,
+								"name": ""
+							},
+							"requestObject": {
+								"url": " http://127.0.0.1:8000/course/requestNext/",
+								"method": "POST",
+								"dataMode": "raw",
+								"data": []
+							},
+							"headers": null,
+							"cookies": null,
+							"request": "fbf9ee5d-bf1f-4a78-9b3c-7d6fdb091b27",
+							"collection": "5e4993cd-4b32-457b-84e8-9056b718ca14"
+						}
+					],
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "5e4993cd-4b32-457b-84e8-9056b718ca14",
+					"rawModeData": "{\n\t\"sessionid\": \"6qx2qtte4eoi4pp5y8splsowm1dtobqb\",\n\t\"score\":8,\n\t\"record\":{\"1\":\"A\",\"3\":\"B\"}\n}"
+				}
+			]
+		},
+		{
+			"id": "e820f9cb-ad7f-467c-a06a-dc5b54e8f6c1",
+			"name": "练习",
+			"description": null,
+			"auth": null,
+			"events": null,
+			"variables": [],
+			"order": [
+				"5d49e048-df95-48d6-b503-bab11da1049c",
+				"912867a8-54aa-402d-8968-c0e127e449d0"
+			],
+			"folders_order": [],
+			"protocolProfileBehavior": {},
+			"folders": [],
+			"requests": [
+				{
+					"id": "5d49e048-df95-48d6-b503-bab11da1049c",
+					"name": "测试新建练习记录",
+					"url": " http://127.0.0.1:8000/course/startExercise/",
+					"description": "",
+					"data": null,
+					"dataOptions": null,
+					"dataMode": null,
+					"headerData": [],
+					"method": "POST",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": [],
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "e820f9cb-ad7f-467c-a06a-dc5b54e8f6c1",
+					"headers": "",
+					"pathVariables": {}
+				},
+				{
+					"id": "912867a8-54aa-402d-8968-c0e127e449d0",
+					"name": "提交答案",
+					"url": "",
+					"description": "要提交json格式的answer",
+					"data": null,
+					"dataOptions": null,
+					"dataMode": null,
+					"headerData": [],
+					"method": "GET",
+					"pathVariableData": [],
+					"queryParams": [],
+					"auth": null,
+					"events": [],
+					"folder": null,
+					"currentHelper": null,
+					"helperAttributes": null,
+					"collectionId": "e820f9cb-ad7f-467c-a06a-dc5b54e8f6c1",
+					"headers": "",
+					"pathVariables": {}
+				}
+			]
+		}
+	],
+	"environments": [
+		{
+			"id": "1d004155-0c40-438d-a68d-cf1a4b29f240",
+			"name": "My Workspace - globals",
+			"values": []
+		}
+	],
+	"headerPresets": [],
+	"globals": []
+}
