@@ -13,24 +13,31 @@
           </el-option>
         </el-select>
       </el-form-item>
-        <el-form-item label="考试时间">
-          <el-time-picker
-            v-model="value1"
-            :picker-options="{
-      selectableRange: '18:30:00 - 20:30:00'
-    }"
-            placeholder="任意时间点">
-          </el-time-picker>
-          <el-time-picker
-            arrow-control
-            v-model="value2"
-            :picker-options="{
-      selectableRange: '18:30:00 - 20:30:00'
-    }"
-            placeholder="任意时间点">
-          </el-time-picker>
 
-        </el-form-item>
+      <el-form-item label="考试日期">
+        <el-calendar v-model="date">
+        </el-calendar>
+
+      </el-form-item>
+
+      <el-form-item label="考试时间">
+        <el-time-picker
+          v-model="start"
+          :picker-options="{
+      selectableRange: '18:30:00 - 20:30:00'
+    }"
+          placeholder="任意时间点">
+        </el-time-picker>
+        <el-time-picker
+          arrow-control
+          v-model="end"
+          :picker-options="{
+      selectableRange: '18:30:00 - 20:30:00'
+    }"
+          placeholder="任意时间点">
+        </el-time-picker>
+
+      </el-form-item>
 
       <el-form-item label="试卷名称">
         <el-input v-model="form.content"/>
@@ -82,14 +89,15 @@
           {
             course_id: '操作系统',
             content: '操作系统期末考试',
-            person:'周老师',
-            comment:'请不要使用计算器',
+            person: '周老师',
+            comment: '请不要使用计算器',
             note: '出错题啦',
           }
         ,
         form: undefined,
-        value1: new Date(2016, 9, 10, 18, 40),
-        value2: new Date(2016, 9, 10, 18, 40)
+        start: new Date(),
+        end: new Date(),
+        date: new Date()
       }
     },
     created() {
