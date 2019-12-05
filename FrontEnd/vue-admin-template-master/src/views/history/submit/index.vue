@@ -8,22 +8,22 @@
       fit
       highlight-current-row
     >
-      <el-table-column align="center" label="序号" width="95">
+      <el-table-column align="center" label="序号" width="80">
         <template slot-scope="scope">
           {{ scope.$index + 1 }}
         </template>
       </el-table-column>
-      <el-table-column label="题目内容">
+      <el-table-column label="题目内容" width="500">
         <template slot-scope="scope">
           {{ scope.row.content }}
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" label="Status" width="110" align="center">
+      <el-table-column class-name="status-col" label="Status" align="center" width="100">
         <template slot-scope="scope">
           <el-tag :type="scope.row.states | statusFilter">{{ scope.row.states }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="created_at" label="Display_time" width="200">
+      <el-table-column align="center" prop="created_at" label="Display_time" width="400">
         <template slot-scope="scope">
           <i class="el-icon-time"/>
           <span>{{ scope.row.add_time }}</span>

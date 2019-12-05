@@ -111,7 +111,11 @@
             this.loading = true
 
             axios.post('/api/user/login/', {
-              data: this.loginForm
+              data: {
+                username: this.loginForm.username,
+                password: this.loginForm.password,
+                identity: '0'
+              }
             }).then(res => {
 
               if ('true' == res.data.msg) {
