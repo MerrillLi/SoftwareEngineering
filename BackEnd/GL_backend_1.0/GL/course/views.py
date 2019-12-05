@@ -15,6 +15,17 @@ from django.http import JsonResponse,HttpResponse
 from django.contrib.auth.models import User
 import random
 
+def processTime(time):
+    time=time.split('T')
+    time0=time[0]
+    print(time0)
+    time1=time[1]
+    time2=time1.split('.')
+    time2=time2[0]
+    time=time0+' '+time2
+    return time
+
+
 #上传试题
 @csrf_exempt
 def submitproblem(request):
@@ -408,7 +419,9 @@ def creatPaper(request):
         pro_dictionary=list(req['proID'])
         date = req["date"]
         start=req['start']
+        start=processTime(start)
         end=req['end']
+        end=processTime(end)
         place=req['place']
         note=req['note']
         CourseID=req['CourseID']
