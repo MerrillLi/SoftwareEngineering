@@ -46,8 +46,35 @@
                  @click.native.prevent="handleLogin">Login
       </el-button>
 
+      <el-button style="width:100%;margin-bottom:30px;" type="text" @click="dialogFormVisible = true">Sign In</el-button>
+
+      <el-dialog title="注册" :visible.sync="dialogFormVisible">
+        <el-form :model="form">
+          <el-form-item label="用户名:" :label-width="formLabelWidth">
+            <el-input v-model="form.name" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="密码:" :label-width="formLabelWidth">
+            <el-input v-model="form.password" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="邮箱:" :label-width="formLabelWidth">
+            <el-input v-model="form.email" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item label="用户身份" :label-width="formLabelWidth">
+            <el-radio v-model="radio" label="1">学生</el-radio>
+            <el-radio v-model="radio" label="2">教师</el-radio>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="dialogFormVisible = false">取 消</el-button>
+          <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+        </div>
+      </el-dialog>
+
     </el-form>
+
+
   </div>
+
 </template>
 
 <script>
@@ -81,10 +108,22 @@
           username: [{required: true, trigger: 'blur', validator: validateUsername}],
           password: [{required: true, trigger: 'blur', validator: validatePassword}]
         },
+        form: {
+          name: '',
+          password:'',
+          email:'',
+          region:'',
+          identity:''
+        },
+        dialogTableVisible: false,
+        dialogFormVisible: false,
         loading: false,
         passwordType: 'password',
-        redirect: '/profile'
+        redirect: '/profile',
+        formLabelWidth: '80px',
+        radio: '1'
       }
+
     },
     watch: {
       $route: {
@@ -138,6 +177,10 @@
             return false
           }
         })
+      },
+
+      handleSignIn(){
+
       }
     }
   }

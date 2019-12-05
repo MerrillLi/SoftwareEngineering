@@ -15,8 +15,8 @@
       </el-form-item>
 
       <el-form-item label="考试日期">
-        <el-calendar v-model="date">
-        </el-calendar>
+        <!--<el-calendar v-model="date">-->
+        <!--</el-calendar>-->
 
       </el-form-item>
 
