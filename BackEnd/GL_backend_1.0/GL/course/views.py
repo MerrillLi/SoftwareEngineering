@@ -406,6 +406,7 @@ def creatPaper(request):
         username=dic["username"]
         user=User.objects.get(username=username)
         pro_dictionary=list(req['proID'])
+        date = req["date"]
         start=req['start']
         end=req['end']
         place=req['place']
@@ -450,7 +451,7 @@ def getPaper(request):
             paper.__dict__.pop("_state")
             L.append(paper.__dict__)
             test_items=list(test_Item.objects.filter(papers=paper))
-            for test_item in test_items
+            for test_item in test_items:
                 test_item.__dict__.pop("_state")
                 L.append(paper.__dict__)
         response["data"]=L
