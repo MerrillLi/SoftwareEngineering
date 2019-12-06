@@ -142,8 +142,8 @@
           //this.current = res.data.data;
 
         }).catch(err => {
-          console.log(err)
-
+          console.log(err);
+          this.$notify('提交失败')
         })
       },
 
@@ -160,12 +160,12 @@
         }).then(res => {
           console.log(res);
           this.current = res.data.data;
-          this.finished = false
+          this.finished = false;
           this.choice = null
 
         }).catch(err => {
-          console.log(err)
-
+          console.log(err);
+          this.$notify.error('获取题目出错')
         })
       }
 
