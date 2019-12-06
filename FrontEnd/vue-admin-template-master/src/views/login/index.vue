@@ -4,7 +4,7 @@
              label-position="left">
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">CAT自适应考试系统</h3>
       </div>
 
       <el-form-item prop="username">
@@ -43,18 +43,18 @@
       </el-form-item>
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;"
-                 @click.native.prevent="handleLogin">Login
+                 @click.native.prevent="handleLogin">登陆
       </el-button>
 
-      <el-button style="width:100%;margin-bottom:30px;" type="text" @click="dialogFormVisible = true">Sign In</el-button>
+      <el-button style="width:100%;margin-bottom:30px;" type="text" @click="dialogFormVisible = true">注册</el-button>
 
       <el-dialog title="注册" :visible.sync="dialogFormVisible">
         <el-form :model="form">
           <el-form-item label="用户名:" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off"></el-input>
+            <el-input v-model="form.username" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="密码:" :label-width="formLabelWidth">
-            <el-input v-model="form.password" autocomplete="off"></el-input>
+            <el-input v-model="form.password" autocomplete="off" show-password></el-input>
           </el-form-item>
           <el-form-item label="邮箱:" :label-width="formLabelWidth">
             <el-input v-model="form.email" autocomplete="off"></el-input>
@@ -66,7 +66,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+          <el-button type="primary" @click="handleSignIn">确 定</el-button>
         </div>
       </el-dialog>
 
@@ -109,11 +109,10 @@
           password: [{required: true, trigger: 'blur', validator: validatePassword}]
         },
         form: {
-          name: '',
-          password:'',
-          email:'',
-          region:'',
-          identity:''
+          username: '',
+          password: '',
+          email: '',
+          identity: ''
         },
         dialogTableVisible: false,
         dialogFormVisible: false,
@@ -179,8 +178,21 @@
         })
       },
 
-      handleSignIn(){
+      handleSignIn() {
+        console.log(this.form)
+        axios.post('/api/user/register/', {
+          data: {
+            username: this.form.username,
+            password: this.form.password,
+            email: this.form.email,
+            identity: this.form.identity
+          }
+        }).then(res => {
+          console.log(res.data)
 
+        }).catch(err => {
+          console.log(err)
+        })
       }
     }
   }

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
+import json
 
 #用户
 class user_profile_stu(models.Model):
@@ -23,6 +24,7 @@ class user_profile_stu(models.Model):
     birth_data=models.DateField("出生日期",null=True,blank=True)
     institution=models.CharField("学院",max_length=128,null=True,blank=True,default = "工学院")
     capability=models.FloatField(verbose_name=u"能力值",default=0.6)
+    ans_history = models.TextField(verbose_name=u"做题历史", default=json.dumps({'0':-1, '1':-1}))
 
     class Meta:
         verbose_name = '学生个人信息'
