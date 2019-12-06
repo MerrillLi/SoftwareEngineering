@@ -3,9 +3,9 @@
     <!--个人信息栏-->
     <div class="info_container">
       <el-row :gutter="20">
-        <el-col :span="6">姓名：
+        <el-col :span="2" :offset="2">姓名：
         </el-col>
-        <el-col :span="6">
+        <el-col :span="6" :offset="2">
           <el-input
             placeholder="请输入内容"
             prefix-icon="el-icon-search"
@@ -15,9 +15,9 @@
       </el-row>
 
       <el-row :gutter="20">
-        <el-col :span="6">身份：
+        <el-col :span="2" :offset="2">身份：
         </el-col>
-        <el-col :span="6">
+        <el-col :span="6" :offset="2">
           <el-input
             placeholder="请输入内容"
             prefix-icon="el-icon-search"
@@ -27,9 +27,9 @@
       </el-row>
 
       <el-row :gutter="20">
-        <el-col :span="6">学号：
+        <el-col :span="2" :offset="2">学号：
         </el-col>
-        <el-col :span="6">
+        <el-col :span="6" :offset="2">
           <el-input
             placeholder="请输入内容"
             prefix-icon="el-icon-search"
@@ -39,9 +39,9 @@
       </el-row>
 
       <el-row :gutter="20">
-        <el-col :span="6">院系：
+        <el-col :span="2" :offset="2">院系：
         </el-col>
-        <el-col :span="6">
+        <el-col :span="6" :offset="2">
           <el-input
             placeholder="请输入内容"
             prefix-icon="el-icon-search"

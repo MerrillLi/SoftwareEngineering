@@ -13,6 +13,7 @@ from django.views.decorators.cache import cache_page
 from django.contrib.auth.hashers import check_password,make_password
 from django.http import JsonResponse,HttpResponse
 from django.contrib.auth.models import User
+import json
 import random
 
 def processTime(time):
@@ -266,6 +267,15 @@ def submitAnswer(request):
             print(user)
             exercise=Exersice.objects.get(id=turnID)
             question=Question.objects.get(id=problemId)
+            
+            #更新用户做题记录
+            his = json.loads(user.ans_history)
+            if len(his) >= 10:
+                his.pop(list(his.keys())[0])
+            his[question.id] = int(user_answer == question.answer)
+            user.ans_history = json.dumps(his)
+            user.save()
+
             flag="false"
             if user_answer==question.answer:
                 true_rate=(question.true_rate*question.count+1)/(question.count+1)

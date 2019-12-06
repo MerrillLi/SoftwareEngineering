@@ -80,7 +80,7 @@ def register(request):
         #如果用户已存在但是不是有效的,那么直接对这个用户发送邮件
         #发送邮件
         code = make_confirm_string(user)
-        url = "http://172.16.143.9:8000/user/verify/"+ "?code={}".format(code) + "/"
+        url = "http://172.16.73.130:8000/api/user/verify/"+ "?code={}".format(code) + "/"
         subject="激活邮件"
         content="点击下方进行激活"
         recipient_emial=[email]
