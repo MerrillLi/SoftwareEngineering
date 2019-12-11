@@ -143,7 +143,7 @@
 
         }).catch(err => {
           console.log(err);
-          this.$notify('提交失败')
+          this.$notify.error('提交失败')
         })
       },
 

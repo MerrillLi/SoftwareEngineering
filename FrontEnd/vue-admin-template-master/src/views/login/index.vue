@@ -81,6 +81,9 @@
   import {validUsername} from '@/utils/validate'
   import axios from 'axios'
   import {setToken} from "../../utils/auth";
+  import Vue from 'vue'
+  import router from '@/router'
+  import permission from '@/store/permission'
 
   export default {
     name: 'Login',
@@ -91,14 +94,14 @@
         } else {
           callback()
         }
-      }
+      };
       const validatePassword = (rule, value, callback) => {
         if (value.length < 6) {
           callback(new Error('The password can not be less than 6 digits'))
         } else {
           callback()
         }
-      }
+      };
       return {
         loginForm: {
           username: 'lc',
@@ -146,38 +149,53 @@
       handleLogin() {
         this.$refs.loginForm.validate(valid => {
           if (valid) {
-            this.loading = true
+            this.loading = true;
 
             axios.post('/api/user/login/', {
               data: {
                 username: this.loginForm.username,
                 password: this.loginForm.password,
-                identity: '0'
+                identity: ['0']
               }
             }).then(res => {
+              setToken(res.data.sessionid);
+              Vue.prototype.$role = '0';
 
-              if ('true' == res.data.msg) {
-                this.$router.push({path: '/profile'})
+              if ("true" == res.data.msg) {
+                this.$router.push({path: '/profile'});
                 this.loading = false
-                setToken(res.data.sessionid)
               } else {
-                this.$notify.error('密码错误')
+                this.$notify.error('密码错误');
                 this.loading = false
               }
 
             }).catch(err => {
-              this.loading = false
+              this.loading = false;
               console.log(err)
             })
 
-            // })
           } else {
             console.log('error submit!!');
             return false
           }
         })
       },
-
+      // handleLogin() {
+      //   this.$refs.loginForm.validate(valid => {
+      //     if (valid) {
+      //       this.loading = true
+      //       this.$store.dispatch('user/login', this.loginForm).then(() => {
+      //         this.$router.push({path: this.redirect || '/'})
+      //         this.loading = false
+      //       }).catch(() => {
+      //         this.loading = false
+      //       })
+      //     } else {
+      //       console.log('error submit!!')
+      //       return false
+      //     }
+      //   })
+      // },
       handleSignIn() {
         console.log(this.form);
         axios.post('/api/user/register/', {
