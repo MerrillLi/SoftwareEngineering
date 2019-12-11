@@ -51,7 +51,7 @@
       <el-dialog title="注册" :visible.sync="dialogFormVisible">
         <el-form :model="form">
           <el-form-item label="用户名:" :label-width="formLabelWidth">
-            <el-input v-model="form.username" autocomplete="off"></el-input>
+            <el-input v-model="form.name" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="密码:" :label-width="formLabelWidth">
             <el-input v-model="form.password" autocomplete="off" show-password></el-input>
@@ -172,14 +172,14 @@
 
             // })
           } else {
-            console.log('error submit!!')
+            console.log('error submit!!');
             return false
           }
         })
       },
 
       handleSignIn() {
-        console.log(this.form)
+        console.log(this.form);
         axios.post('/api/user/register/', {
           data: {
             username: this.form.username,
