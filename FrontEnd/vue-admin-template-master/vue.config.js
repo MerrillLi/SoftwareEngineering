@@ -47,7 +47,7 @@ module.exports = {
         }
       },
       '/api': {
-        target: 'http://172.16.73.130:8000/',
+        target: 'http://10.39.27.16:8000/',
         changeOrigin: true,
       }
     },

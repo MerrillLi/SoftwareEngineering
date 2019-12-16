@@ -81,6 +81,7 @@
             identity: 1
           }
         }).then(res => {
+          console.log(res)
           this.user = res.data;
           this.$store.userInfo = res.data;
           console.log(res.data)

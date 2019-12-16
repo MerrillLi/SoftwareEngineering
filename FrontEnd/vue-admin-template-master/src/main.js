@@ -34,7 +34,7 @@ Vue.use(ElementUI, { locale })
 // Vue.use(ElementUI)
 
 Vue.config.productionTip = false
-
+Vue.prototype.$role = ['0']
 new Vue({
   el: '#app',
   router,

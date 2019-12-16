@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-Vue.use(Router)
+Vue.use(Router);
 
 /* Layout */
 import Layout from '@/layout'
@@ -30,6 +30,7 @@ import Layout from '@/layout'
  * a base page that does not have permission requirements
  * all roles can be accessed
  */
+
 export const constantRoutes = [
   {
     path: '/login',
@@ -46,48 +47,135 @@ export const constantRoutes = [
   {
     path: '/',
     //redirect: '/profile',
-    component:Layout,
+    component: Layout,
     children: [{
       path: '/profile',
       name: '个人信息',
       component: () => import('@/views/profile/index'),
-      meta: { title: '个人信息', icon: 'dashboard' }
+      meta: {title: '个人信息', icon: 'dashboard'}
     }]
   },
 
+  // {
+  //   path: '/test',
+  //   component: Layout,
+  //   name: '测评练习',
+  //   meta: {
+  //     title: '测评练习',
+  //     icon: 'form'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'exercise',
+  //       component: () => import('@/views/test/exercise/index'), // Parent router-view
+  //       name: '练习',
+  //       meta: {title: '练习'}
+  //     },
+  //     {
+  //       path: 'exam',
+  //       component: () => import('@/views/test/exam/index'),
+  //       name: '考试',
+  //       meta: {title: '考试'}
+  //     },
+  //   ]
+  // },
+  //
+  // {
+  //   path: '/submit',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: '提交题目',
+  //       component: () => import('@/views/submit/index'),
+  //       meta: {title: '提交题目', icon: 'form'}
+  //     }
+  //   ]
+  // },
+
+  // {
+  //   path: '/paper',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: '出试卷',
+  //       component: () => import('@/views/paper/index'),
+  //       meta: {title: '出试卷', icon: 'form'}
+  //     }
+  //   ]
+  // },
+
+  // {
+  //   path: '/history',
+  //   component: Layout,
+  //   redirect: '/history/submit',
+  //   name: '历史记录',
+  //   meta: {
+  //     title: '历史记录',
+  //     icon: 'nested'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'submit',
+  //       component: () => import('@/views/history/submit/index'), // Parent router-view
+  //       name: '出题记录',
+  //       meta: {title: '出题记录'}
+  //     },
+  //     {
+  //       path: 'exam',
+  //       component: () => import('@/views/history/exam/index'),
+  //       meta: {title: '考试记录'}
+  //     },
+  //     {
+  //       path: 'exercise',
+  //       component: () => import('@/views/history/exercise/index'),
+  //       meta: {title: '练习记录'}
+  //     }
+//  ]
+  //},
+
+
+  // 404 page must be placed at the end !!!
+
+]
+
+export const asyncRouterMap = [
   {
     path: '/test',
     component: Layout,
     name: '测评练习',
     meta: {
       title: '测评练习',
-      icon: 'form'
+      icon: 'form',
+      roles: ['0']
     },
-    children:[
+    children: [
       {
         path: 'exercise',
         component: () => import('@/views/test/exercise/index'), // Parent router-view
         name: '练习',
-        meta: { title: '练习' }
-        },
+        meta: {title: '练习', roles: ['0']}
+      },
       {
         path: 'exam',
         component: () => import('@/views/test/exam/index'),
-        name:'考试',
-        meta: { title: '考试' }
-        },
+        name: '考试',
+        meta: {title: '考试', roles: ['0']}
+      },
     ]
   },
 
   {
     path: '/submit',
     component: Layout,
+    meta: {roles: ['0']},
     children: [
       {
         path: 'index',
         name: '提交题目',
         component: () => import('@/views/submit/index'),
-        meta: { title: '提交题目', icon: 'form' }
+        meta: {title: '提交题目', icon: 'form', roles: ['0']}
       }
     ]
   },
@@ -95,12 +183,15 @@ export const constantRoutes = [
   {
     path: '/paper',
     component: Layout,
+    meta: {
+      roles: ['1']
+    },
     children: [
       {
         path: 'index',
         name: '出试卷',
         component: () => import('@/views/paper/index'),
-        meta: { title: '出试卷', icon: 'form' }
+        meta: {title: '出试卷', icon: 'form', roles: ['1']}
       }
     ]
   },
@@ -112,36 +203,37 @@ export const constantRoutes = [
     name: '历史记录',
     meta: {
       title: '历史记录',
-      icon: 'nested'
+      icon: 'nested',
+      roles: ['0', '1']
     },
     children: [
       {
         path: 'submit',
         component: () => import('@/views/history/submit/index'), // Parent router-view
         name: '出题记录',
-        meta: { title: '出题记录' }
+        meta: {title: '出题记录', roles: ['0']}
       },
       {
         path: 'exam',
         component: () => import('@/views/history/exam/index'),
-        meta: { title: '考试记录' }
+        meta: {title: '考试记录', roles: ['0', '1']}
       },
       {
         path: 'exercise',
         component: () => import('@/views/history/exercise/index'),
-        meta: { title: '练习记录' }
+        meta: {
+          title: '练习记录',
+          roles: ['0', '1']
+        }
       }
     ]
-  },
+  }
+];
 
-
-  // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
-]
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior: () => ({y: 0}),
   routes: constantRoutes
 })
 
@@ -154,3 +246,4 @@ export function resetRouter() {
 }
 
 export default router
+
