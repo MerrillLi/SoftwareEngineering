@@ -6,7 +6,6 @@ import {getToken} from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
 import router from './router'
 import permission from './store/permission'
-import Vue from 'vue'
 
 NProgress.configure({showSpinner: false}); // NProgress Configuration
 
@@ -47,8 +46,8 @@ router.beforeEach(async (to, from, next) => {
         router.options.routes.push(
           {path: '*', redirect: '/', hidden: true}
         );
-        router.addRoutes(asyncRouter)
-        //next({...to, replace: true})
+        router.addRoutes(asyncRouter);
+        next({...to, replace: true})
       }
 
       console.log(router);
@@ -58,7 +57,8 @@ router.beforeEach(async (to, from, next) => {
       } else {
         try {
 
-          next()
+          next();
+          NProgress.done()
         } catch (error) {
           Message.error(error || 'Has Error');
           next(`/login?redirect=${to.path}`);
