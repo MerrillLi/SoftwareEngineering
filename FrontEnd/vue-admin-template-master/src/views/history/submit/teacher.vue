@@ -13,9 +13,22 @@
           {{ scope.$index + 1 }}
         </template>
       </el-table-column>
-      <el-table-column label="题目内容">
+      <el-table-column label="题目内容" width="250">
         <template slot-scope="scope">
           {{ scope.row.content }}
+        </template>
+      </el-table-column>
+      <el-table-column label="题目选项" width="250">
+        <template slot-scope="scope">
+          A.{{ scope.row.choice_a }}<br>
+          B.{{ scope.row.choice_b }}<br>
+          C.{{ scope.row.choice_c }}<br>
+          D.{{ scope.row.choice_d }}
+        </template>
+      </el-table-column>
+      <el-table-column label="答案" width="50">
+        <template slot-scope="scope">
+          {{ scope.row.answer }}
         </template>
       </el-table-column>
       <el-table-column class-name="status-col" label="Status" width="110" align="center">
@@ -23,7 +36,7 @@
           <el-tag :type="scope.row.states | statusFilter">{{ scope.row.states }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="created_at" label="Display_time" width="200">
+      <el-table-column align="center" prop="created_at" label="提交时间" width="125">
         <template slot-scope="scope">
           <i class="el-icon-time"/>
           <span>{{ scope.row.add_time }}</span>
@@ -37,12 +50,10 @@
           </el-row>
         </template>
       </el-table-column>
-
     </el-table>
   </div>
 </template>
 <script>
-  import {getList} from '@/api/table'
   import axios from 'axios'
 
   export default {

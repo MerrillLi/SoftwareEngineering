@@ -46,7 +46,9 @@
                  @click.native.prevent="handleLogin">登陆
       </el-button>
 
-      <el-button style="width:100%;margin-bottom:30px;" type="text" @click="dialogFormVisible = true">注册</el-button>
+      <el-button type="primary" style="width:100%;margin-bottom:30px;"
+                 @click="dialogFormVisible = true">注册
+      </el-button>
 
       <el-dialog title="注册" :visible.sync="dialogFormVisible">
         <el-form :model="form">
@@ -123,7 +125,8 @@
         passwordType: 'password',
         redirect: '/profile',
         formLabelWidth: '80px',
-        radio: '1'
+        radio: '1',
+        identity_: '0'
       }
 
     },
@@ -159,7 +162,8 @@
               }
             }).then(res => {
               setToken(res.data.sessionid);
-              Vue.prototype.$role = '0';
+              //Vue.prototype.$role = res.data.identity;
+              localStorage.setItem('role', res.data.identity)
 
               if ("true" == res.data.msg) {
                 this.$router.push({path: '/profile'});

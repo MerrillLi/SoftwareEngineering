@@ -33,7 +33,9 @@ router.beforeEach(async (to, from, next) => {
     } else {
       const hasGetUserInfo = store.getters.name;
 
-      const role = Vue.prototype.$role;
+      //const role = Vue.prototype.$role;
+      const role = localStorage.getItem('role');
+
       const asyncRouter = permission.actions.GenerateRoutes(role);
 
       // 动态添加可访问路由表

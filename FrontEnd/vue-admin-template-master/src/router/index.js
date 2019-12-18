@@ -214,6 +214,12 @@ export const asyncRouterMap = [
         meta: {title: '出题记录', roles: ['0']}
       },
       {
+        path: 'submit',
+        component: () => import('@/views/history/submit/teacher'), // Parent router-view
+        name: '审核出题',
+        meta: {title: '出题记录', roles: ['1']}
+      },
+      {
         path: 'exam',
         component: () => import('@/views/history/exam/index'),
         meta: {title: '考试记录', roles: ['0', '1']}

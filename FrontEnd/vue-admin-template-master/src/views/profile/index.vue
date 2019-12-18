@@ -3,51 +3,50 @@
     <!--个人信息栏-->
     <div class="info_container">
       <el-row :gutter="20">
-        <el-col :span="2" :offset="2">姓名：
-        </el-col>
-        <el-col :span="6" :offset="2">
-          <el-input
-            placeholder="请输入内容"
-            prefix-icon="el-icon-search"
-            v-model="user.name">
-          </el-input>
-        </el-col>
+        <el-input placeholder="请输入内容" v-model="user.name" :disabled="modify">
+          <template slot="prepend">姓名</template>
+        </el-input>
       </el-row>
 
       <el-row :gutter="20">
-        <el-col :span="2" :offset="2">身份：
-        </el-col>
-        <el-col :span="6" :offset="2">
-          <el-input
-            placeholder="请输入内容"
-            prefix-icon="el-icon-search"
-            v-model="user.identity">
-          </el-input>
-        </el-col>
+        <el-input placeholder="请输入内容" v-model="user.str_identity" :disabled="modify">
+          <template slot="prepend">身份</template>
+        </el-input>
       </el-row>
 
       <el-row :gutter="20">
-        <el-col :span="2" :offset="2">学号：
-        </el-col>
-        <el-col :span="6" :offset="2">
-          <el-input
-            placeholder="请输入内容"
-            prefix-icon="el-icon-search"
-            v-model="user.user_id">
-          </el-input>
-        </el-col>
+        <el-input placeholder="请输入内容" v-model="user.user_id" :disabled="modify">
+          <template slot="prepend">学号</template>
+        </el-input>
       </el-row>
 
       <el-row :gutter="20">
-        <el-col :span="2" :offset="2">院系：
-        </el-col>
-        <el-col :span="6" :offset="2">
-          <el-input
-            placeholder="请输入内容"
-            prefix-icon="el-icon-search"
-            v-model="user.institution">
-          </el-input>
-        </el-col>
+        <el-input placeholder="请输入内容" v-model="user.institution" :disabled="modify">
+          <template slot="prepend">院系</template>
+        </el-input>
+      </el-row>
+
+      <el-row :gutter="20">
+        <el-input placeholder="请输入内容" v-model="user.major" :disabled="modify">
+          <template slot="prepend">专业</template>
+        </el-input>
+      </el-row>
+
+      <el-row :gutter="20">
+        <el-input placeholder="请输入内容" v-model="user.email" :disabled="modify">
+          <template slot="prepend">邮件</template>
+        </el-input>
+      </el-row>
+
+      <el-row :gutter="20">
+        <div>
+          <el-col :span="4" offset="6">
+            <el-button @click="modify = !modify">修改</el-button>
+          </el-col>
+          <el-col :span="4" offset="6">
+            <el-button @click="submit_profile">提交</el-button>
+          </el-col>
+        </div>
       </el-row>
     </div>
   </div>
@@ -66,8 +65,8 @@
     },
     data() {
       return {
-        user: null
-
+        user: null,
+        modify: true
       }
     },
     mounted() {
@@ -81,16 +80,31 @@
             identity: 1
           }
         }).then(res => {
-          console.log(res)
+          console.log(res);
           this.user = res.data;
+          this.user.str_identity = this.user.identity === '0' ? '学生' : '老师';
           this.$store.userInfo = res.data;
           console.log(res.data)
         }).catch(error => {
           console.log(error)
         })
       },
+      submit_baseinfo() {
 
-
+        axios.post('/api/user/update_profile/', {
+          data: {
+            block: 0,
+            user: this.user
+          }
+        }).then(res => {
+          console.log(res);
+          this.user = res.data;
+          this.$store.userInfo = res.data;
+          console.log(res.data)
+        }).catch(error => {
+          console.log(error)
+        })
+      }
     }
   }
 </script>
@@ -105,5 +119,9 @@
       font-size: 30px;
       line-height: 46px;
     }
+  }
+
+  .info_container {
+    padding: 10%;
   }
 </style>
