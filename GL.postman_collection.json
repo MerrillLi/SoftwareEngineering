@@ -59,7 +59,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8000/api/course/judgeItem/",
+					"raw": "http://localhost:8000/api/course/queryItem/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -68,7 +68,7 @@
 					"path": [
 						"api",
 						"course",
-						"judgeItem",
+						"queryItem",
 						""
 					]
 				}

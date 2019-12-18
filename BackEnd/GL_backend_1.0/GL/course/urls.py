@@ -20,6 +20,6 @@ urlpatterns = [
     path('getOneCoursePro/',views.getOneCoursePro), # 查询某门课程的所有题目
     path('creatPaper/',views.creatPaper),# 创建试卷
     path('getPaper/',views.getPaper),# 获得试卷
-    path('judgeItem/', views.judgeItem), # 获得未审核题目
-    path('addItem/', views.addItem) # 更新审核题目
+    path('queryItem/', views.queryItem), # 获得未审核题目
+    path('judgeItem/', views.judgeItem) # 更新审核题目
 ]

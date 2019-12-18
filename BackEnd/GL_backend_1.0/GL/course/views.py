@@ -484,7 +484,7 @@ def getPaper(request):
 返回所有未审核题目 
 '''
 @csrf_exempt
-def judgeItem(request):
+def queryItem(request):
     response={}
     if(request.method=="POST"):
         req=simplejson.loads(request.body)
@@ -513,7 +513,7 @@ def judgeItem(request):
 用审核题目id 更新审核
 '''
 @csrf_exempt
-def addItem(request):
+def judgeItem(request):
     response = {}
     if(request.method=="POST"):
         req=simplejson.loads(request.body)
