@@ -1,0 +1,687 @@
+{
+	"info": {
+		"_postman_id": "09a39e16-d6b3-425c-8152-ca156c451bfd",
+		"name": "GL",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "登陆",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"lc\",\n\t\"password\": \"liangcheng123\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/user/login/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"user",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "教师查询待审核题目",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"data\":\n\t{\n\t\t\"courseID\": 1\n\t}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/course/judgeItem/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"course",
+						"judgeItem",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "查看某个课程所有题目",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\":{\n    \t\"id\":\"1\"\n    }\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/course/getOneCoursePro/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"course",
+						"getOneCoursePro",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "查看某名教师所教课程",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\":{\n    }\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/course/getTeachCourse/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"course",
+						"getTeachCourse",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "查看试卷",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\":{\n\t\"courseName\":\"人工智能\"\n    }\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/course/getPaper/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"course",
+						"getPaper",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "出试卷",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\":{\n    \t\"proID\":[\"2\",\"1\"],\n    \t\"start\":\"2020-1-3 9:00\",\n    \t\"end\":\"2020-1-3 11:00\",\n    \t\"place\":\"E201\",\n    \t\"note\":\"必修\",\n    \t\"CourseID\":\"1\"\n    }\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/course/creatPaper/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"course",
+						"creatPaper",
+						""
+					]
+				},
+				"description": "创建试卷"
+			},
+			"response": []
+		},
+		{
+			"name": "审核题目",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"data\":\n\t{\n\t\t\"q_id\" : 6,\n\t\t\"flag\" : true\n\t}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/course/judgeItem/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"course",
+						"judgeItem",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "查询题目",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"sessionid\":\"k788gyg5dcbn5c04ggj5ybmecj2grxqa\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/course/requsetproblem/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"course",
+						"requsetproblem",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "教师登陆",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"data\":{\n    \"username\":\"lc\",\n\t\"password\":\"liangcheng123\",\n\t\"data\":\" \"\n    }\n\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/user/login/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"user",
+						"login",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Default",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/user/login/",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"user",
+								"login",
+								""
+							]
+						}
+					},
+					"_postman_previewlanguage": null,
+					"header": null,
+					"cookie": [],
+					"body": null
+				}
+			]
+		},
+		{
+			"name": "提交题目",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"course_id\":\"1\",\n    \"content\":\"123455\",\n    \"answer\":\"A\",\n    \"choice_a\" : \"112212\",\n    \"choice_b\" : \"1232323\",\n    \"choice_c\" : \"232323\",\n    \"choice_d\" : \"323232\",\n    \"note\" : \"322323\",\n    \"sessionid\":\"k788gyg5dcbn5c04ggj5ybmecj2grxqa\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/course/submitproblem/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"course",
+						"submitproblem",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "注册",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"lhk\",\n\t\"password\": \"luhuakang123\",\n\t\"email\": \"17luhuakang@stu.edu.cn\",\n\t\"identity\": \"1\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/user/register/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"user",
+						"register",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "登出",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8000/user/logout/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"user",
+						"logout",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "获取个人信息",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"identity\": 1\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/user/get_profile/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"user",
+						"get_profile",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "更新个人信息",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"identity\":\"1\",\n\t\"block\":\"1\",\n\t\"name\":\"lhkk\",\n\t\"gender\":\"F\",\n\t\"imgurl\":\"gl\",\n\t\"age\":\"19\",\n\t\"birth_data\":\"2019/11/26\",\n\t\"major\":\"工学院\",\n\t\"email\":\"17luhuakang@stu.edu.cn\",\n\t\"phonenumber\":\"1234567\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/user/update_profile/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"user",
+						"update_profile",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "请求下一道题目",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"sessionid\": \"6qx2qtte4eoi4pp5y8splsowm1dtobqb\",\n \"score\":8,\n \"record\":{\"1\":\"A\",\"3\":\"B\"}\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/course/requestNext/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"course",
+						"requestNext",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "开始练习",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "5e13b4cf-5c18-409a-9a94-b3e384202f63",
+						"exec": [
+							"{",
+							"  \"sessionid\": \"6qx2qtte4eoi4pp5y8splsowm1dtobqb\",",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8000/course/requestNext/startExercise/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"course",
+						"requestNext",
+						"startExercise",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "提交答案",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n \"sessionid\": \"6qx2qtte4eoi4pp5y8splsowm1dtobqb\",\n \"answer\":\"A\",\n \"proID\":1,\n \"turnID\":1\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/course/requestNext/submitAnswer/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"course",
+						"requestNext",
+						"submitAnswer",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "查询练习",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"sessionid\": \"6qx2qtte4eoi4pp5y8splsowm1dtobqb\",\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8000/course/requestNext/requestExerciseRecord/0/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"course",
+						"requestNext",
+						"requestExerciseRecord",
+						"0",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

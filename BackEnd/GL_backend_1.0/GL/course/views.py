@@ -480,4 +480,53 @@ def getPaper(request):
         response["data"]=L
         return JsonResponse(response)
 
+'''
+返回所有未审核题目 
+'''
+@csrf_exempt
+def judgeItem(request):
+    response={}
+    if(request.method=="POST"):
+        req=simplejson.loads(request.body)
+        req = req["data"]
+        #sessionid=req["sessionid"]
+        sessionid=request.session.session_key
+        dic = cache.get(sessionid)
+        if dic is None:
+            return JsonResponse({"msg":"expire"})
+        ID=req['courseID']
+        course=CourseList.objects.get(id=ID)
+        questions = list(Question.objects.filter(course=course))
+        try:
+            L = []
+            for question in questions:
+                question.__dict__.pop("_state")
+                L.append(question.__dict__)
+            response["data"]=L
+        except Exception as e:
+            response["msg"]=e
+            print(e)
+            return JsonResponse(response)
+    return JsonResponse(response)
 
+'''
+用审核题目id 更新审核
+'''
+@csrf_exempt
+def addItem(request):
+    response = {}
+    if(request.method=="POST"):
+        req=simplejson.loads(request.body)
+        req = req["data"]
+        #sessionid=req["sessionid"]
+        sessionid=request.session.session_key
+        dic = cache.get(sessionid)
+        if dic is None:
+            return JsonResponse({"msg":"expire"})
+        ID=req['q_id']
+        flag = req['flag']
+        question = Question.objects.get(id=ID)
+        question.states = flag
+        question.save()
+        response["msg"]= True
+    return JsonResponse(response)
