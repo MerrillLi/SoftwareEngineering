@@ -15,6 +15,7 @@ from django.http import JsonResponse,HttpResponse
 from django.contrib.auth.models import User
 import json
 import random
+import utils
 
 def processTime(time):
     time=time.split('T')
@@ -169,7 +170,6 @@ def requestExerciseRecord(request):
 #算法根据之前做的题目产生下一道题目
 @csrf_exempt
 def requestNext(request):
-    ##用户验证机制
     response={}
     if(request.method=="POST"):
         req=simplejson.loads(request.body)
@@ -268,20 +268,15 @@ def submitAnswer(request):
             exercise=Exersice.objects.get(id=turnID)
             question=Question.objects.get(id=problemId)
             
-            #更新用户做题记录
-            his = json.loads(user.ans_history)
-            if len(his) >= 10:
-                his.pop(list(his.keys())[0])
-            his[question.id] = int(user_answer == question.answer)
-            user.ans_history = json.dumps(his)
-            user.save()
-
             flag="false"
             if user_answer==question.answer:
                 true_rate=(question.true_rate*question.count+1)/(question.count+1)
                 flag="true"
             else:
                 true_rate=(question.true_rate*question.count+1)/(question.count+1)
+
+            utils.update_his(user, question, flag)  #更新做题记录
+
             count=question.count+1
             #更新question里的描述
             Question.objects.filter(id=problemId).update(count=count,true_rate=true_rate)
@@ -334,8 +329,6 @@ def requestFirstPro(request):
         print(response)
         return JsonResponse(response) 
 
-
-
 '''
 获得所教的所有课程ID，以及名字，方便后面选课出题目
 '''
@@ -370,7 +363,6 @@ def getTeachCourse(request):
             print(e)
             return JsonResponse(response)
         return JsonResponse(response)
-
 
 
 '''
