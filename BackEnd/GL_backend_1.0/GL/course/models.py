@@ -32,7 +32,7 @@ class Question(models.Model):
     evaluate_score=models.FloatField(verbose_name=u"题目得分", default=0)
     true_rate=models.FloatField(verbose_name=u"题目正确率", default=0)
     submit_user=models.ForeignKey(User, verbose_name=u"提交用户",on_delete=models.CASCADE)
-    states =models.CharField(verbose_name=u"审核状态", default = '未通过', max_length = 128)
+    states =models.CharField(verbose_name=u"审核状态", default = '待审核', max_length = 128)
 
     def __str__(self):
         return str(self.id)+":"+self.content
