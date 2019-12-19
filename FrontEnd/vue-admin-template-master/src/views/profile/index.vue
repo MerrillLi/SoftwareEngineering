@@ -40,10 +40,10 @@
 
       <el-row :gutter="20">
         <div>
-          <el-col :span="4" offset="6">
+          <el-col :span="4" :offset="6">
             <el-button @click="modify = !modify">修改</el-button>
           </el-col>
-          <el-col :span="4" offset="6">
+          <el-col :span="4" :offset="6">
             <el-button @click="submit_profile">提交</el-button>
           </el-col>
         </div>
@@ -77,30 +77,24 @@
       getUserInfo() {
         axios.post('/api/user/get_profile/', {
           data: {
-            identity: 1
+            identity: localStorage.getItem('role')
           }
         }).then(res => {
           console.log(res);
           this.user = res.data;
-          this.user.str_identity = this.user.identity === '0' ? '学生' : '老师';
+          this.user.str_identity = this.user.identity === 'student' ? '学生' : '老师';
           this.$store.userInfo = res.data;
           console.log(res.data)
         }).catch(error => {
           console.log(error)
         })
       },
-      submit_baseinfo() {
-
+      submit_profile() {
         axios.post('/api/user/update_profile/', {
-          data: {
-            block: 0,
-            user: this.user
-          }
+          data: this.user
         }).then(res => {
-          console.log(res);
           this.user = res.data;
           this.$store.userInfo = res.data;
-          console.log(res.data)
         }).catch(error => {
           console.log(error)
         })

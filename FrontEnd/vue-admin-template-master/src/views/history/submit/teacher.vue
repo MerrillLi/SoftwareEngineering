@@ -1,5 +1,19 @@
 <template>
   <div class="app-container">
+    <el-row type="flex" class="row-bg" justify="center">
+      <div class="selector">
+        <div class="select">
+          <el-select v-model="value" placeholder="请选择" @change="selectedChanged">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+      </div>
+    </el-row>
     <el-table
       ref="filterTable"
       v-loading="listLoading"
@@ -88,14 +102,33 @@
     data() {
       return {
         list: null,
-        listLoading: true,
-        submit: []
+        listLoading: false,
+        submit: [],
+        options: [{
+          value: '选项1',
+          label: '人工智能'
+        }, {
+          value: '选项2',
+          label: '操作系统'
+        }, {
+          value: '选项3',
+          label: '计算机组织与体系结构'
+        }, {
+          value: '选项4',
+          label: '电工电子'
+        }, {
+          value: '选项5',
+          label: '计算方法'
+        }],
+        value: '',
+        teachList: []
       }
     },
     created() {
-      this.requestSubmitProblemRecord()
+      this.getTeachCourse();
     },
     methods: {
+
       accept(qid) {
         axios.post('/api/course/judgeItem/', {
           data: {
@@ -145,10 +178,10 @@
         })
       },
       // 获取出题信息
-      requestSubmitProblemRecord(id = 0) {
-        axios.post('/api/course/RequestProblem/', {
+      requestSubmitProblemRecord(id) {
+        axios.post('/api/course/queryItem/', {
           data: {
-            pk: id
+            courseID: id
           }
 
         }).then(res => {
@@ -184,6 +217,29 @@
       },
       filterChange(filterObj) {
         console.log(filterObj)
+      },
+      getTeachCourse() {
+        axios.post('/api/course/getTeachCourse/', {
+          data: {}
+        })
+          .then(res => {
+            this.teachList = res.data.data;
+            this.options = [];
+            for (let i = 0; i < this.teachList.length; i++) {
+              const obj = this.teachList[i];
+              this.options.push({
+                value: obj.id,
+                label: obj.name
+              })
+            }
+          }).catch(err => {
+          console.log(err)
+        })
+      },
+
+      selectedChanged(param) {
+        console.log(param);
+        this.requestSubmitProblemRecord(param)
       }
 
     }

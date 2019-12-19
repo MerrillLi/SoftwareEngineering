@@ -15,7 +15,6 @@
           ref="username"
           v-model="loginForm.username"
           placeholder="Username"
-          name="username"
           type="text"
           tabindex="1"
           auto-complete="on"
@@ -53,7 +52,7 @@
       <el-dialog title="注册" :visible.sync="dialogFormVisible">
         <el-form :model="form">
           <el-form-item label="用户名:" :label-width="formLabelWidth">
-            <el-input v-model="form.name" autocomplete="off"></el-input>
+            <el-input v-model="form.username" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="密码:" :label-width="formLabelWidth">
             <el-input v-model="form.password" autocomplete="off" show-password></el-input>
@@ -62,8 +61,8 @@
             <el-input v-model="form.email" autocomplete="off"></el-input>
           </el-form-item>
           <el-form-item label="用户身份" :label-width="formLabelWidth">
-            <el-radio v-model="radio" label="1">学生</el-radio>
-            <el-radio v-model="radio" label="2">教师</el-radio>
+            <el-radio v-model="form.identity" label="student">学生</el-radio>
+            <el-radio v-model="form.identity" label="teacher">教师</el-radio>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -106,8 +105,8 @@
       };
       return {
         loginForm: {
-          username: 'lc',
-          password: 'liangcheng123'
+          username: '',
+          password: ''
         },
         loginRules: {
           username: [{required: true, trigger: 'blur', validator: validateUsername}],
@@ -158,14 +157,13 @@
               data: {
                 username: this.loginForm.username,
                 password: this.loginForm.password,
-                identity: ['0']
               }
             }).then(res => {
+              console.log(res.data);
               setToken(res.data.sessionid);
-              //Vue.prototype.$role = res.data.identity;
               localStorage.setItem('role', res.data.identity)
 
-              if ("true" == res.data.msg) {
+              if ("true" === res.data.msg) {
                 this.$router.push({path: '/profile'});
                 this.loading = false
               } else {
@@ -184,22 +182,6 @@
           }
         })
       },
-      // handleLogin() {
-      //   this.$refs.loginForm.validate(valid => {
-      //     if (valid) {
-      //       this.loading = true
-      //       this.$store.dispatch('user/login', this.loginForm).then(() => {
-      //         this.$router.push({path: this.redirect || '/'})
-      //         this.loading = false
-      //       }).catch(() => {
-      //         this.loading = false
-      //       })
-      //     } else {
-      //       console.log('error submit!!')
-      //       return false
-      //     }
-      //   })
-      // },
       handleSignIn() {
         console.log(this.form);
         axios.post('/api/user/register/', {
@@ -210,10 +192,21 @@
             identity: this.form.identity
           }
         }).then(res => {
-          console.log(res.data)
+          console.log(res.data);
+          if (res.data.msg === "f_ualready") {
+            this.$notify.error('用户已经存在');
+          } else if (res.data.msg === 'S_toemail') {
+            this.$notify.success('请查阅邮箱注册链接');
+          } else if (res.data.msg === 'f_ealready') {
+            this.$notify.error('邮箱已经被注册');
+          } else if (res.data.msg === 'f_send') {
+            this.$notify.error('注册邮件发送失败');
+          }
+          this.dialogFormVisible = false
 
         }).catch(err => {
           console.log(err)
+          this.$notify.error("注册服务器失败")
         })
       }
     }
@@ -221,8 +214,6 @@
 </script>
 
 <style lang="scss">
-  /* 修复input 背景不协调 和光标变色 */
-  /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
   $bg: #283443;
   $light_gray: #fff;

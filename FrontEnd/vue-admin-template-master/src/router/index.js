@@ -55,89 +55,7 @@ export const constantRoutes = [
       meta: {title: '个人信息', icon: 'dashboard'}
     }]
   },
-
-  // {
-  //   path: '/test',
-  //   component: Layout,
-  //   name: '测评练习',
-  //   meta: {
-  //     title: '测评练习',
-  //     icon: 'form'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'exercise',
-  //       component: () => import('@/views/test/exercise/index'), // Parent router-view
-  //       name: '练习',
-  //       meta: {title: '练习'}
-  //     },
-  //     {
-  //       path: 'exam',
-  //       component: () => import('@/views/test/exam/index'),
-  //       name: '考试',
-  //       meta: {title: '考试'}
-  //     },
-  //   ]
-  // },
-  //
-  // {
-  //   path: '/submit',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       name: '提交题目',
-  //       component: () => import('@/views/submit/index'),
-  //       meta: {title: '提交题目', icon: 'form'}
-  //     }
-  //   ]
-  // },
-
-  // {
-  //   path: '/paper',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       name: '出试卷',
-  //       component: () => import('@/views/paper/index'),
-  //       meta: {title: '出试卷', icon: 'form'}
-  //     }
-  //   ]
-  // },
-
-  // {
-  //   path: '/history',
-  //   component: Layout,
-  //   redirect: '/history/submit',
-  //   name: '历史记录',
-  //   meta: {
-  //     title: '历史记录',
-  //     icon: 'nested'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'submit',
-  //       component: () => import('@/views/history/submit/index'), // Parent router-view
-  //       name: '出题记录',
-  //       meta: {title: '出题记录'}
-  //     },
-  //     {
-  //       path: 'exam',
-  //       component: () => import('@/views/history/exam/index'),
-  //       meta: {title: '考试记录'}
-  //     },
-  //     {
-  //       path: 'exercise',
-  //       component: () => import('@/views/history/exercise/index'),
-  //       meta: {title: '练习记录'}
-  //     }
-//  ]
-  //},
-
-
   // 404 page must be placed at the end !!!
-
 ]
 
 export const asyncRouterMap = [
@@ -148,20 +66,20 @@ export const asyncRouterMap = [
     meta: {
       title: '测评练习',
       icon: 'form',
-      roles: ['0']
+      roles: ['student']
     },
     children: [
       {
         path: 'exercise',
         component: () => import('@/views/test/exercise/index'), // Parent router-view
         name: '练习',
-        meta: {title: '练习', roles: ['0']}
+        meta: {title: '练习', roles: ['student']}
       },
       {
         path: 'exam',
         component: () => import('@/views/test/exam/index'),
         name: '考试',
-        meta: {title: '考试', roles: ['0']}
+        meta: {title: '考试', roles: ['student']}
       },
     ]
   },
@@ -169,13 +87,13 @@ export const asyncRouterMap = [
   {
     path: '/submit',
     component: Layout,
-    meta: {roles: ['0']},
+    meta: {roles: ['student']},
     children: [
       {
         path: 'index',
         name: '提交题目',
         component: () => import('@/views/submit/index'),
-        meta: {title: '提交题目', icon: 'form', roles: ['0']}
+        meta: {title: '提交题目', icon: 'form', roles: ['student']}
       }
     ]
   },
@@ -184,14 +102,14 @@ export const asyncRouterMap = [
     path: '/paper',
     component: Layout,
     meta: {
-      roles: ['1']
+      roles: ['teacher']
     },
     children: [
       {
         path: 'index',
         name: '出试卷',
         component: () => import('@/views/paper/index'),
-        meta: {title: '出试卷', icon: 'form', roles: ['1']}
+        meta: {title: '出试卷', icon: 'form', roles: ['teacher']}
       }
     ]
   },
@@ -204,32 +122,27 @@ export const asyncRouterMap = [
     meta: {
       title: '历史记录',
       icon: 'nested',
-      roles: ['0', '1']
+      roles: ['student', 'teacher']
     },
     children: [
       {
         path: 'submit',
         component: () => import('@/views/history/submit/index'), // Parent router-view
         name: '出题记录',
-        meta: {title: '出题记录', roles: ['0']}
+        meta: {title: '出题记录', roles: ['student']}
       },
       {
-        path: 'submit',
+        path: 'tsubmit',
         component: () => import('@/views/history/submit/teacher'), // Parent router-view
         name: '审核出题',
-        meta: {title: '出题记录', roles: ['1']}
-      },
-      {
-        path: 'exam',
-        component: () => import('@/views/history/exam/index'),
-        meta: {title: '考试记录', roles: ['0', '1']}
+        meta: {title: '出题记录', roles: ['teacher']}
       },
       {
         path: 'exercise',
         component: () => import('@/views/history/exercise/index'),
         meta: {
           title: '练习记录',
-          roles: ['0', '1']
+          roles: ['student', 'teacher']
         }
       }
     ]
@@ -241,9 +154,9 @@ const createRouter = () => new Router({
   // mode: 'history', // require service support
   scrollBehavior: () => ({y: 0}),
   routes: constantRoutes
-})
+});
 
-const router = createRouter()
+const router = createRouter();
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {

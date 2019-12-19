@@ -5,12 +5,16 @@ import 'nprogress/nprogress.css' // progress bar style
 import {getToken} from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
 import router from './router'
+import {resetRouter} from "./router";
 import permission from './store/permission'
 
 NProgress.configure({showSpinner: false}); // NProgress Configuration
 
 const whiteList = ['/login']; // no redirect whitelist
 
+function sleep(time) {
+  return new Promise((resolve) => setTimeout(resolve, time));
+}
 
 //
 router.beforeEach(async (to, from, next) => {
@@ -23,7 +27,6 @@ router.beforeEach(async (to, from, next) => {
 
   // determine whether the user has logged in
   const hasToken = getToken();
-
   if (hasToken) {
     if (to.path === '/login') {
       // if is logged in, redirect to the home page
@@ -31,6 +34,7 @@ router.beforeEach(async (to, from, next) => {
       NProgress.done()
     } else {
       const hasGetUserInfo = store.getters.name;
+      resetRouter();
 
       //const role = Vue.prototype.$role;
       const role = localStorage.getItem('role');
@@ -42,21 +46,19 @@ router.beforeEach(async (to, from, next) => {
         for (let i = 0; i < asyncRouter.length; i++) {
           router.options.routes.push(asyncRouter[i])
         }
-
         router.options.routes.push(
           {path: '*', redirect: '/', hidden: true}
         );
         router.addRoutes(asyncRouter);
-        next({...to, replace: true})
+        await next({...to, replace: true})
+
       }
 
       console.log(router);
       if (hasGetUserInfo) {
-
         next()
       } else {
         try {
-
           next();
           NProgress.done()
         } catch (error) {
