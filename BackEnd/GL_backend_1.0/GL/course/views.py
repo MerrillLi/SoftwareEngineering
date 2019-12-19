@@ -42,8 +42,7 @@ def submitproblem(request):
             return JsonResponse({"msg":"expire"})
         username=dic["username"]
         user=User.objects.get(username=username)
-        req["course_id"] = 1
-        to_which_course = CourseList.objects.get(id=req["course_id"])
+        to_which_course = CourseList.objects.get(name=req["course_id"])
         # 先数据库查询course_id, 没有则新建
         content=req["content"]
         answer=req["answer"]
@@ -87,7 +86,6 @@ def RequestProblem(request):
             return JsonResponse({"msg":"expire"})
         username=dic["username"]
         user=User.objects.get(username=username)
-
         if (pk == 0):
             # userprofile = user_profile_stu.objects.get(user=user) # 用户个人信息
             questions = list(Question.objects.filter(submit_user=user))
@@ -189,7 +187,7 @@ def requestNext(request):
         然后算法产生推荐题目ID
         '''
         print(recordlist)
-        id=random.randint(1,6) #生成随机ID 
+        id=1 #生成随机ID 
         try:
             ## 了解get 和 filter 的区别 
             question=Question.objects.get(id=id)              

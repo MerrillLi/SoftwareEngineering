@@ -29,7 +29,7 @@ def hash_code(s, salt='mysite'):
 def make_confirm_string(user):
     now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     if(type(user) == "QuerySet"):
-        code = hash_code(user.username, now)
+        code = hash_code(user[0].username, now)
     else:
         code = hash_code(user.username, now)
     return code
@@ -43,6 +43,7 @@ def register(request):
         response["msg"] = 'true'
         req=simplejson.loads(request.body)
         req = req["data"]
+        print(req)
         username=req["username"]
         password=req["password"]
         email=req["email"]
@@ -50,26 +51,29 @@ def register(request):
         user=User.objects.filter(username=username)
         emailexist=User.objects.filter(email=email)
         #用户名/邮箱已存在
-        if user and user[0].is_active:
+        print(user)
+        if user:
             response["msg"]='f_ualready'
+            print("OK")
             return JsonResponse(response)
-        if emailexist and emailexist[0].is_active:
-            response["msg"]='f_ealready'
-            return JsonResponse(response)
+
+        
         #如果不存在,创建一个user
-        if not user:
+        if len(user) == 0:
             user=User.objects.create_user(username=username,password=password)
             user.email=email
             user.is_active=True
             user.save()
             # 保存到数据库
             # 设置用户的身份
-            if identity=="1":
+
+            if str(identity) == "student":
                 profile=user_profile_stu(user=user)
                 profile.identity=identity
                 profile.save()
-            
-            if identity=="2":
+                
+
+            if str(identity) =="teacher":
                 profile = user_profile_teh(user=user)
                 profile.identity = identity
                 profile.save()
@@ -80,7 +84,7 @@ def register(request):
         #如果用户已存在但是不是有效的,那么直接对这个用户发送邮件
         #发送邮件
         code = make_confirm_string(user)
-        url = "http://172.16.73.130:8000/api/user/verify/"+ "?code={}".format(code) + "/"
+        url = "http://172.16.143.9:8000/api/user/verify/"+ "?code={}".format(code) + "/"
         subject="激活邮件"
         content="点击下方进行激活"
         recipient_emial=[email]
@@ -103,8 +107,8 @@ def user_confirm(request):
     response = {}
     code = request.GET.get('code', None)
     code = code.strip('/')
+    print(code)
     try:
-        
         confirm = ConfirmString.objects.get(code=code)
     except:
         response["msg"] = 'code_fault'
@@ -224,25 +228,32 @@ def log_in(request):
         req = req['data']
         username=req['username']
         password=req['password']
-        identity = req['identity']
+        print("req:", req)
+        #identity = req['identity']
         try:
-            #user = User.objects.get(username=username)  # 这个设置是为了更详细的检查出错误来,因为这个地方get函数不会返回none，一旦找不到，便会给一个exception
+            user = User.objects.get(username=username)  # 这个设置是为了更详细的检查出错误来,因为这个地方get函数不会返回none，一旦找不到，便会给一个exception
             user = authenticate(username=username, password=password)  # 而authenticate就能返回一个none
-
+            print(user)
             if user:
                 login(request,user)
-                # request.session['is_login']=True
-                # request.session['username']=username
-                cache.set(request.session.session_key,{"username":username,"is_login":True},None)
+                request.session['is_login']=True
+                request.session['username']=username
+                cache.set(request.session.session_key,{"username":username,"is_login":True})
+                print("DENGLU:", request.session.session_key)
             else:
                 msg = "密码错误"
-            if(identity == '1'):
-                userstuprofile=list(user_profile_stu.objects.filter(user=user))
-            else:
+            
+            userstuprofile = list(user_profile_stu.objects.filter(user=user))
+            if(len(userstuprofile) == 0):
                 userstuprofile=list(user_profile_teh.objects.filter(user=user))
+            print(userstuprofile)
             if len(userstuprofile)>0:
                 response["identity"]=userstuprofile[0].identity
+            else:
+                response["identity"]=userstuprofile.identity
+            
             response["msg"]=msg
+            print("sessionid:" , request.session.session_key)
             response["sessionid"]=request.session.session_key
             return JsonResponse(response)
         except Exception as e:
@@ -250,7 +261,7 @@ def log_in(request):
             msg = "用户不存在"
             response["msg"]=msg
             return JsonResponse(response)
-    print(get_token(request))  # 产生一个token 用于csrf验证
+    get_token(request)  # 产生一个token 用于csrf验证
     return JsonResponse(response)
 
 @csrf_exempt
@@ -259,7 +270,8 @@ def log_out(request):
     
     # del request.session["sessionid"]
     #删除cache中的配置
-    cache.delete(request.session.session_key)
+    logout(request)
+    #cache.delete(request.session.session_key)
     response={"msg":"true"}
     return JsonResponse(response)
 
@@ -271,11 +283,11 @@ def get_profile(request):
     print(req)
     identity=req.get("identity",None)
     #sessionid = req.get("sessionid",None)
-    print(type(identity))
+    #print(type(identity))
     sessionid=request.session.session_key
-    print(sessionid)
+    print("QINGQIUGERENXINXI:", sessionid)
     dic=cache.get(sessionid)
-    #cache过期
+    #sessionid 过期
     if dic is None:
         return JsonResponse({"msg":"expire"})
     username=cache.get(sessionid).get("username",None)
@@ -283,14 +295,18 @@ def get_profile(request):
     response = {}
     msg = 'true'
     #登陆成功
-    print(is_login)
+    #print(is_login)
     print(username)
     if is_login:
         user=User.objects.get(username=username)
-        #学生
-        if identity== 1:
-            try:
-                userprofile = user_profile_stu.objects.get(user=user)
+
+        try:
+            userprofile = user_profile_stu.objects.filter(user=user)
+            if(len(userprofile) == 0):
+                userprofile = user_profile_teh.objects.filter(user=user)
+            userprofile = userprofile[0]
+
+            if (  str(userprofile[0].identity) == 'student'):
                 response["phonenumber"]=userprofile.phonenumber
                 response["name"] = userprofile.name
                 response["gender"] = userprofile.gender
@@ -302,17 +318,30 @@ def get_profile(request):
                 response["identity"]=userprofile.identity
                 response["institution"]=userprofile.institution
                 response["msg"]=msg
+            else:
+                response["phonenumber"]=userprofile.phonenumber
+                response["name"] = userprofile.name
+                response["gender"] = userprofile.gender
+                response["age"]=userprofile.age
+                response["major"] = userprofile.major
+                response["email"]=userprofile.email
+                response["user_id"] = user.id
+                response["identity"]=userprofile.identity
+                response["institution"]=userprofile.institution
+                response["msg"]=msg
 
-                # 头像获取
-                img=imageprofile.objects.filter(user=user)[0]
-                response["imgurl"] = img.imgurl
-                print(response)
-                return JsonResponse(response)
-            except Exception as e:
-                print(e)
-                return JsonResponse(response)
+            '''
+            # 头像获取
+            img=imageprofile.objects.filter(user=user)[0]
+            response["imgurl"] = img.imgurl
+            '''
+            print(response)
+            return JsonResponse(response)
+        except Exception as e:
+            print(e)
+            return JsonResponse(response)
     else:
-        response["msg"]="false"
+        response["msg"]="is_login_false"
         return JsonResponse(response)
 
 @csrf_exempt
@@ -331,36 +360,44 @@ def update_profile(request):
         username=dic["username"]
         is_login=dic["is_login"]
         identity = req.get("identity", None)
-        # username = request.session.get("username", None)
-        # is_login = request.session.get("is_login", False)
-        # identity = simplejson.loads(request.body).get("identity", None)
         #获取用户
-        block=req.get("block",None)
+        #block=req.get("block",None)
         user = User.objects.get(username=username)
         if is_login:
-            #学生
-            if identity == "1":
-                try:
-                    userprofile = user_profile_stu.objects.get(user=user)
-                    if block == "1":
-                        print(req["name"])
-                        userprofile.name = req["name"]
-                        userprofile.gender = req["gender"]
-                        # 头像
-                        image = imageprofile.objects.get(user=user)
-                        image.imgurl = req["imgurl"]
-                        image.save()
-                    if block== 1:
-                        print(userprofile)
-                        userprofile.age = req["age"]
-                        userprofile.birth_data = req["birth_data"]
-                        userprofile.major = req["major"]
-                        userprofile.email = req["email"]
-                        userprofile.phonenumber = req["phonenumber"]
+            try:
+                userprofile = user_profile_stu.objects.filter(user=user)
+                if(len(userprofile) == 0):
+                    userprofile = user_profile_teh.objects.filter(user=user)
+                userprofile = userprofile[0]
+
+                if(userprofile.identity == 'student'):
+                    userprofile.name = req["name"]
+                    userprofile.gender = req["gender"]
+                    '''
+                    # 头像
+                    image = imageprofile.objects.get(user=user)
+                    image.imgurl = req["imgurl"]
+                    image.save()
+                    '''
+                    userprofile.age = req["age"]
+                    userprofile.birth_data = req["birth_data"]
+                    userprofile.major = req["major"]
+                    userprofile.email = req["email"]
+                    userprofile.phonenumber = req["phonenumber"]
                     userprofile.save()
                     response["msg"]="true"
-                except Exception as e:
-                    response['msg']=e
+                else:
+                    userprofile.name = req["name"]
+                    userprofile.gender = req["gender"]
+                    userprofile.age = req["age"]
+                    #userprofile.birth_data = req["birth_data"]
+                    userprofile.major = req["major"]
+                    userprofile.email = req["email"]
+                    userprofile.phonenumber = req["phonenumber"]
+                    userprofile.save()
+                    response["msg"]="true"
+            except Exception as e:
+                response['msg']=e
                 return JsonResponse(response)
     get_token(request)
     print(response)
