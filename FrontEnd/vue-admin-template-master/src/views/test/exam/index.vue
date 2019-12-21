@@ -79,6 +79,7 @@
 
 <script>
   import axios from 'axios'
+  import {checkExpire} from "../../../utils/auth";
 
   export default {
     data() {
@@ -132,8 +133,9 @@
             turnID: this.turnID
           }
         }).then(res => {
+          checkExpire(res);
           console.log(res);
-          if (res.data.state == 'true') {
+          if (res.data.state === 'true') {
             this.$notify.success('回答正确!')
           } else {
             this.$notify.error('正确答案是' + res.data.answer)
@@ -158,6 +160,7 @@
             score: this.score
           }
         }).then(res => {
+          checkExpire(res);
           console.log(res);
           this.current = res.data.data;
           this.finished = false

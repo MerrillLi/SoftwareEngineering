@@ -162,9 +162,8 @@
               console.log(res.data);
               setToken(res.data.sessionid);
               localStorage.setItem('role', res.data.identity)
-
               if ("true" === res.data.msg) {
-                this.$router.push({path: '/profile'});
+                this.$router.push({path: '/', replace: true});
                 this.loading = false
               } else {
                 this.$notify.error('密码错误');

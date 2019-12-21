@@ -38,6 +38,7 @@
   import {removeToken} from "../../utils/auth";
   import axios from 'axios';
   import Cookies from 'js-cookie'
+  import router, {constantRoutes, studentRouterMap, teacherRouterMap} from '../../router'
 
 
   export default {
@@ -64,7 +65,12 @@
         localStorage.setItem('role', '');
         removeToken();
         Cookies.remove('sessionid');
+
+        // 重置router
+        router.options.routes = constantRoutes;
+        router.addRoutes(constantRoutes);
         this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+
       }
     }
   }

@@ -13,3 +13,9 @@ export function setToken(token) {
 export function removeToken() {
   return Cookies.remove(TokenKey)
 }
+
+export function checkExpire(res) {
+  if (res.data.msg === 'expire') {
+    this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+  }
+}

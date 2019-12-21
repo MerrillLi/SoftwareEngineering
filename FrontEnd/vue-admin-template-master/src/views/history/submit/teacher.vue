@@ -83,6 +83,7 @@
 </template>
 <script>
   import axios from 'axios'
+  import {checkExpire} from "../../../utils/auth";
 
 
   export default {
@@ -161,6 +162,7 @@
             flag: '审核未通过' + '/' + reason
           }
         }).then(res => {
+          checkExpire(res);
           console.log(res);
           const submitList = this.submit;
           if (res.data.msg === true) {
@@ -185,6 +187,7 @@
           }
 
         }).then(res => {
+          checkExpire(res);
           this.submit = res.data.data;
           console.log(res);
           console.log(this.list);
@@ -223,6 +226,7 @@
           data: {}
         })
           .then(res => {
+            checkExpire(res);
             this.teachList = res.data.data;
             this.options = [];
             for (let i = 0; i < this.teachList.length; i++) {

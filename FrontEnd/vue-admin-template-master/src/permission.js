@@ -4,7 +4,7 @@ import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import {getToken} from '@/utils/auth' // get token from cookie
 import getPageTitle from '@/utils/get-page-title'
-import router from './router'
+import router, {constantRoutes, studentRouterMap, teacherRouterMap} from './router'
 import {resetRouter} from "./router";
 import permission from './store/permission'
 
@@ -34,25 +34,35 @@ router.beforeEach(async (to, from, next) => {
       NProgress.done()
     } else {
       const hasGetUserInfo = store.getters.name;
-      resetRouter();
-
       //const role = Vue.prototype.$role;
       const role = localStorage.getItem('role');
-
-      const asyncRouter = permission.actions.GenerateRoutes(role);
-
-      // 动态添加可访问路由表
       if (router.options.routes.length <= 4) {
-        for (let i = 0; i < asyncRouter.length; i++) {
-          router.options.routes.push(asyncRouter[i])
+        if (role === 'student') {
+          router.options.routes = studentRouterMap;
+          router.addRoutes(studentRouterMap);
+          next({...to, replace: true});
+        } else {
+          router.options.routes = teacherRouterMap;
+          router.addRoutes(teacherRouterMap);
+          next({...to, replace: true});
         }
-        router.options.routes.push(
-          {path: '*', redirect: '/', hidden: true}
-        );
-        router.addRoutes(asyncRouter);
-        await next({...to, replace: true})
-
       }
+      // const asyncRouter = permission.actions.GenerateRoutes(role);
+      // router.options.routes = constantRoutes;
+      // router.addRoutes(constantRoutes);
+      // // 动态添加可访问路由表
+      // if (router.options.routes.length <= 4) {
+      //   for (let i = 0; i < asyncRouter.length; i++) {
+      //     router.options.routes.push(asyncRouter[i])
+      //   }
+      //   router.options.routes.push(
+      //     {path: '*', redirect: '/', hidden: true}
+      //   );
+      //   router.addRoutes(asyncRouter);
+      //   next({...to, replace: true});
+      //
+      // }
+
 
       console.log(router);
       if (hasGetUserInfo) {
