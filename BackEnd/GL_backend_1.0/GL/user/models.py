@@ -11,10 +11,10 @@ class user_profile_stu(models.Model):
         ('F', '女')
     )
     user_identity = (
-        ('1', '学生'),
-        ('2', '老师'),
+        ('student', '学生'),
+        ('teacher', '老师'),
     )
-    identity=models.CharField("用户身份",max_length=128,choices=user_identity,default='1')
+    identity=models.CharField("用户身份",max_length=128,choices=user_identity,default='student')
     phonenumber=models.CharField('电话号码', max_length=128,null=True,blank=True)
     name=models.CharField('姓名', max_length=128,null=True,blank=True)
     gender = models.CharField('性别', max_length=128,choices=male_choices,null=True,blank=True)
@@ -44,10 +44,10 @@ class user_profile_teh(models.Model):
         ('F', '女')
     )
     user_identity = (
-        ('1', '学生'),
-        ('2', '老师'),
+        ('student', '学生'),
+        ('teacher', '老师'),
     )
-    identity=models.CharField("用户身份",max_length=128,choices=user_identity,default='1')
+    identity=models.CharField("用户身份",max_length=128,choices=user_identity,default='teacher')
     phonenumber=models.CharField('电话号码', max_length=128,null=True,blank=True)
     name=models.CharField('姓名', max_length=128,null=True,blank=True)
     gender = models.CharField('性别', max_length=128,choices=male_choices,null=True,blank=True)
