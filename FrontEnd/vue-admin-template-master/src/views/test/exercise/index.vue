@@ -79,6 +79,7 @@
 
 <script>
   import axios from 'axios'
+  import {checkExpire} from "../../../utils/auth";
 
   export default {
     data() {
@@ -116,6 +117,7 @@
         this.flag = false
         axios.post('/api/course/startExercise/').then(res => {
           console.log(res);
+          checkExpire(res);
           this.turnID = res.data.turnID;
           this.next();
         }).catch(err => {
@@ -133,7 +135,8 @@
           }
         }).then(res => {
           console.log(res);
-          if (res.data.state == 'true') {
+          checkExpire(res);
+          if (res.data.state === 'true') {
             this.$notify.success('回答正确!')
           } else {
             this.$notify.error('正确答案是' + res.data.answer)
@@ -159,6 +162,7 @@
           }
         }).then(res => {
           console.log(res);
+          checkExpire(res);
           this.current = res.data.data;
           this.finished = false;
           this.choice = null

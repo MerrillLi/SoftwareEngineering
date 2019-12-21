@@ -51,6 +51,7 @@
 
 <script>
   import axios from 'axios'
+  import {checkExpire} from "../../utils/auth";
 
   export default {
     data() {
@@ -109,6 +110,7 @@
         axios.post('/api/course/submitproblem/', {
           data: this.form
         }).then(res => {
+          checkExpire(res);
           console.log(res);
           this.$notify.success('提交成功');
           this.form = this.emptyForm

@@ -35,6 +35,7 @@
 <script>
   import {getList} from '@/api/table'
   import axios from 'axios'
+  import {checkExpire} from "../../../utils/auth";
 
   export default {
     filters: {
@@ -60,8 +61,9 @@
             pk: id
           }
         }).then(res => {
-          this.exercise = res.data.data
-          this.listLoading = false
+          checkExpire(res);
+          this.exercise = res.data.data;
+          this.listLoading = false;
           console.log(res)
         }).catch(error => {
           console.log(error)

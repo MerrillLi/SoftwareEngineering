@@ -69,6 +69,7 @@
 
 <script>
   import axios from 'axios'
+  import {checkExpire} from "../../utils/auth";
 
   export default {
     data() {
@@ -153,6 +154,8 @@
             courseID: this.form.course_id
           }
         }).then(res => {
+          checkExpire(res);
+
           this.qset = []
           var retval = res.data.data
           for (let i = 0; i < retval.length; i++) {

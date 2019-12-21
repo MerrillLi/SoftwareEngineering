@@ -55,6 +55,7 @@
 <script>
   import {mapGetters} from 'vuex'
   import axios from 'axios'
+  import {checkExpire} from "../../utils/auth";
 
   export default {
     name: 'Profile',
@@ -93,6 +94,7 @@
         axios.post('/api/user/update_profile/', {
           data: this.user
         }).then(res => {
+          checkExpire(res);
           this.user = res.data;
           this.$store.userInfo = res.data;
         }).catch(error => {
