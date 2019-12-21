@@ -388,7 +388,7 @@ def update_profile(request):
                     response["msg"]="true"
                 else:
                     userprofile.name = req["name"]
-                    userprofile.gender = req["gender"]
+                    userprofile.gender = req["gender",None]
                     userprofile.age = req["age"]
                     #userprofile.birth_data = req["birth_data"]
                     userprofile.major = req["major"]
