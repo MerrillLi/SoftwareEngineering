@@ -165,7 +165,8 @@
           checkExpire(res);
           this.current = res.data.data;
           this.finished = false;
-          this.choice = null
+          this.choice = null;
+          this.$notify.success('下一题!')
 
         }).catch(err => {
           console.log(err);

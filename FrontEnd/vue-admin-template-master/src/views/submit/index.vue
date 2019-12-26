@@ -72,19 +72,19 @@
         ,
         options:
           [{
-            value: '选项1',
+            value: '人工智能',
             label: '人工智能'
           }, {
-            value: '选项2',
+            value: '操作系统',
             label: '操作系统'
           }, {
-            value: '选项3',
+            value: '计算机组织与体系结构',
             label: '计算机组织与体系结构'
           }, {
-            value: '选项4',
+            value: '电工电子',
             label: '电工电子'
           }, {
-            value: '选项5',
+            value: '计算方法',
             label: '计算方法'
           }],
         emptyForm:
@@ -107,6 +107,7 @@
     },
     methods: {
       onSubmit() {
+        console.log(this.form);
         axios.post('/api/course/submitproblem/', {
           data: this.form
         }).then(res => {
@@ -115,7 +116,9 @@
           this.$notify.success('提交成功');
           this.form = this.emptyForm
         }).catch(err => {
-          console.log(err)
+          console.log(err);
+          this.$notify.error('提交失败');
+
         })
 
       },

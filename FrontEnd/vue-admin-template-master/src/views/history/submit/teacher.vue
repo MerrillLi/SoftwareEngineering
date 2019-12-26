@@ -106,19 +106,19 @@
         listLoading: false,
         submit: [],
         options: [{
-          value: '选项1',
+          value: '1',
           label: '人工智能'
         }, {
-          value: '选项2',
+          value: '2',
           label: '操作系统'
         }, {
-          value: '选项3',
+          value: '3',
           label: '计算机组织与体系结构'
         }, {
-          value: '选项4',
+          value: '4',
           label: '电工电子'
         }, {
-          value: '选项5',
+          value: '5',
           label: '计算方法'
         }],
         value: '',

@@ -17,6 +17,7 @@ export function removeToken() {
 
 export function checkExpire(res) {
   if (res.data.msg === 'expire') {
-    router.push(`/login?redirect=${router.fullPath}`)
+    router.push(`/login`);
+    this.$notify.error('登陆过期，请重新登陆');
   }
 }
