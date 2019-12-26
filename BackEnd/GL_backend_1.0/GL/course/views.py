@@ -15,6 +15,7 @@ from django.http import JsonResponse,HttpResponse
 from django.contrib.auth.models import User
 import json
 import random
+import utils
 
 def processTime(time):
     time=time.split('T')
@@ -181,13 +182,16 @@ def requestNext(request):
         user=User.objects.get(username=username)
         recordlist=req['record']
         score=req['score']
+
         '''
         这里填写读取req里的字典
         要从审核状态为通过的里面找
         然后算法产生推荐题目ID
         '''
+        userprofile = user_profile_stu.objects.get(user=user)
+        id = utils.recommend_que(userprofile)
+
         print(recordlist)
-        id=1 #生成随机ID 
         try:
             ## 了解get 和 filter 的区别 
             question=Question.objects.get(id=id)              
@@ -265,15 +269,6 @@ def submitAnswer(request):
             print(user)
             exercise=Exersice.objects.get(id=turnID)
             question=Question.objects.get(id=problemId)
-            
-            """             更新用户做题记录
-            his = json.loads(user.ans_history)
-            if len(his) >= 10:
-                his.pop(list(his.keys())[0])
-            his[question.id] = int(user_answer == question.answer)
-            user.ans_history = json.dumps(his)
-            user.save()
-            """
             flag="false"
             if user_answer==question.answer:
                 true_rate=(question.true_rate*question.count+1)/(question.count+1)
@@ -290,6 +285,11 @@ def submitAnswer(request):
             response["SubmitTime"]=item.ie_time
             response["answer"]=item.answer
             response["state"]=flag
+
+            userprofile = user_profile_stu.objects.get(user=user)
+            utils.update_his(userprofile, question, flag)  #更新历史记录
+            utils.update_cap(userprofile)   #更新能力值
+
         except Exception as e:
             response["msg"]=e
             print(e)
@@ -314,8 +314,9 @@ def requestFirstPro(request):
         '''
         推荐第一道题
         '''
-        print(recordlist)
-        id=random.randint(1,6) #生成随机ID 
+        userprofile = user_profile_stu.objects.get(user=user)
+        id = utils.recommend_que(userprofile)
+        
         try:
             ## 了解get 和 filter 的区别 
             question=Question.objects.get(id=id)              

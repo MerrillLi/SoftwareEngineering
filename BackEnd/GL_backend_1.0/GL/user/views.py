@@ -370,7 +370,7 @@ def update_profile(request):
                     userprofile = user_profile_teh.objects.filter(user=user)
                 userprofile = userprofile[0]
 
-                if(userprofile.identity == 'student'):
+                if(str(userprofile.identity) == 'student'):
                     userprofile.name = req["name"]
                     userprofile.gender = req["gender"]
                     '''
@@ -388,7 +388,7 @@ def update_profile(request):
                     response["msg"]="true"
                 else:
                     userprofile.name = req["name"]
-                    userprofile.gender = req["gender"]
+                    userprofile.gender = req["gender",None]
                     userprofile.age = req["age"]
                     #userprofile.birth_data = req["birth_data"]
                     userprofile.major = req["major"]
