@@ -145,7 +145,7 @@ def findpas(request):
         if user:
             # 生成随机字符串
             code = make_confirm_string(user)
-            url = "http://172.16.143.9:8000/user/verifyandsetpas/"+ "?code={}".format(code) + "/"
+            url = "http://10.39.27.16:8000/user/verifyandsetpas/"+ "?code={}".format(code) + "/"
             subject = "找回密码"
             content = "这是您的验证码："+code+"\n如果您不是当前用户，请忽略"
             html_content="<p>欢迎使用,请点击</p><a href='"+url+"'>此处</a><p>进行验证<p>"
@@ -306,7 +306,8 @@ def get_profile(request):
                 userprofile = user_profile_teh.objects.filter(user=user)
             userprofile = userprofile[0]
 
-            if (  str(userprofile[0].identity) == 'student'):
+            if (  str(userprofile.identity) == 'student'):
+                print(userprofile.phonenumber)
                 response["phonenumber"]=userprofile.phonenumber
                 response["name"] = userprofile.name
                 response["gender"] = userprofile.gender
@@ -322,7 +323,7 @@ def get_profile(request):
                 response["phonenumber"]=userprofile.phonenumber
                 response["name"] = userprofile.name
                 response["gender"] = userprofile.gender
-                response["age"]=userprofile.age
+                #response["age"]=userprofile.age
                 response["major"] = userprofile.major
                 response["email"]=userprofile.email
                 response["user_id"] = user.id
@@ -384,16 +385,18 @@ def update_profile(request):
                     userprofile.major = req["major"]
                     userprofile.email = req["email"]
                     userprofile.phonenumber = req["phonenumber"]
+                    userprofile.institution = req["institution"]
                     userprofile.save()
                     response["msg"]="true"
                 else:
                     userprofile.name = req["name"]
-                    userprofile.gender = req["gender",None]
+                    userprofile.gender = req["gender"]
                     userprofile.age = req["age"]
                     #userprofile.birth_data = req["birth_data"]
                     userprofile.major = req["major"]
                     userprofile.email = req["email"]
                     userprofile.phonenumber = req["phonenumber"]
+                    userprofile.institution = req["institution"]
                     userprofile.save()
                     response["msg"]="true"
             except Exception as e:
