@@ -269,15 +269,6 @@ def submitAnswer(request):
             print(user)
             exercise=Exersice.objects.get(id=turnID)
             question=Question.objects.get(id=problemId)
-            
-            """             更新用户做题记录
-            his = json.loads(user.ans_history)
-            if len(his) >= 10:
-                his.pop(list(his.keys())[0])
-            his[question.id] = int(user_answer == question.answer)
-            user.ans_history = json.dumps(his)
-            user.save()
-            """
             flag="false"
             if user_answer==question.answer:
                 true_rate=(question.true_rate*question.count+1)/(question.count+1)
@@ -320,8 +311,6 @@ def requestFirstPro(request):
             return JsonResponse({"msg":"expire"})
         username=dic["username"]
         user=User.objects.get(username=username)
-        print(recordlist)
-        
         '''
         推荐第一道题
         '''
