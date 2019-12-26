@@ -320,11 +320,14 @@ def requestFirstPro(request):
             return JsonResponse({"msg":"expire"})
         username=dic["username"]
         user=User.objects.get(username=username)
+        print(recordlist)
+        
         '''
         推荐第一道题
         '''
-        print(recordlist)
-        id=random.randint(1,6) #生成随机ID 
+        userprofile = user_profile_stu.objects.get(user=user)
+        id = utils.recommend_que(userprofile)
+        
         try:
             ## 了解get 和 filter 的区别 
             question=Question.objects.get(id=id)              
