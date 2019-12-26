@@ -39,6 +39,11 @@
       </el-row>
 
       <el-row :gutter="20">
+        <el-input placeholder="请输入内容" v-model="user.phonenumber" :disabled="modify">
+          <template slot="prepend">电话</template>
+        </el-input>
+      </el-row>
+      <el-row :gutter="20">
         <div>
           <el-col :span="4" :offset="6">
             <el-button @click="modify = !modify">修改</el-button>
@@ -66,7 +71,7 @@
     },
     data() {
       return {
-        user: null,
+        user: {},
         modify: true
       }
     },
@@ -91,12 +96,26 @@
         })
       },
       submit_profile() {
+        console.log(this.user);
         axios.post('/api/user/update_profile/', {
-          data: this.user
+          data: {
+            "identity": this.user.identity,
+            "block": "1",
+            "age": "19",
+            "birth_data": "2019-11-26",
+            "gender": "F",
+            "imgurl": "gl",
+            "name": this.user.name,
+            "major": this.user.major,
+            "institution": this.user.institution,
+            "email": this.user.email,
+            "phonenumber": this.user.phonenumber
+          }
         }).then(res => {
           checkExpire(res);
-          this.user = res.data;
           this.$store.userInfo = res.data;
+          this.getUserInfo();
+          this.$notify.success('更新成功');
         }).catch(error => {
           console.log(error)
         })

@@ -1,6 +1,7 @@
 import Cookies from 'js-cookie'
+import router from '../router'
 
-const TokenKey = 'vue_admin_template_token'
+const TokenKey = 'vue_admin_template_token';
 
 export function getToken() {
   return Cookies.get(TokenKey)
@@ -16,6 +17,6 @@ export function removeToken() {
 
 export function checkExpire(res) {
   if (res.data.msg === 'expire') {
-    this.$router.push(`/login?redirect=${this.$route.fullPath}`)
+    router.push(`/login?redirect=${router.fullPath}`)
   }
 }
