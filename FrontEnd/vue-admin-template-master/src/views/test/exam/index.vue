@@ -85,19 +85,19 @@
     data() {
       return {
         options: [{
-          value: '选项1',
+          value: '人工智能',
           label: '人工智能'
         }, {
-          value: '选项2',
+          value: '操作系统',
           label: '操作系统'
         }, {
-          value: '选项3',
+          value: '计算机组织与体系结构',
           label: '计算机组织与体系结构'
         }, {
-          value: '选项4',
+          value: '电工电子',
           label: '电工电子'
         }, {
-          value: '选项5',
+          value: '计算方法',
           label: '计算方法'
         }],
         value: '',
@@ -114,7 +114,7 @@
     methods: {
       // 开始联系
       start() {
-        this.flag = false
+        this.flag = false;
         axios.post('/api/course/startExercise/').then(res => {
           console.log(res);
           this.turnID = res.data.turnID;
