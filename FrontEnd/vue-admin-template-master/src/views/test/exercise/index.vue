@@ -85,19 +85,19 @@
     data() {
       return {
         options: [{
-          value: '人工智能',
+          value: '选项1',
           label: '人工智能'
         }, {
-          value: '操作系统',
+          value: '选项2',
           label: '操作系统'
         }, {
-          value: '计算机组织与体系结构',
+          value: '选项3',
           label: '计算机组织与体系结构'
         }, {
-          value: '电工电子',
+          value: '选项4',
           label: '电工电子'
         }, {
-          value: '计算方法',
+          value: '选项5',
           label: '计算方法'
         }],
         value: '',
